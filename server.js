@@ -89,6 +89,18 @@ function injectProxy(html) {
 }
 
 const server = http.createServer(async (req, res) => {
+  const allowedOrigin = "https://cjhubs.netlify.app";
+
+res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+res.setHeader("Access-Control-Allow-Credentials", "true");
+
+if (req.method === "OPTIONS") {
+  res.writeHead(204);
+  res.end();
+  return;
+}
   try {
     const url = new URL(req.url, "http://localhost");
     if (url.pathname === "/api/health") {
