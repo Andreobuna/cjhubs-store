@@ -142,6 +142,7 @@ const SEED_PRODUCTS = [
 
 /* ---------------- core storage helpers ---------------- */
 const REMOTE_DB_KEYS = new Set([DB_KEYS.PRODUCTS, DB_KEYS.USERS, DB_KEYS.ORDERS, DB_KEYS.ADMIN]);
+const API_BASE_URL = 'https://cjhubs-backend.onrender.com';
 function createRemoteDbBridge() {
   const request = (method, url, body) => {
     try {
@@ -160,7 +161,7 @@ function createRemoteDbBridge() {
   const bootstrap = () => {
     if (bootstrapped) return cache;
     bootstrapped = true;
-    const res = request('GET', '/api/bootstrap');
+    const res = request('GET', `${API_BASE_URL}/api/bootstrap`);
     if (!res || !res.ok || !res.collections) return null;
     cache = res.collections;
     return cache;
@@ -178,14 +179,14 @@ function createRemoteDbBridge() {
       if (!isRemoteKey(key)) return true;
       if (bootstrap() === null) return false;
       cache[key] = value;
-      const res = request('PUT', '/api/state', { collection: key, value });
+      const res = request('PUT', `${API_BASE_URL}/api/state`, { collection: key, value });
       return !!(res && res.ok);
     },
     remove(key) {
       if (!isRemoteKey(key)) return true;
       if (bootstrap() === null) return false;
       delete cache[key];
-      const res = request('PUT', '/api/state', { collection: key, value: null });
+const res = request('PUT', `${API_BASE_URL}/api/state`, { collection: key, value: null });
       return !!(res && res.ok);
     }
   };
