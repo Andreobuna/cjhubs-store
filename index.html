@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJ Hubs Store — Find Something Special For You Or Someone You Love</title>
+<meta name="description" content="CJ Hubs Store is a modern online shopping destination for curated gift ideas and everyday products & accessories.">
+<meta property="og:title" content="CJ Hubs Store">
+<meta property="og:description" content="Find something for yourself, or something special for someone else.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="hero">
+  <div class="container">
+    <div>
+      <div class="hero-badge"><span class="dot"></span> Premium Curated Shopping</div>
+      <h1>Find something for <span class="shine">yourself</span>, or something special for <span class="shine">someone else</span>.</h1>
+      <p class="lead">CJ Hubs Store brings together thoughtfully chosen gift ideas and everyday products & accessories — all in one premium shopping destination.</p>
+      <div class="hero-cta">
+        <a href="shop.html" class="btn btn-gold">Shop Now</a>
+        <a href="gift-ideas.html" class="btn btn-outline">Send a Gift</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>2,500+</strong><span>Happy Customers</span></div>
+        <div><strong>4.9★</strong><span>Average Rating</span></div>
+        <div><strong>24/7</strong><span>Customer Support</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glow-orb"></div>
+      <div class="card-float c1"><img src="https://picsum.photos/seed/heroshop1/600/500" alt="Featured products"></div>
+      <div class="card-float c2"><img src="https://picsum.photos/seed/heroshop2/500/400" alt="Gift ideas"></div>
+      <div class="badge-offer">Up to<span class="gold">40% OFF</span>this week</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Where to start</span>
+      <h2>Shop by Category</h2>
+      <p>Two simple ways to shop — pick a lane and dive straight into the collection.</p>
+    </div>
+    <div class="category-grid reveal">
+      <a href="gift-ideas.html" class="cat-card" style="--bg:url('https://picsum.photos/seed/giftcat/800/700')">
+        <div class="cat-content">
+          <span class="cat-icon">🎁</span>
+          <h3>Gift Ideas</h3>
+          <p>Curated gifts for birthdays, anniversaries, and every special moment.</p>
+          <span class="cat-link">Shop Gift Ideas <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
+      <a href="products-accessories.html" class="cat-card" style="--bg:url('https://picsum.photos/seed/prodcat/800/700')">
+        <div class="cat-content">
+          <span class="cat-icon">🛍️</span>
+          <h3>Products &amp; Accessories</h3>
+          <p>Everyday essentials and accessories built for quality and style.</p>
+          <span class="cat-link">Shop Products <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Hand-picked</span>
+      <h2>Featured Products</h2>
+      <p>Our most-loved items, chosen for quality and craftsmanship.</p>
+    </div>
+    <div class="product-grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<section class="section offers-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Limited time</span>
+      <h2>Special Offers</h2>
+      <p>Handpicked deals across gifts and everyday essentials — while stock lasts.</p>
+    </div>
+    <div class="product-grid" id="offersGrid"></div>
+    <div class="text-center reveal" style="margin-top:36px;">
+      <a href="shop.html?offer=1" class="btn btn-gold">Shop Special Offers</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Just landed</span>
+      <h2>New Arrivals</h2>
+      <p>Fresh additions to the CJ Hubs Store catalog.</p>
+    </div>
+    <div class="product-grid" id="newArrivalsGrid"></div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="container">
+    <h3 class="reveal">Join the CJ Hubs Store list</h3>
+    <p class="reveal">Get early access to new arrivals and special offers.</p>
+    <form onsubmit="event.preventDefault(); showToast('Thanks for subscribing!'); this.reset();" class="reveal">
+      <input type="email" placeholder="Enter your email" required>
+      <button class="btn btn-gold" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  renderLayout('home');
+  initHomePage();
+</script>
+</body>
+</html>

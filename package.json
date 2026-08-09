@@ -1,0 +1,1 @@
+{"name":"cjhubs-store","version":"1.0.0","private":true,"type":"commonjs","scripts":{"start":"node server.js","dev":"node server.js"},"dependencies":{"pg":"^8.13.0"}}
