@@ -56,29 +56,9 @@ function skeletonGrid(n) {
 }
 
 /* ---------- homepage ---------- */
-function initHomePage() {
-  const featuredEl = document.getElementById('featuredGrid');
-  const newEl = document.getElementById('newArrivalsGrid');
-  const offersEl = document.getElementById('offersGrid');
-  if (featuredEl) featuredEl.innerHTML = skeletonGrid(4);
-  if (newEl) newEl.innerHTML = skeletonGrid(4);
-  if (offersEl) offersEl.innerHTML = skeletonGrid(3);
+function populateHomeVisuals(){const products=Products.published();const featured=[...Products.featured(),...Products.newArrivals(8),...products];const pick=(i)=>featured[i]||products[i]||null;const primary=pick(0),secondary=pick(1)||primary,tertiary=pick(2)||secondary;const bind=(id,p,withPrice)=>{const el=document.getElementById(id);if(!el||!p)return;if(withPrice){el.textContent=formatPrice(p.salePrice??p.price);return}el.src=p.images[0]||"";el.alt=p.name};bind("heroPrimaryImg",primary);bind("heroSecondaryImg",secondary);bind("heroTertiaryImg",tertiary);const setName=(id,p)=>{const el=document.getElementById(id);if(el&&p)el.textContent=p.name};setName("heroPrimaryName",primary);setName("heroSecondaryName",secondary);setName("heroTertiaryName",tertiary);const price=document.getElementById("heroPrimaryPrice");if(price&&primary)price.textContent=formatPrice(primary.salePrice??primary.price);const gift=Products.byCategory("gift-ideas")[0]||primary;const accessory=Products.byCategory("products-accessories")[0]||secondary||primary;const setCard=(key,p)=>{const el=document.querySelector("[data-category-card=" + key + "]");if(el&&p)el.style.setProperty("--bg","url(" + p.images[0] + ")")};setCard("gift-ideas",gift);setCard("products-accessories",accessory)}
 
-  setTimeout(() => {
-    const featured = Products.featured().slice(0, 8);
-    const arrivals = Products.newArrivals(8);
-    const offers = Products.specialOffers().slice(0, 6);
-
-    if (featuredEl) featuredEl.innerHTML = featured.length ? featured.map(productCardHTML).join('') :
-      emptyStateHTML('🎁', 'No featured products yet', 'Check back soon — new items are added regularly.');
-    if (newEl) newEl.innerHTML = arrivals.length ? arrivals.map(productCardHTML).join('') :
-      emptyStateHTML('🛍️', 'No products yet', 'The catalog is being updated.');
-    if (offersEl) offersEl.innerHTML = offers.length ? offers.map(productCardHTML).join('') :
-      emptyStateHTML('💫', 'No special offers right now', 'Explore the full shop for great products.');
-
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-  }, 300);
-}
+function initHomePage(){populateHomeVisuals();const featuredEl=document.getElementById("featuredGrid");const newEl=document.getElementById("newArrivalsGrid");const offersEl=document.getElementById("offersGrid");if(featuredEl)featuredEl.innerHTML=skeletonGrid(4);if(newEl)newEl.innerHTML=skeletonGrid(4);if(offersEl)offersEl.innerHTML=skeletonGrid(3);setTimeout(()=>{const featured=Products.featured().slice(0,8);const arrivals=Products.newArrivals(8);const offers=Products.specialOffers().slice(0,6);if(featuredEl)featuredEl.innerHTML=featured.length?featured.map(productCardHTML).join(""):emptyStateHTML("Featured","No featured products yet","Check back soon - new items are added regularly.");if(newEl)newEl.innerHTML=arrivals.length?arrivals.map(productCardHTML).join(""):emptyStateHTML("Products","No products yet","The catalog is being updated.");if(offersEl)offersEl.innerHTML=offers.length?offers.map(productCardHTML).join(""):emptyStateHTML("Offers","No special offers right now","Explore the full shop for great products.");document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"))},300)}
 
 function emptyStateHTML(icon, title, sub, ctaHref, ctaLabel) {
   return `<div class="empty-state" style="grid-column:1/-1;">

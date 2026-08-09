@@ -72,22 +72,22 @@ function initAdminDashboard() {
   const recentOrders = orders.slice(0,5);
   document.getElementById('recentOrdersBody').innerHTML = recentOrders.length ? recentOrders.map(o => `
     <tr>
-      <td><strong>${o.orderNumber}</strong></td>
-      <td>${o.customer.name}</td>
-      <td>${new Date(o.createdAt).toLocaleDateString()}</td>
-      <td>${formatPrice(o.total)}</td>
-      <td><span class="badge ${o.status.toLowerCase()}">${o.status}</span></td>
+      <td data-label="Order #"><strong>${o.orderNumber}</strong></td>
+      <td data-label="Customer">${o.customer.name}</td>
+      <td data-label="Date">${new Date(o.createdAt).toLocaleDateString()}</td>
+      <td data-label="Total">${formatPrice(o.total)}</td>
+      <td data-label="Status"><span class="badge ${o.status.toLowerCase()}">${o.status}</span></td>
     </tr>`).join('') : `<tr><td colspan="5" style="text-align:center;color:var(--gray-600);padding:30px;">No orders yet</td></tr>`;
 
   const recentProducts = [...products].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
   document.getElementById('recentProductsBody').innerHTML = recentProducts.length ? recentProducts.map(p => `
     <tr>
-      <td><img src="${p.images[0]}" alt=""></td>
-      <td><strong>${p.name}</strong><br><span style="font-size:12px;color:var(--gray-600);">${p.sku}</span></td>
-      <td>${CATEGORIES.find(c=>c.id===p.category)?.name}</td>
-      <td>${formatPrice(p.salePrice ?? p.price)}</td>
-      <td>${p.stock}</td>
-      <td><span class="badge ${p.published?'published':'draft'}">${p.published?'Published':'Draft'}</span></td>
+      <td data-label="Image"><img src="${p.images[0]}" alt=""></td>
+      <td data-label="Product"><strong>${p.name}</strong><br><span style="font-size:12px;color:var(--gray-600);">${p.sku}</span><div class="table-actions" style="margin-top:8px;"><a href="../product.html?id=${p.id}" target="_blank" rel="noopener">View</a><a href="add-product.html?id=${p.id}">Edit</a></div></td>
+      <td data-label="Category">${CATEGORIES.find(c=>c.id===p.category)?.name || p.category}</td>
+      <td data-label="Price">${formatPrice(p.salePrice ?? p.price)}</td>
+      <td data-label="Stock">${p.stock}</td>
+      <td data-label="Status"><span class="badge ${p.published?'published':'draft'}">${p.published?'Published':'Draft'}</span></td>
     </tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray-600);padding:30px;">No products yet</td></tr>`;
 }
 
@@ -112,12 +112,12 @@ function renderAdminProductsTable() {
   body.innerHTML = list.length ? list.map(p => `
     <tr>
       <td><img src="${p.images[0]}" alt=""></td>
-      <td><strong>${p.name}</strong><br><span style="font-size:12px;color:var(--gray-600);">${p.sku}</span></td>
-      <td>${CATEGORIES.find(c=>c.id===p.category)?.name}</td>
+      <td><strong>${p.name}</strong><br><span style="font-size:12px;color:var(--gray-600);">${p.sku}</span><div class="table-actions" style="margin-top:8px;"><a href="../product.html?id=${p.id}" target="_blank" rel="noopener">View</a><a href="add-product.html?id=${p.id}">Edit</a></div></td>
+      <td>${CATEGORIES.find(c=>c.id===p.category)?.name || p.category}</td>
       <td>${p.salePrice ? `<s style="color:var(--gray-400);">${formatPrice(p.price)}</s> ${formatPrice(p.salePrice)}` : formatPrice(p.price)}</td>
       <td>${p.stock}</td>
       <td><span class="badge ${p.published?'published':'draft'}">${p.published?'Published':'Draft'}</span></td>
-      <td class="table-actions">
+      <td data-label="Actions" class="table-actions">
         <a href="add-product.html?id=${p.id}">Edit</a>
         <button class="del" onclick="deleteAdminProduct('${p.id}')">Delete</button>
       </td>
@@ -282,11 +282,11 @@ function renderAdminOrdersTable() {
   body.innerHTML = list.length ? list.map(o => `
     <tr>
       <td><strong>${o.orderNumber}</strong></td>
-      <td>${o.customer.name}<br><span style="font-size:12px;color:var(--gray-600);">${o.customer.email}</span></td>
-      <td>${o.items.length} item(s)</td>
+      <td data-label="Customer">${o.customer.name}<br><span style="font-size:12px;color:var(--gray-600);">${o.customer.email}</span></td>
+      <td data-label="Items">${o.items.length} item(s)</td>
       <td>${formatPrice(o.total)}</td>
-      <td><span class="badge paid">${o.paymentStatus}</span></td>
-      <td>
+      <td data-label="Payment"><span class="badge paid">${o.paymentStatus}</span></td>
+      <td data-label="Status">
         <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:6px 10px;border-radius:6px;border:1px solid var(--gray-200);font-size:12.5px;">
           ${statuses.map(s => `<option value="${s}" ${o.status===s?'selected':''}>${s}</option>`).join('')}
         </select>
@@ -318,12 +318,12 @@ function renderAdminCustomersTable() {
     const spent = orders.reduce((s,o)=>s+o.total,0);
     return `
     <tr>
-      <td><strong>${u.name}</strong></td>
-      <td>${u.email}</td>
+      <td data-label="Name"><strong>${u.name}</strong></td>
+      <td data-label="Email">${u.email}</td>
       <td>${u.phone || '—'}</td>
-      <td>${orders.length}</td>
-      <td>${formatPrice(spent)}</td>
-      <td>${new Date(u.createdAt).toLocaleDateString()}</td>
+      <td data-label="Orders">${orders.length}</td>
+      <td data-label="Total Spent">${formatPrice(spent)}</td>
+      <td data-label="Joined">${new Date(u.createdAt).toLocaleDateString()}</td>
     </tr>`;
   }).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray-600);padding:30px;">No customers yet</td></tr>`;
 }

@@ -13,66 +13,14 @@
   <aside class="admin-sidebar" id="adminSidebar"></aside>
   <main class="admin-main">
     <div class="admin-topbar">
-      <h1 id="formTitle">Add New Product</h1>
-      <a href="products.html" class="btn btn-outline btn-sm">← Back to Products</a>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div class="hamburger" id="adminMenuToggle" style="display:none;"><span></span><span></span><span></span></div>
+        <h1 id="formTitle">Add New Product</h1>
+      </div>
+      <a href="products.html" class="btn btn-outline btn-sm">? Back to Products</a>
     </div>
 
     <form id="productForm">
-      <div class="admin-form-grid">
-        <div>
-          <div class="admin-panel">
-            <h3>Basic Information</h3>
-            <div class="form-group"><label>Product Name *</label><input id="fName" required></div>
-            <div class="form-group"><label>Short Description</label><input id="fShortDesc" placeholder="One-line summary shown on product cards"></div>
-            <div class="form-group"><label>Full Description</label><textarea id="fDesc" rows="5"></textarea></div>
-            <div class="form-row">
-              <div class="form-group"><label>SKU *</label><input id="fSku" required></div>
-              <div class="form-group"><label>Stock Quantity *</label><input id="fStock" type="number" min="0" required></div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label>Price ($) *</label><input id="fPrice" type="number" step="0.01" min="0" required></div>
-              <div class="form-group"><label>Sale Price ($)</label><input id="fSalePrice" type="number" step="0.01" min="0" placeholder="Optional"></div>
-            </div>
-          </div>
-
-          <div class="admin-panel">
-            <h3>Product Images</h3>
-            <div class="image-upload-zone" id="imageUploadZone">
-              <p style="margin:0;font-weight:700;color:var(--navy);">Click to upload images</p>
-              <p style="margin:4px 0 0;font-size:12.5px;">PNG or JPG — first image becomes the primary image</p>
-            </div>
-            <input type="file" id="imageFileInput" accept="image/*" multiple style="display:none;">
-            <div class="image-preview-grid" id="imagePreviewGrid"></div>
-          </div>
-
-          <div class="admin-panel">
-            <h3>Variants <span style="font-weight:400;font-size:13px;color:var(--gray-600);">(optional)</span></h3>
-            <div id="variantsWrap"></div>
-            <button type="button" class="btn btn-outline btn-sm" id="addVariantBtn">+ Add Variant Type</button>
-          </div>
-        </div>
-
-        <div>
-          <div class="admin-panel">
-            <h3>Category *</h3>
-            <div class="filter-group">
-              <label><input type="radio" name="fCategoryRadio" value="gift-ideas" onclick="document.getElementById('fCategory').value='gift-ideas'" checked> 🎁 Gift Ideas</label>
-              <label><input type="radio" name="fCategoryRadio" value="products-accessories" onclick="document.getElementById('fCategory').value='products-accessories'"> 🛍️ Products &amp; Accessories</label>
-            </div>
-            <input type="hidden" id="fCategory" value="gift-ideas">
-          </div>
-
-          <div class="admin-panel">
-            <h3>Visibility &amp; Flags</h3>
-            <div class="checkbox-row"><input type="checkbox" id="fFeatured"><label>Mark as Featured</label></div>
-            <div class="checkbox-row"><input type="checkbox" id="fOffer"><label>Mark as Special Offer</label></div>
-            <div class="checkbox-row"><input type="checkbox" id="fPublished"><label>Published (visible to customers)</label></div>
-          </div>
-
-          <button type="submit" class="btn btn-gold btn-block">Save Product</button>
-        </div>
-      </div>
-    </form>
   </main>
 </div>
 

@@ -173,7 +173,7 @@ function createRemoteDbBridge() {
       if (!isRemoteKey(key)) return undefined;
       const state = bootstrap();
       if (!state) return undefined;
-      return Object.prototype.hasOwnProperty.call(state, key) ? state[key] : fallback;
+      return Object.prototype.hasOwnProperty.call(state, key) ? state[key] : undefined;
     },
     set(key, value) {
       if (!isRemoteKey(key)) return true;
