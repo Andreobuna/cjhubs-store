@@ -1,40 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Product — CJ Hubs Store Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css">
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Add Product - CJ Hubs Store Admin</title>
+<link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+<link rel='stylesheet' href='../assets/css/style.css'>
 </head>
-<body class="admin-body">
+<body class='admin-body'>
 
-<div class="admin-shell">
-  <aside class="admin-sidebar" id="adminSidebar"></aside>
-  <main class="admin-main">
-    <div class="admin-topbar">
-      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-        <div class="hamburger" id="adminMenuToggle" style="display:none;"><span></span><span></span><span></span></div>
-        <h1 id="formTitle">Add New Product</h1>
+<div class='admin-shell'>
+  <aside class='admin-sidebar' id='adminSidebar'></aside>
+  <main class='admin-main'>
+    <div class='admin-topbar'>
+      <div style='display:flex;align-items:center;gap:14px;flex-wrap:wrap;'>
+        <div class='hamburger' id='adminMenuToggle' style='display:none;'><span></span><span></span><span></span></div>
+        <h1 id='formTitle'>Add New Product</h1>
       </div>
-      <a href="products.html" class="btn btn-outline btn-sm">? Back to Products</a>
+      <a href='products.html' class='btn btn-outline btn-sm'>&larr; Back to Products</a>
     </div>
 
-    <form id="productForm">
+    <form id='productForm' class='admin-panel' style='padding:24px;margin-top:20px;'>
+      <input type='hidden' id='fCategory' value='gift-ideas'>
+
+      <div style='display:grid;grid-template-columns:minmax(0,1.4fr) minmax(320px,.9fr);gap:20px;align-items:start;'>
+        <section style='display:grid;gap:20px;'>
+          <div class='admin-panel' style='margin:0;padding:20px;'>
+            <h2 style='margin:0 0 16px;font-size:18px;'>Product Details</h2>
+            <div style='display:grid;gap:14px;'>
+              <div class='form-group'>
+                <label for='fName'>Name</label>
+                <input id='fName' type='text' placeholder='Product name' required>
+              </div>
+              <div class='form-group'>
+                <label for='fShortDesc'>Short description</label>
+                <textarea id='fShortDesc' rows='3' placeholder='Short product summary'></textarea>
+              </div>
+              <div class='form-group'>
+                <label for='fDesc'>Description</label>
+                <textarea id='fDesc' rows='7' placeholder='Full product description'></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class='admin-panel' style='margin:0;padding:20px;'>
+            <h2 style='margin:0 0 16px;font-size:18px;'>Images</h2>
+            <div id='imageUploadZone' style='border:1.5px dashed var(--gray-300);border-radius:14px;padding:22px;text-align:center;background:var(--gray-50);cursor:pointer;'>
+              <strong style='display:block;margin-bottom:6px;'>Upload product images</strong>
+              <span style='font-size:13px;color:var(--gray-600);'>Click to choose one or more files. The first image is used as the primary image.</span>
+            </div>
+            <input id='imageFileInput' type='file' accept='image/*' multiple hidden>
+            <div id='imagePreviewGrid' style='display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:16px;'></div>
+          </div>
+
+          <div class='admin-panel' style='margin:0;padding:20px;'>
+            <h2 style='margin:0 0 16px;font-size:18px;'>Variants</h2>
+            <p style='margin:0 0 14px;color:var(--gray-600);font-size:13px;'>Add size, color, or other option groups. Leave empty if the product is simple.</p>
+            <div id='variantsWrap'></div>
+            <button type='button' id='addVariantBtn' class='btn btn-outline btn-sm'>+ Add Variant</button>
+          </div>
+        </section>
+
+        <aside style='display:grid;gap:20px;position:sticky;top:20px;'>
+          <div class='admin-panel' style='margin:0;padding:20px;'>
+            <h2 style='margin:0 0 16px;font-size:18px;'>Pricing & Stock</h2>
+            <div style='display:grid;gap:14px;'>
+              <div class='form-group'>
+                <label for='fSku'>SKU</label>
+                <input id='fSku' type='text' placeholder='CJH-0000'>
+              </div>
+              <div class='form-group'>
+                <label for='fPrice'>Price</label>
+                <input id='fPrice' type='number' min='0' step='0.01' placeholder='0.00' required>
+              </div>
+              <div class='form-group'>
+                <label for='fSalePrice'>Sale price</label>
+                <input id='fSalePrice' type='number' min='0' step='0.01' placeholder='Optional'>
+              </div>
+              <div class='form-group'>
+                <label for='fStock'>Stock</label>
+                <input id='fStock' type='number' min='0' step='1' placeholder='0'>
+              </div>
+            </div>
+          </div>
+
+          <div class='admin-panel' style='margin:0;padding:20px;'>
+            <h2 style='margin:0 0 16px;font-size:18px;'>Organization</h2>
+            <div style='display:grid;gap:14px;'>
+              <div class='form-group'>
+                <label>Category</label>
+                <div style='display:grid;gap:10px;'>
+                  <label style='display:flex;align-items:center;gap:10px;font-weight:600;'>
+                    <input type='radio' name='fCategoryRadio' value='gift-ideas' checked>
+                    Gift Ideas
+                  </label>
+                  <label style='display:flex;align-items:center;gap:10px;font-weight:600;'>
+                    <input type='radio' name='fCategoryRadio' value='products-accessories'>
+                    Products &amp; Accessories
+                  </label>
+                </div>
+              </div>
+              <label style='display:flex;align-items:center;gap:10px;font-weight:600;'>
+                <input id='fFeatured' type='checkbox'>
+                Featured
+              </label>
+              <label style='display:flex;align-items:center;gap:10px;font-weight:600;'>
+                <input id='fOffer' type='checkbox'>
+                Special offer
+              </label>
+              <label style='display:flex;align-items:center;gap:10px;font-weight:600;'>
+                <input id='fPublished' type='checkbox'>
+                Published
+              </label>
+            </div>
+          </div>
+
+          <div class='admin-panel' style='margin:0;padding:20px;'>
+            <h2 style='margin:0 0 16px;font-size:18px;'>Save</h2>
+            <button type='submit' class='btn btn-gold btn-block' style='width:100%;'>Save Product</button>
+            <div style='margin-top:12px;'>
+              <a href='products.html' class='btn btn-outline btn-block' style='display:block;text-align:center;'>Cancel</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </form>
   </main>
 </div>
 
-<script src="../assets/js/data.js"></script>
-<script src="../assets/js/layout.js"></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/admin.js"></script>
+<script src='../assets/js/data.js'></script>
+<script src='../assets/js/layout.js'></script>
+<script src='../assets/js/app.js'></script>
+<script src='../assets/js/admin.js'></script>
 <script>
   initAdminAddProductPage();
-  // sync category radio with hidden field & existing value on load
-  setTimeout(() => {
-    const cat = document.getElementById('fCategory').value;
-    document.querySelectorAll('input[name=fCategoryRadio]').forEach(r => r.checked = (r.value === cat));
-  }, 50);
 </script>
 </body>
 </html>
