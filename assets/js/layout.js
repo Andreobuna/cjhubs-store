@@ -74,6 +74,7 @@ function injectLayoutStyles() {
   color:var(--gold);
   box-shadow:0 0 0 1px rgba(212,175,55,.18) inset;
 }
+  .mobile-category-strip{display:none;}
 .header-actions{
   margin-left:auto;
   justify-content:flex-end;
@@ -157,6 +158,13 @@ body.home-page .newsletter p{
   .main-nav{display:none;}
   .search-box{display:none;}
   .hamburger{display:flex;}
+  .mobile-category-strip{display:flex;gap:10px;align-items:center;overflow-x:auto;padding:10px 16px 14px;background:linear-gradient(180deg, rgba(7,16,31,.96), rgba(7,16,31,.88));border-bottom:1px solid rgba(255,255,255,.08);scrollbar-width:none;}
+  .mobile-category-strip::-webkit-scrollbar{display:none;}
+  .mobile-category-strip a{flex:0 0 auto;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);color:#f4f7ff;font-size:13px;font-weight:700;letter-spacing:.2px;white-space:nowrap;}
+  .mobile-category-strip a:hover{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.28);color:var(--gold-light);}
+  body.home-page{background-attachment:scroll;background-position:center top;}
+  body.home-page .hero::before{background:linear-gradient(180deg, rgba(4,8,18,.06), rgba(4,8,18,.26));}
+  body.home-page .hero .container > div:first-child{background:rgba(8,14,30,.52);backdrop-filter:blur(8px);}
   body.home-page .hero .container{grid-template-columns:1fr;}
   body.home-page .hero-visual{min-height:auto;margin-top:18px;}
 }
@@ -209,6 +217,11 @@ function siteHeaderHTML(active) {
       </div>
     </div>
   </header>
+  <div class='mobile-category-strip' aria-label='Quick category links'>
+    <a href='shop.html'>Shop</a>
+    <a href='gift-ideas.html'>Gift Ideas</a>
+    <a href='products-accessories.html'>Products &amp; Accessories</a>
+  </div>
   <div class="mobile-nav" id="mobileNav">
     <div class="close-mobile" onclick="document.getElementById('mobileNav').classList.remove('open')">&times;</div>
     <button type="button" class="btn btn-outline btn-block" style="margin-bottom:20px;justify-content:center;" data-theme-toggle onclick="toggleTheme()">Toggle theme</button>
