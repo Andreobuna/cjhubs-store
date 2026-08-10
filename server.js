@@ -82,19 +82,21 @@ async function writeState(collection, value) {
   await pool.query("insert into cjh_store (collection, payload) values ($1, $2::jsonb) on conflict (collection) do update set payload = excluded.payload, updated_at = now()", [collection, JSON.stringify(payload)]);
   return payload;
 }
+/*
 function injectProxy(html) {
-  return html.replace(/<script src="((?:\.\.\/)?assets\/js\/data\.js)"><\/script>/g, function (match, src) {
-    return '<script src="/db-proxy.js"></script>\n<script src="' + src + '"></script>';
+  return html.replace(/<script\s+src=([\x27\x22])((?:\.\.\/)??assets\/js\/data\.js)\1><\/script>/g, function (match, quote, src) {
+    return '<script src='/db-proxy.js'></script>
+<script src=' + quote + src + quote + '></script>';
   });
 }
 
+*/
 const server = http.createServer(async (req, res) => {
-  const allowedOrigin = "https://cjhubs.netlify.app";
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Vary', 'Origin');
 
-res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-res.setHeader("Access-Control-Allow-Credentials", "true");
 
 if (req.method === "OPTIONS") {
   res.writeHead(204);
