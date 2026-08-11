@@ -96,6 +96,7 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Vary', 'Origin');
+  res.setHeader('Cache-Control', 'no-store, max-age=0, must-revalidate');
 
 
 if (req.method === "OPTIONS") {
@@ -148,3 +149,6 @@ initDb().then(() => {
   console.error(error);
   process.exit(1);
 });
+
+
+
