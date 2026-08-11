@@ -172,7 +172,6 @@ body.home-page .newsletter p{
 @media (max-width: 900px){
   .main-header .container{display:flex;align-items:center;justify-content:space-between;gap:14px;}
   .main-nav{display:none;}
-  .search-box{display:none;}
   .hamburger{display:flex;}
   .mobile-category-strip{display:flex;gap:10px;align-items:center;overflow-x:auto;padding:10px 16px 14px;background:linear-gradient(180deg, rgba(7,16,31,.96), rgba(7,16,31,.88));border-bottom:1px solid rgba(255,255,255,.08);scrollbar-width:none;}
   .mobile-category-strip::-webkit-scrollbar{display:none;}
@@ -180,7 +179,7 @@ body.home-page .newsletter p{
   .mobile-category-strip a:hover{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.28);color:var(--gold-light);}
   body.home-page{background-attachment:scroll;background-position:center top;}
   body.home-page .hero::before{background:linear-gradient(180deg, rgba(4,8,18,.06), rgba(4,8,18,.26));}
-  body.home-page .hero .container > div:first-child{background:rgba(8,14,30,.52);backdrop-filter:blur(8px);}
+  body.home-page .hero .container > div:first-child{background:transparent;backdrop-filter:none;}
   body.home-page .hero .container{grid-template-columns:1fr;}
   body.home-page .hero-visual{min-height:auto;margin-top:18px;}
 }
@@ -203,14 +202,6 @@ function siteHeaderHTML(active) {
     <div class="container">
       <a href="index.html" class="logo"><span class="mark">CJ</span><span class="brand-name">CJ Hubs <span class="accent">Store</span></span></a>
       <div class="header-actions">
-        <form class="search-box" onsubmit="event.preventDefault(); if(this.q.value.trim()) window.location.href='shop.html?search='+encodeURIComponent(this.q.value);">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input name="q" type="text" placeholder="Search products...">
-        </form>
-        <button type="button" class="icon-btn theme-toggle" data-theme-toggle onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
-          <svg class="theme-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-          <svg class="theme-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
         <a href="${user ? 'account.html' : 'login.html'}" class="icon-btn" title="${user ? 'My Account' : 'Login'}">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
