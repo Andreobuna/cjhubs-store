@@ -50,6 +50,7 @@ function injectLayoutStyles() {
 body.home-page #site-header .main-nav{display:flex !important;}
 body.home-page #site-header .search-box{display:flex !important;}
 body.home-page #site-header .icon-btn:not(.theme-toggle){display:flex !important;}
+body.home-page #site-header .header-actions a[href="cart.html"]{display:none !important;}
 body.home-page #site-header .hamburger{display:flex !important;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;}
 body.home-page #site-header .hamburger span{display:block;width:20px;background:#fff;}
 .main-header .container{
