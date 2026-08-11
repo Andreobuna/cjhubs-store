@@ -51,8 +51,7 @@ body.home-page #site-header .main-nav{display:flex !important;}
 body.home-page #site-header .search-box{display:flex !important;}
 body.home-page #site-header .icon-btn:not(.theme-toggle){display:flex !important;}
 body.home-page #site-header .hamburger{display:flex !important;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;}
-body.home-page #site-header .hamburger span{display:none;}
-body.home-page #site-header .hamburger::before{content:"\\\\2630";font-size:24px;line-height:1;}
+body.home-page #site-header .hamburger span{display:block;width:20px;background:#fff;}
 .main-header .container{
   display:grid;
   grid-template-columns:auto minmax(0,1fr) auto;
@@ -203,15 +202,6 @@ function siteHeaderHTML(active) {
   <header class="main-header">
     <div class="container">
       <a href="index.html" class="logo"><span class="mark">CJ</span><span class="brand-name">CJ Hubs <span class="accent">Store</span></span></a>
-      <nav class="main-nav">
-        ${link('index.html','Home','home')}
-        ${link('shop.html','Shop','shop')}
-        ${link('gift-ideas.html','Gift Ideas','gift')}
-        ${link('products-accessories.html','Products &amp; Accessories','products')}
-        ${link('shop.html?offer=1','Special Offers','offers')}
-        ${link('about.html','About','about')}
-        ${link('contact.html','Contact','contact')}
-      </nav>
       <div class="header-actions">
         <form class="search-box" onsubmit="event.preventDefault(); if(this.q.value.trim()) window.location.href='shop.html?search='+encodeURIComponent(this.q.value);">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>

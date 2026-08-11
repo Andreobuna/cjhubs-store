@@ -189,7 +189,7 @@ input,select,textarea{font-family:inherit;}
 .search-box input::placeholder{color:var(--gray-400);}
 .search-box svg{flex-shrink:0;color:var(--gray-400);margin-right:8px;}
 
-.hamburger{display:none;flex-direction:column;gap:5px;width:26px;cursor:pointer;}
+.hamburger{display:flex;flex-direction:column;gap:5px;width:26px;cursor:pointer;}
 .hamburger span{height:2px;background:#fff;border-radius:2px;transition:var(--transition);}
 
 .mobile-nav{
@@ -699,7 +699,7 @@ html[data-theme="dark"] .summary-row,
 html[data-theme="dark"] .admin-sidebar nav a,
 html[data-theme="dark"] .footer-grid a,
 html[data-theme="dark"] .footer-brand p{
-  color:#a8b2c8;
+  color:#d1d9ec;
 }
 html[data-theme="dark"] .topbar{
   background:#030914;
@@ -999,6 +999,27 @@ body.home-page .section,
 body.home-page .newsletter{
   background: rgba(248,249,251,.88);
 }
+/* Fix Special Offers and New Arrivals text visibility in dark mode */
+html[data-theme="dark"] .offers-section .pc-name,
+html[data-theme="dark"] .offers-section .pc-price .now,
+html[data-theme="dark"] .offers-section .pc-stock,
+html[data-theme="dark"] .offers-section .section-head h2,
+html[data-theme="dark"] .offers-section .section-head p {
+  color: #f4f7ff !important;
+}
+
+html[data-theme="dark"] .section-head h2 {
+  color: #f4f7ff !important;
+}
+html[data-theme="dark"] .section-head p {
+  color: #d1d9ec !important;
+}
+
+/* Fix Product section text visibility in dark mode */
+html[data-theme="dark"] body.home-page .pc-name{color:#f4f7ff;}
+html[data-theme="dark"] body.home-page .pc-price .now{color:#f3dd95;}
+html[data-theme="dark"] body.home-page .pc-stock{color:#9ae6b4;}
+
 body.home-page .section-head h2,
 body.home-page .section-head p,
 body.home-page .pc-name,
