@@ -3,113 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CJ Hubs Store - Find Something Special For You Or Someone You Love</title>
-<meta name="description" content="CJ Hubs Store is a modern online shopping destination for curated gift ideas and everyday products & accessories.">
-<meta property="og:title" content="CJ Hubs Store">
+<title>CJ Hubs — Find Something Special For You Or Someone You Love</title>
+<meta name="description" content="CJ Hubs is a modern online shopping destination for curated gift ideas and everyday products & accessories.">
+<meta property="og:title" content="CJ Hubs">
 <meta property="og:description" content="Find something for yourself, or something special for someone else.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<style>
-body.home-page #site-header .main-nav,
-body.home-page #site-header .search-box,
-body.home-page #site-header .icon-btn:not(.theme-toggle),
-body.home-page #site-header .mobile-category-strip{
-  display:none !important;
-}
-body.home-page #site-header .main-header .container{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  padding-top:12px;
-  padding-bottom:12px;
-}
-body.home-page #site-header .header-actions{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:10px;
-}
-body.home-page #site-header .theme-toggle,
-body.home-page #site-header .hamburger{
-  flex:0 0 auto;
-}
-body.home-page .hero{
-  position:relative;
-  overflow:hidden;
-  background:
-    linear-gradient(180deg, rgba(6,12,24,.10), rgba(6,12,24,.45)),
-    url('web.png') center top / cover no-repeat;
-  padding:clamp(90px, 12vw, 148px) 0 clamp(64px, 8vw, 96px);
-  min-height:clamp(640px, 92vh, 860px);
-}
-body.home-page .hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 22% 20%, rgba(255,255,255,.16), transparent 36%),
-    linear-gradient(180deg, rgba(4,8,18,.06), rgba(4,8,18,.30));
-  pointer-events:none;
-}
-body.home-page .hero .container{
-  position:relative;
-  z-index:1;
-  grid-template-columns:minmax(0,1fr);
-  align-items:center;
-}
-body.home-page .hero .container > div:first-child{
-  background:transparent;
-  border:none;
-  box-shadow:none;
-  padding:0;
-  max-width:720px;
-}
-body.home-page .hero h1,
-body.home-page .hero p.lead,
-body.home-page .hero-stats strong,
-body.home-page .hero-stats span,
-body.home-page .hero-badge{
-  text-shadow:0 8px 22px rgba(0,0,0,.45);
-}
-body.home-page .hero-badge{
-  background:rgba(8,14,30,.30);
-  border-color:rgba(255,255,255,.16);
-  color:#fff;
-  backdrop-filter:blur(8px);
-}
-body.home-page .hero p.lead,
-body.home-page .hero-stats span{
-  color:rgba(245,247,255,.88);
-}
-body.home-page .hero-stats div{border-left-color:var(--gold-light);}
-body.home-page .hero-visual{display:none;}
-@media (max-width: 900px){
-  body.home-page .hero{
-    background-position:72% center;
-    background-size:cover;
-    min-height:clamp(560px, 88vh, 760px);
-    padding-top:clamp(96px, 18vw, 132px);
-  }
-}
-@media (max-width: 640px){
-  body.home-page #site-header .main-header .container{
-    padding-top:10px;
-    padding-bottom:10px;
-    gap:10px;
-  }
-  body.home-page .hero{
-    background-position:78% center;
-    min-height:clamp(540px, 84vh, 700px);
-    padding-top:clamp(104px, 24vw, 138px);
-  }
-  body.home-page .hero h1{font-size:clamp(36px, 10vw, 50px);}
-  body.home-page .hero-stats{gap:14px;flex-wrap:wrap;}
-  body.home-page .hero-badge{backdrop-filter:none;}
-}
-</style>
 </head>
 <body class='home-page'>
 
@@ -120,14 +20,14 @@ body.home-page .hero-visual{display:none;}
     <div>
       <div class="hero-badge"><span class="dot"></span> Premium Curated Shopping</div>
       <h1>Find something for <span class="shine">yourself</span>, or something special for <span class="shine">someone else</span>.</h1>
-      <p class="lead">CJ Hubs Store brings together thoughtfully chosen gift ideas and everyday products &amp; accessories &mdash; all in one premium shopping destination.</p>
+      <p class="lead">CJ Hubs brings together thoughtfully chosen gift ideas and everyday products & accessories — all in one premium shopping destination.</p>
       <div class="hero-cta">
         <a href="shop.html" class="btn btn-gold">Shop Now</a>
         <a href="gift-ideas.html" class="btn btn-outline">Send a Gift</a>
       </div>
       <div class="hero-stats">
         <div><strong>2,500+</strong><span>Happy Customers</span></div>
-        <div><strong>4.9&#9733;</strong><span>Average Rating</span></div>
+        <div><strong>4.9★</strong><span>Average Rating</span></div>
         <div><strong>24/7</strong><span>Customer Support</span></div>
       </div>
     </div>
@@ -140,12 +40,12 @@ body.home-page .hero-visual{display:none;}
     <div class="section-head reveal">
       <span class="eyebrow">Where to start</span>
       <h2>Shop by Category</h2>
-      <p>Two simple ways to shop &mdash; pick a lane and dive straight into the collection.</p>
+      <p>Two simple ways to shop — pick a lane and dive straight into the collection.</p>
     </div>
     <div class="category-grid reveal">
       <a href="gift-ideas.html" class="cat-card" data-category-card="gift-ideas">
         <div class="cat-content">
-          <span class="cat-icon">??</span>
+          <span class="cat-icon">🎁</span>
           <h3>Gift Ideas</h3>
           <p>Curated gifts for birthdays, anniversaries, and every special moment.</p>
           <span class="cat-link">Shop Gift Ideas <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
@@ -153,7 +53,7 @@ body.home-page .hero-visual{display:none;}
       </a>
       <a href="products-accessories.html" class="cat-card" data-category-card="products-accessories">
         <div class="cat-content">
-          <span class="cat-icon">???</span>
+          <span class="cat-icon">🛍️</span>
           <h3>Products &amp; Accessories</h3>
           <p>Everyday essentials and accessories built for quality and style.</p>
           <span class="cat-link">Shop Products <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
@@ -179,7 +79,7 @@ body.home-page .hero-visual{display:none;}
     <div class="section-head reveal">
       <span class="eyebrow">Limited time</span>
       <h2>Special Offers</h2>
-      <p>Handpicked deals across gifts and everyday essentials &mdash; while stock lasts.</p>
+      <p>Handpicked deals across gifts and everyday essentials — while stock lasts.</p>
     </div>
     <div class="product-grid" id="offersGrid"></div>
     <div class="text-center reveal" style="margin-top:36px;">
@@ -193,7 +93,7 @@ body.home-page .hero-visual{display:none;}
     <div class="section-head reveal">
       <span class="eyebrow">Just landed</span>
       <h2>New Arrivals</h2>
-      <p>Fresh additions to the CJ Hubs Store catalog.</p>
+      <p>Fresh additions to the CJ Hubs catalog.</p>
     </div>
     <div class="product-grid" id="newArrivalsGrid"></div>
   </div>
@@ -201,7 +101,7 @@ body.home-page .hero-visual{display:none;}
 
 <section class="newsletter">
   <div class="container">
-    <h3 class="reveal">Join the CJ Hubs Store list</h3>
+    <h3 class="reveal">Join the CJ Hubs list</h3>
     <p class="reveal">Get early access to new arrivals and special offers.</p>
     <form onsubmit="event.preventDefault(); showToast('Thanks for subscribing!'); this.reset();" class="reveal">
       <input type="email" placeholder="Enter your email" required>
@@ -221,3 +121,5 @@ body.home-page .hero-visual{display:none;}
 </script>
 </body>
 </html>
+
+
