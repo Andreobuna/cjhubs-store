@@ -265,7 +265,13 @@ const Products = {
   save(product) {
     const list = this.all();
     const idx = list.findIndex(p => p.id === product.id);
-    if (idx >= 0) list[idx] = product; else list.unshift(product);
+    if (idx >= 0) {
+      product.createdAt = list[idx].createdAt || Date.now();
+      list[idx] = product;
+    } else {
+      if (!product.createdAt) product.createdAt = Date.now();
+      list.unshift(product);
+    }
     return dbSet(DB_KEYS.PRODUCTS, list);
   },
   remove(id) {
