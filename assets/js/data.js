@@ -248,7 +248,7 @@ function seedDatabase() {
     dbSet(DB_KEYS.CART, []);
     dbSet(DB_KEYS.WISHLIST, []);
     // default admin credentials for testing; change as needed
-    dbSet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.test', password: btoa('testadmin2026'), name: 'Store Admin' });
+    dbSet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.com', password: btoa('Adminpass123'), name: 'Store Admin' });
     dbSet(DB_KEYS.SEEDED, true);
   }
   if (!dbGet(DB_KEYS.PRODUCTS)) dbSet(DB_KEYS.PRODUCTS, SEED_PRODUCTS);
@@ -383,7 +383,7 @@ const Auth = {
 
 /* ---------------- admin auth ---------------- */
 const AdminAuth = {
-  info() { return dbGet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.test', password: btoa('testadmin2026') }); },
+  info() { return dbGet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.com', password: btoa('Adminpass123') }); },
   login(identifier, password) {
     const info = this.info();
     if ((info.username === identifier || info.email === identifier) && info.password === btoa(password)) {
