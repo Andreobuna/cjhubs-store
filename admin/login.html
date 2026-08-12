@@ -20,7 +20,10 @@
       <button type="submit" class="btn btn-gold btn-block">Login to Dashboard</button>
     </form>
     <p style="text-align:center;font-size:12.5px;color:var(--gray-600);margin-top:16px;">Test admin credentials: <b>admin@cjhubs.com</b> / <b>Adminpass123</b></p>
-    <div class="auth-switch"><a href="../index.html">&larr; Back to Store</a></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+      <button id="resetAdminBtn" class="btn btn-outline btn-sm">Reset admin credentials (local)</button>
+      <a class="btn btn-outline btn-sm" href="../index.html">Back to Store</a>
+    </div>
   </div>
 </div>
 
@@ -29,6 +32,18 @@
 <script src="../assets/js/admin.js"></script>
 <script>
   initAdminLoginPage();
+
+  // One-click reset for local development: writes the seeded admin credentials into localStorage
+  document.getElementById('resetAdminBtn')?.addEventListener('click', () => {
+    try {
+      const admin = { username: 'admin', email: 'admin@cjhubs.com', password: btoa('Adminpass123'), name: 'Store Admin' };
+      localStorage.setItem('cjhubs_admin', JSON.stringify(admin));
+      showToast('Admin credentials reset locally. You can now sign in.');
+    } catch (e) {
+      console.error(e);
+      alert('Failed to reset admin credentials: ' + e.message);
+    }
+  });
 </script>
 </body>
 </html>
