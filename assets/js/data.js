@@ -364,8 +364,10 @@ const Auth = {
     return { ok: true, user };
   },
   login(email, password) {
-    const user = this.users().find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === btoa(password));
-    if (!user) return { ok: false, error: 'Invalid email or password.' };
+    const identifier = (email || '').toString().trim();
+    const users = this.users();
+    const user = users.find(u => ((u.email || '').toLowerCase() === identifier.toLowerCase() || (u.phone || '') === identifier) && u.password === btoa(password));
+    if (!user) return { ok: false, error: 'Invalid email/phone or password.' };
     dbSet(DB_KEYS.CURRENT_USER, user.id);
     return { ok: true, user };
   },
