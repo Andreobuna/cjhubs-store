@@ -101,7 +101,10 @@ function initShopPage(fixedCategory) {
   function render() {
     grid.innerHTML = skeletonGrid(8);
     setTimeout(() => {
-      let list = fixedCategory ? Products.byCategory(fixedCategory) : Products.published();
+      try {
+        let list = fixedCategory ? Products.byCategory(fixedCategory) : Products.published();
+        // If nothing published, fallback to showing all products to avoid an empty shop page
+        if ((!list || !list.length) && !fixedCategory) list = Products.all();
 
       const q = (toolbarSearch?.value || '').trim().toLowerCase();
       if (q) {
@@ -127,6 +130,10 @@ function initShopPage(fixedCategory) {
       if (resultCount) resultCount.textContent = `${list.length} product${list.length!==1?'s':''} found`;
       grid.innerHTML = list.length ? list.map(productCardHTML).join('') :
         emptyStateHTML('🔍', 'No products found', 'Try adjusting your search or filters.', fixedCategory ? null : 'shop.html', 'View All Products');
+      } catch (e) {
+        console.error('Shop render error', e);
+        grid.innerHTML = emptyStateHTML('❌', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
+      }
     }, 220);
   }
 
