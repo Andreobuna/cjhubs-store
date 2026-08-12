@@ -14,6 +14,7 @@ const DB_KEYS = {
   ORDERS: 'cjhubs_orders',
   ADMIN: 'cjhubs_admin',
   ADMIN_SESSION: 'cjhubs_admin_session',
+  EXCHANGE_RATE: 'cjhubs_exchange_rate',
   WISHLIST: 'cjhubs_wishlist',
   SEEDED: 'cjhubs_seeded_v2'
 };
@@ -413,7 +414,10 @@ const Wishlist = {
 };
 
 function formatPrice(n) {
-  return '$' + Number(n).toFixed(2);
+  const DEFAULT_USD_TO_NGN = 1200; // default conversion rate (USD -> NGN)
+  const rate = dbGet(DB_KEYS.EXCHANGE_RATE, DEFAULT_USD_TO_NGN) || DEFAULT_USD_TO_NGN;
+  const converted = Number(n) * Number(rate);
+  return '₦' + converted.toFixed(2);
 }
 function slugify(str) {
   return str.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
