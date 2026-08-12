@@ -119,7 +119,7 @@ function renderAdminProductsTable() {
       <td><span class="badge ${p.published?'published':'draft'}">${p.published?'Published':'Draft'}</span></td>
       <td data-label="Actions" class="table-actions">
         <a href="add-product.html?id=${p.id}">Edit</a>
-        <button class="del" onclick="deleteAdminProduct('${p.id}')">Delete</button>
+        <button class="btn btn-danger btn-sm del" onclick="deleteAdminProduct('${p.id}')">Delete</button>
       </td>
     </tr>`).join('') : `<tr><td colspan="7" style="text-align:center;color:var(--gray-600);padding:30px;">No products found</td></tr>`;
 }

@@ -454,6 +454,24 @@ function initAccountPage() {
     document.getElementById('profileCountry').value = user.address.country || '';
   }
 
+  // populate read-only view
+  const setView = () => {
+    document.getElementById('viewName').textContent = user.name || '';
+    document.getElementById('viewEmail').textContent = user.email || '';
+    document.getElementById('viewPhone').textContent = user.phone ? ('Phone: ' + user.phone) : '';
+    const addr = user.address ? [user.address.line1, user.address.city, user.address.country].filter(Boolean).join(', ') : '';
+    document.getElementById('viewAddress').textContent = addr;
+  };
+  setView();
+
+  // toggle edit/view
+  const editBtn = document.getElementById('editProfileBtn');
+  const cancelBtn = document.getElementById('cancelEditProfile');
+  const profileCard = document.getElementById('profileCard');
+  const profileForm = document.getElementById('profileForm');
+  if (editBtn) editBtn.addEventListener('click', () => { profileCard.style.display = 'none'; profileForm.style.display = 'block'; });
+  if (cancelBtn) cancelBtn.addEventListener('click', () => { profileForm.style.display = 'none'; profileCard.style.display = 'block'; });
+
   document.getElementById('profileForm').addEventListener('submit', (e) => {
     e.preventDefault();
     Auth.updateUser(user.id, {
@@ -466,7 +484,13 @@ function initAccountPage() {
       }
     });
     showToast('Profile updated successfully');
-    document.getElementById('accName').textContent = document.getElementById('profileName').value;
+    // reflect changes in UI
+    user.name = document.getElementById('profileName').value;
+    user.phone = document.getElementById('profilePhone').value;
+    user.address = { line1: document.getElementById('profileAddress').value, city: document.getElementById('profileCity').value, country: document.getElementById('profileCountry').value };
+    document.getElementById('accName').textContent = user.name;
+    setView();
+    profileForm.style.display = 'none'; profileCard.style.display = 'block';
   });
 
   document.getElementById('logoutBtn').addEventListener('click', () => {

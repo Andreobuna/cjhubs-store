@@ -254,6 +254,20 @@ function seedDatabase() {
 }
 seedDatabase();
 
+// Remove any products matching a given name (case-insensitive).
+function purgeProductsByName(targetName) {
+  if (!targetName) return false;
+  const t = targetName.toLowerCase().trim();
+  const list = dbGet(DB_KEYS.PRODUCTS, []);
+  const filtered = list.filter(p => (p.name||'').toLowerCase().trim() !== t);
+  if (filtered.length === list.length) return false;
+  dbSet(DB_KEYS.PRODUCTS, filtered);
+  return true;
+}
+
+// Auto-purge unwanted legacy products named "mens clothing"
+try { purgeProductsByName('mens clothing'); } catch (e) { /* ignore */ }
+
 /* ---------------- product helpers ---------------- */
 const Products = {
   all() { return dbGet(DB_KEYS.PRODUCTS, []); },
