@@ -387,8 +387,15 @@ const Auth = {
 const AdminAuth = {
   info() { return dbGet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.com', password: btoa('Adminpass123') }); },
   login(identifier, password) {
-    const info = this.info();
-    if ((info.username === identifier || info.email === identifier) && info.password === btoa(password)) {
+    const info = this.info() || {};
+    const id = (identifier || '').toString().trim();
+    const pw = (password || '').toString();
+    // support stored password either base64 or plain; normalize by comparing btoa(pw) to stored value or plain equality
+    const storedPw = info.password || '';
+    const pwMatches = storedPw === btoa(pw) || storedPw === pw;
+    const matchesIdentifier = (info.username && info.username.toString().trim() === id) ||
+      (info.email && info.email.toString().trim().toLowerCase() === id.toLowerCase());
+    if (matchesIdentifier && pwMatches) {
       dbSet(DB_KEYS.ADMIN_SESSION, true);
       return true;
     }

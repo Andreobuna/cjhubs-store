@@ -10,11 +10,12 @@ function productCardHTML(p) {
   const discountPct = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
   const outOfStock = p.stock <= 0;
   const catName = CATEGORIES.find(c => c.id === p.category)?.name || '';
+  const imgSrc = (p.images && p.images[0]) ? p.images[0] : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22 viewBox=%220 0 700 700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2228%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
   return `
   <div class="product-card reveal in">
     <a href="product.html?id=${p.id}" class="pc-img">
       ${p.salePrice ? `<span class="pc-badge">-${discountPct}%</span>` : (p.featured ? `<span class="pc-badge featured">Featured</span>` : '')}
-      <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+      <img src="${imgSrc}" alt="${p.name}" loading="lazy">
     </a>
     <button class="pc-wish ${wished?'active':''}" onclick="toggleWishFromCard(event,'${p.id}')" title="Wishlist">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="${wished?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -56,7 +57,7 @@ function skeletonGrid(n) {
 }
 
 /* ---------- homepage ---------- */
-function populateHomeVisuals(){const products=Products.published();const featured=[...Products.featured(),...Products.newArrivals(8),...products];const pick=(i)=>featured[i]||products[i]||null;const primary=pick(0),secondary=pick(1)||primary,tertiary=pick(2)||secondary;const bind=(id,p,withPrice)=>{const el=document.getElementById(id);if(!el||!p)return;if(withPrice){el.textContent=formatPrice(p.salePrice??p.price);return}el.src=p.images[0]||"";el.alt=p.name};bind("heroPrimaryImg",primary);bind("heroSecondaryImg",secondary);bind("heroTertiaryImg",tertiary);const setName=(id,p)=>{const el=document.getElementById(id);if(el&&p)el.textContent=p.name};setName("heroPrimaryName",primary);setName("heroSecondaryName",secondary);setName("heroTertiaryName",tertiary);const price=document.getElementById("heroPrimaryPrice");if(price&&primary)price.textContent=formatPrice(primary.salePrice??primary.price);const gift=Products.byCategory("gift-ideas")[0]||primary;const accessory=Products.byCategory("products-accessories")[0]||secondary||primary;const setCard=(key,p)=>{const el=document.querySelector("[data-category-card=" + key + "]");if(el&&p)el.style.setProperty("--bg","url(" + p.images[0] + ")")};setCard("gift-ideas",gift);setCard("products-accessories",accessory)}
+function populateHomeVisuals(){const products=Products.published();const featured=[...Products.featured(),...Products.newArrivals(8),...products];const pick=(i)=>featured[i]||products[i]||null;const primary=pick(0),secondary=pick(1)||primary,tertiary=pick(2)||secondary;const bind=(id,p,withPrice)=>{const el=document.getElementById(id);if(!el||!p)return;if(withPrice){el.textContent=formatPrice(p.salePrice??p.price);return}el.src=(p.images&&p.images[0])||'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3C/svg%3E'";el.alt=p.name};bind("heroPrimaryImg",primary);bind("heroSecondaryImg",secondary);bind("heroTertiaryImg",tertiary);const setName=(id,p)=>{const el=document.getElementById(id);if(el&&p)el.textContent=p.name};setName("heroPrimaryName",primary);setName("heroSecondaryName",secondary);setName("heroTertiaryName",tertiary);const price=document.getElementById("heroPrimaryPrice");if(price&&primary)price.textContent=formatPrice(primary.salePrice??primary.price);const gift=Products.byCategory("gift-ideas")[0]||primary;const accessory=Products.byCategory("products-accessories")[0]||secondary||primary;const setCard=(key,p)=>{const el=document.querySelector("[data-category-card=" + key + "]");if(el&&p)el.style.setProperty("--bg","url(" + p.images[0] + ")")};setCard("gift-ideas",gift);setCard("products-accessories",accessory)}
 
 function initHomePage(){populateHomeVisuals();const featuredEl=document.getElementById("featuredGrid");const newEl=document.getElementById("newArrivalsGrid");const offersEl=document.getElementById("offersGrid");if(featuredEl)featuredEl.innerHTML=skeletonGrid(4);if(newEl)newEl.innerHTML=skeletonGrid(4);if(offersEl)offersEl.innerHTML=skeletonGrid(3);setTimeout(()=>{const featured=Products.featured().slice(0,8);const arrivals=Products.newArrivals(8);const offers=Products.specialOffers().slice(0,6);if(featuredEl)featuredEl.innerHTML=featured.length?featured.map(productCardHTML).join(""):emptyStateHTML("Featured","No featured products yet","Check back soon - new items are added regularly.");if(newEl)newEl.innerHTML=arrivals.length?arrivals.map(productCardHTML).join(""):emptyStateHTML("Products","No products yet","The catalog is being updated.");if(offersEl)offersEl.innerHTML=offers.length?offers.map(productCardHTML).join(""):emptyStateHTML("Offers","No special offers right now","Explore the full shop for great products.");document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"))},300)}
 
@@ -214,10 +215,11 @@ function renderPDPrice(p) {
 }
 
 function renderPDGallery(p) {
-  document.getElementById('pdMainImg').src = p.images[PD_STATE.activeImage];
+  if (!p || !p.images || !p.images.length) return;
+  document.getElementById('pdMainImg').src = p.images[PD_STATE.activeImage] || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22 viewBox=%220 0 700 700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3C/svg%3E';
   document.getElementById('pdMainImg').alt = p.name;
-  document.getElementById('pdThumbs').innerHTML = p.images.map((img,i)=>
-    `<img src="${img}" class="${i===PD_STATE.activeImage?'active':''}" onclick="setPDImage(${i})">`).join('');
+  document.getElementById('pdThumbs').innerHTML = (p.images || []).map((img,i)=>
+    `<img src="${img || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" class="${i===PD_STATE.activeImage?'active':''}" onclick="setPDImage(${i})">`).join('');
 }
 function setPDImage(i) {
   PD_STATE.activeImage = i;
@@ -287,7 +289,7 @@ function renderCartPage() {
     <tr>
       <td>
         <div class="cart-item-info">
-          <img src="${i.product.images[0]}" alt="${i.product.name}">
+          <img src="${(i.product && i.product.images && i.product.images[0]) || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" alt="${i.product.name}">
           <div>
             <div class="ci-name">${i.product.name}</div>
             ${i.variant ? `<div class="ci-variant">${i.variant}</div>` : ''}
@@ -429,7 +431,7 @@ function submitOrder(items, subtotal, discount, shipping) {
         postal: document.getElementById('coPostal').value
       },
       items: items.map(i => ({
-        productId: i.productId, name: i.product.name, image: i.product.images[0],
+        productId: i.productId, name: i.product.name, image: (i.product && i.product.images && i.product.images[0]) || '',
         variant: i.variant, qty: i.qty, price: i.unitPrice
       })),
       subtotal: subtotal + discount,

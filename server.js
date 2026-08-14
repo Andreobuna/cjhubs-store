@@ -27,7 +27,7 @@ const DEFAULTS = {
   [COLLECTIONS.products]: [],
   [COLLECTIONS.users]: [],
   [COLLECTIONS.orders]: [],
-  [COLLECTIONS.admin]: { username: "admin", password: Buffer.from("admin123").toString("base64"), name: "Store Admin" }
+  [COLLECTIONS.admin]: { username: "admin", email: "admin@cjhubs.com", password: Buffer.from("Adminpass123").toString("base64"), name: "Store Admin" }
 };
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -82,15 +82,10 @@ async function writeState(collection, value) {
   await pool.query("insert into cjh_store (collection, payload) values ($1, $2::jsonb) on conflict (collection) do update set payload = excluded.payload, updated_at = now()", [collection, JSON.stringify(payload)]);
   return payload;
 }
-/*
 function injectProxy(html) {
-  return html.replace(/<script\s+src=([\x27\x22])((?:\.\.\/)??assets\/js\/data\.js)\1><\/script>/g, function (match, quote, src) {
-    return '<script src='/db-proxy.js'></script>
-<script src=' + quote + src + quote + '></script>';
-  });
+  return html;
 }
 
-*/
 const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
