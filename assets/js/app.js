@@ -7,26 +7,42 @@
 /* ---------- product card markup ---------- */
 function productCardHTML(p) {
   if (!p || !p.id) return ''; // Skip invalid products
-  const wished = Wishlist.has(p.id);
-  const discountPct = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
-  const outOfStock = p.stock <= 0;
-  const catName = CATEGORIES.find(c => c.id === p.category)?.name || '';
-  const imgSrc = (p.images && Array.isArray(p.images) && p.images[0]) ? p.images[0] : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22 viewBox=%220 0 700 700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2228%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
-  return `
+  try {
+    const wished = Wishlist.has(p.id);
+    const discountPct = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
+    const outOfStock = (p.stock || 0) <= 0;
+    const catName = CATEGORIES.find(c => c.id === p.category)?.name || '';
+    
+    // Absolutely guarantee images is an array with at least one item
+    let imgSrc = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22 viewBox=%220 0 700 700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2228%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
+    
+    if (p.images) {
+      if (Array.isArray(p.images) && p.images.length > 0 && p.images[0]) {
+        imgSrc = p.images[0];
+      } else if (typeof p.images === 'string') {
+        imgSrc = p.images;
+      }
+    }
+    
+    const name = (p.name || 'Product').replace(/"/g, '&quot;');
+    const price = p.price || 0;
+    const salePrice = p.salePrice || null;
+    
+    return `
   <div class="product-card reveal in">
     <a href="product.html?id=${p.id}" class="pc-img">
-      ${p.salePrice ? `<span class="pc-badge">-${discountPct}%</span>` : (p.featured ? `<span class="pc-badge featured">Featured</span>` : '')}
-      <img src="${imgSrc}" alt="${p.name}" loading="lazy">
+      ${salePrice ? `<span class="pc-badge">-${discountPct}%</span>` : (p.featured ? `<span class="pc-badge featured">Featured</span>` : '')}
+      <img src="${imgSrc}" alt="${name}" loading="lazy">
     </a>
     <button class="pc-wish ${wished?'active':''}" onclick="toggleWishFromCard(event,'${p.id}')" title="Wishlist">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="${wished?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
     </button>
     <div class="pc-body">
       <div class="pc-cat">${catName}</div>
-      <a href="product.html?id=${p.id}"><div class="pc-name">${p.name}</div></a>
+      <a href="product.html?id=${p.id}"><div class="pc-name">${name}</div></a>
       <div class="pc-price">
-        <span class="now">${formatPrice(p.salePrice ?? p.price)}</span>
-        ${p.salePrice ? `<span class="was">${formatPrice(p.price)}</span>` : ''}
+        <span class="now">${formatPrice(salePrice ?? price)}</span>
+        ${salePrice ? `<span class="was">${formatPrice(price)}</span>` : ''}
       </div>
       <div class="pc-stock ${outOfStock?'out':''}">${outOfStock ? 'Out of stock' : (p.stock <= 5 ? `Only ${p.stock} left` : 'In stock')}</div>
       <div class="pc-actions">
@@ -35,6 +51,10 @@ function productCardHTML(p) {
       </div>
     </div>
   </div>`;
+  } catch (e) {
+    console.error('productCardHTML error:', e, p);
+    return ''; // Return empty string on error
+  }
 }
 
 function toggleWishFromCard(e, id) {
