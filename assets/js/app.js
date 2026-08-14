@@ -6,29 +6,21 @@
 
 /* ---------- product card markup ---------- */
 function productCardHTML(p) {
-  if (!p || !p.id) return ''; // Skip invalid products
-  try {
-    const wished = Wishlist.has(p.id);
-    const discountPct = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
-    const outOfStock = (p.stock || 0) <= 0;
-    const catName = CATEGORIES.find(c => c.id === p.category)?.name || '';
-    
-    // Absolutely guarantee images is an array with at least one item
-    let imgSrc = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22 viewBox=%220 0 700 700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2228%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E';
-    
-    if (p.images) {
-      if (Array.isArray(p.images) && p.images.length > 0 && p.images[0]) {
-        imgSrc = p.images[0];
-      } else if (typeof p.images === 'string') {
-        imgSrc = p.images;
-      }
-    }
-    
-    const name = (p.name || 'Product').replace(/"/g, '&quot;');
-    const price = p.price || 0;
-    const salePrice = p.salePrice || null;
-    
-    return `
+  // Skip invalid or malformed products
+  if (!p || typeof p !== 'object' || !p.id || !p.images || !Array.isArray(p.images) || p.images.length === 0) {
+    return '';
+  }
+  
+  const wished = Wishlist.has(p.id);
+  const discountPct = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
+  const outOfStock = (p.stock || 0) <= 0;
+  const catName = CATEGORIES.find(c => c.id === p.category)?.name || '';
+  const imgSrc = p.images[0] || '';  // Safe - guaranteed by normalization
+  const name = (p.name || 'Product').replace(/"/g, '&quot;');
+  const price = p.price || 0;
+  const salePrice = p.salePrice || null;
+  
+  return `
   <div class="product-card reveal in">
     <a href="product.html?id=${p.id}" class="pc-img">
       ${salePrice ? `<span class="pc-badge">-${discountPct}%</span>` : (p.featured ? `<span class="pc-badge featured">Featured</span>` : '')}
@@ -51,10 +43,6 @@ function productCardHTML(p) {
       </div>
     </div>
   </div>`;
-  } catch (e) {
-    console.error('productCardHTML error:', e, p);
-    return ''; // Return empty string on error
-  }
 }
 
 function toggleWishFromCard(e, id) {

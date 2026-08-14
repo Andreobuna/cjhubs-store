@@ -269,27 +269,53 @@ function purgeProductsByName(targetName) {
 // Auto-purge unwanted legacy products named "mens clothing"
 try { purgeProductsByName('mens clothing'); } catch (e) { /* ignore */ }
 
+/* ---------------- product normalization ------------ */
+function normalizeProduct(p) {
+  // Safely normalize a product object to ensure consistent structure
+  if (!p || typeof p !== 'object') return null;
+  
+  // Extract and ensure images is always a non-empty array
+  let images = null;
+  if (Array.isArray(p.images)) {
+    // Filter out empty strings and keep only valid image URLs
+    images = p.images.filter(img => typeof img === 'string' && img.length > 0);
+  } else if (typeof p.images === 'string' && p.images.length > 0) {
+    // Handle single image string
+    images = [p.images];
+  }
+  
+  // If no valid images, use fallback
+  if (!images || images.length === 0) {
+    images = [img('default-product')];
+  }
+  
+  return {
+    id: (p.id && typeof p.id === 'string') ? p.id : ('p' + Date.now() + Math.random()),
+    name: (p.name && typeof p.name === 'string') ? p.name.trim() : 'Unnamed Product',
+    price: (typeof p.price === 'number' && p.price >= 0) ? p.price : 0,
+    salePrice: (typeof p.salePrice === 'number' && p.salePrice > 0) ? p.salePrice : null,
+    stock: (typeof p.stock === 'number' && p.stock >= 0) ? p.stock : 0,
+    category: (p.category && typeof p.category === 'string') ? p.category : 'products-accessories',
+    published: p.published === true || p.published === undefined,
+    featured: p.featured === true || false,
+    specialOffer: p.specialOffer === true || false,
+    images: images,
+    // Preserve other properties
+    sku: p.sku || '',
+    description: p.description || '',
+    shortDescription: p.shortDescription || '',
+    variants: Array.isArray(p.variants) ? p.variants : [],
+    createdAt: typeof p.createdAt === 'number' ? p.createdAt : Date.now(),
+    updatedAt: typeof p.updatedAt === 'number' ? p.updatedAt : Date.now()
+  };
+}
+
 /* ---------------- product helpers ---------------- */
 const Products = {
   all() { 
     let products = dbGet(DB_KEYS.PRODUCTS, SEED_PRODUCTS);
-    // Ensure all products have required fields
-    return (products || []).map(p => {
-      const images = (Array.isArray(p.images) && p.images.length > 0) ? p.images : [img('default')];
-      return {
-        ...p,
-        id: p.id || ('p' + Math.random()),
-        name: p.name || 'Unknown',
-        price: typeof p.price === 'number' ? p.price : 0,
-        stock: typeof p.stock === 'number' ? p.stock : 0,
-        category: p.category || 'products-accessories',
-        published: p.published !== undefined ? p.published : true,
-        featured: p.featured || false,
-        specialOffer: p.specialOffer || false,
-        salePrice: p.salePrice || null,
-        images: images // Ensure images is always an array with at least one item
-      };
-    });
+    // Normalize all products to ensure consistent structure
+    return (Array.isArray(products) ? products : []).map(normalizeProduct).filter(p => p !== null);
   },
   published() { return this.all().filter(p => p.published); },
   byId(id) { return this.all().find(p => p.id === id); },
@@ -298,14 +324,19 @@ const Products = {
   specialOffers() { return this.published().filter(p => p.specialOffer); },
   newArrivals(n = 8) { return [...this.published()].sort((a,b)=>b.createdAt-a.createdAt).slice(0,n); },
   save(product) {
+    const normalized = normalizeProduct(product);
+    if (!normalized) return false;
+    
     const list = this.all();
-    const idx = list.findIndex(p => p.id === product.id);
+    const idx = list.findIndex(p => p.id === normalized.id);
     if (idx >= 0) {
-      product.createdAt = list[idx].createdAt || Date.now();
-      list[idx] = product;
+      normalized.createdAt = list[idx].createdAt || Date.now();
+      normalized.updatedAt = Date.now();
+      list[idx] = normalized;
     } else {
-      if (!product.createdAt) product.createdAt = Date.now();
-      list.unshift(product);
+      normalized.createdAt = Date.now();
+      normalized.updatedAt = Date.now();
+      list.unshift(normalized);
     }
     return dbSet(DB_KEYS.PRODUCTS, list);
   },
