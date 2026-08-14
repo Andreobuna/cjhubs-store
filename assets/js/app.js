@@ -112,9 +112,9 @@ function initShopPage(fixedCategory) {
     grid.innerHTML = skeletonGrid(8);
     setTimeout(() => {
       try {
-        let list = fixedCategory ? Products.byCategory(fixedCategory) : Products.published();
-        // If nothing published, fallback to showing all products to avoid an empty shop page
-        if ((!list || !list.length) && !fixedCategory) list = Products.all();
+        let list = fixedCategory
+          ? Products.all().filter(p => p.category === fixedCategory)
+          : Products.all();
 
       const q = (toolbarSearch?.value || '').trim().toLowerCase();
       if (q) {
@@ -171,7 +171,7 @@ function initProductPage() {
   const wrap = document.getElementById('productDetailWrap');
   const notFound = document.getElementById('productNotFound');
   const p = Products.byId(id);
-  if (!p || !p.published) {
+  if (!p) {
     wrap.style.display = 'none';
     notFound.style.display = 'block';
     return;
