@@ -271,7 +271,22 @@ try { purgeProductsByName('mens clothing'); } catch (e) { /* ignore */ }
 
 /* ---------------- product helpers ---------------- */
 const Products = {
-  all() { return dbGet(DB_KEYS.PRODUCTS, []); },
+  all() { 
+    let products = dbGet(DB_KEYS.PRODUCTS, SEED_PRODUCTS);
+    // Ensure all products have required fields
+    return (products || []).map(p => ({
+      id: p.id || ('p' + Math.random()),
+      name: p.name || 'Unknown',
+      price: p.price || 0,
+      stock: p.stock !== undefined ? p.stock : 0,
+      category: p.category || 'products-accessories',
+      published: p.published !== undefined ? p.published : true,
+      featured: p.featured || false,
+      specialOffer: p.specialOffer || false,
+      images: (Array.isArray(p.images) && p.images.length > 0) ? p.images : [img('default')],
+      ...p // preserve all other properties
+    }));
+  },
   published() { return this.all().filter(p => p.published); },
   byId(id) { return this.all().find(p => p.id === id); },
   byCategory(cat) { return this.published().filter(p => p.category === cat); },
