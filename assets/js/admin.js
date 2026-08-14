@@ -82,7 +82,7 @@ function initAdminDashboard() {
   const recentProducts = [...products].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
   document.getElementById('recentProductsBody').innerHTML = recentProducts.length ? recentProducts.map(p => `
     <tr>
-      <td data-label="Image"><img src="${(p.images && p.images[0]) || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" alt=""></td>
+      <td data-label="Image"><img src="${ (Array.isArray(p.images) && p.images[0])  || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" alt=""></td>
       <td data-label="Product"><strong>${p.name}</strong><br><span style="font-size:12px;color:var(--gray-600);">${p.sku}</span><div class="table-actions" style="margin-top:8px;"><a href="../product.html?id=${p.id}" target="_blank" rel="noopener">View</a><a href="add-product.html?id=${p.id}">Edit</a></div></td>
       <td data-label="Category">${CATEGORIES.find(c=>c.id===p.category)?.name || p.category}</td>
       <td data-label="Price">${formatPrice(p.salePrice ?? p.price)}</td>
@@ -111,7 +111,7 @@ function renderAdminProductsTable() {
   const body = document.getElementById('adminProductsBody');
   body.innerHTML = list.length ? list.map(p => `
     <tr>
-      <td><img src="${(p.images && p.images[0]) || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" alt=""></td>
+      <td><img src="${ (Array.isArray(p.images) && p.images[0])  || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" alt=""></td>
       <td><strong>${p.name}</strong><br><span style="font-size:12px;color:var(--gray-600);">${p.sku}</span><div class="table-actions" style="margin-top:8px;"><a href="../product.html?id=${p.id}" target="_blank" rel="noopener">View</a><a href="add-product.html?id=${p.id}">Edit</a></div></td>
       <td>${CATEGORIES.find(c=>c.id===p.category)?.name || p.category}</td>
       <td>${p.salePrice ? `<s style="color:var(--gray-400);">${formatPrice(p.price)}</s> ${formatPrice(p.salePrice)}` : formatPrice(p.price)}</td>
@@ -148,7 +148,7 @@ function initAdminAddProductPage() {
   const existing = editing ? Products.byId(id) : null;
   document.getElementById('formTitle').textContent = editing ? 'Edit Product' : 'Add New Product';
 
-  ADMIN_IMAGES = existing ? [...existing.images] : [];
+  ADMIN_IMAGES = Array.isArray(existing && existing.images) ? [...existing.images] : []; 
   ADMIN_VARIANTS = existing ? existing.variants.map(v => ({
     name: v.name, type: v.type, options: v.options.map(o=>({...o}))
   })) : [];
@@ -327,3 +327,4 @@ function renderAdminCustomersTable() {
     </tr>`;
   }).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray-600);padding:30px;">No customers yet</td></tr>`;
 }
+

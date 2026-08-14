@@ -304,7 +304,7 @@ function normalizeProduct(p) {
     sku: p.sku || '',
     description: p.description || '',
     shortDescription: p.shortDescription || '',
-    variants: Array.isArray(p.variants) ? p.variants : [],
+    variants: Array.isArray(p.variants) ? p.variants.map(v => (v && typeof v === 'object' ? { ...v, options: Array.isArray(v.options) ? v.options.filter(Boolean) : [] } : null)).filter(Boolean) : [],
     createdAt: typeof p.createdAt === 'number' ? p.createdAt : Date.now(),
     updatedAt: typeof p.updatedAt === 'number' ? p.updatedAt : Date.now()
   };
@@ -496,3 +496,6 @@ function formatPrice(n) {
 function slugify(str) {
   return str.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 }
+
+
+
