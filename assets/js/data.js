@@ -21,7 +21,7 @@ const DB_KEYS = {
 
 const CATEGORIES = [
   { id: 'gift-ideas', name: 'Gift Ideas', slug: 'gift-ideas', icon: '🎁' },
-  { id: 'products-accessories', name: 'Products & Accessories', slug: 'products-and-accessories', icon: '🛍️' }
+  { id: 'products-accessories', name: 'Products & Accessories', slug: 'products-accessories', icon: '🛍️' }
 ];
 
 function img(seed, w = 700, h = 700) {
@@ -237,7 +237,12 @@ function dbRemove(key) {
 }
 function seedDatabase() {
   const existingProducts = dbGet(DB_KEYS.PRODUCTS, []);
-  if (existingProducts.length) {
+  if (Array.isArray(existingProducts) && existingProducts.length) {
+    const existingIds = new Set(existingProducts.map(p => p && p.id).filter(Boolean));
+    const missingProductSeeds = SEED_PRODUCTS.filter(p => p.category === 'products-accessories' && !existingIds.has(p.id));
+    if (missingProductSeeds.length) {
+      dbSet(DB_KEYS.PRODUCTS, [...existingProducts, ...missingProductSeeds]);
+    }
     if (!dbGet(DB_KEYS.SEEDED, false)) dbSet(DB_KEYS.SEEDED, true);
     return;
   }
