@@ -2,42 +2,13 @@
    CJ HUBS STORE - SHARED LAYOUT (header / footer / utilities)
    ============================================================ */
 
-function getStoredTheme() {
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', 'dark');
   try {
-    return localStorage.getItem('cjhubs-theme');
+    localStorage.setItem('cjhubs-theme', 'dark');
   } catch {
-    return null;
+    // Ignore storage failures
   }
-}
-
-function getPreferredTheme() {
-  const stored = getStoredTheme();
-  if (stored === 'light' || stored === 'dark') return stored;
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function applyTheme(theme) {
-  const resolved = theme === 'dark' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', resolved);
-  try {
-    localStorage.setItem('cjhubs-theme', resolved);
-  } catch {
-    // Ignore storage failures and keep the theme in-memory.
-  }
-  document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
-    const label = resolved === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-    btn.setAttribute('aria-label', label);
-    btn.title = label;
-  });
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || getPreferredTheme();
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-}
-
-function initThemeMode() {
-  applyTheme(getPreferredTheme());
 }
 
 function injectLayoutStyles() {
@@ -223,7 +194,6 @@ function siteHeaderHTML(active) {
   </div>
   <div class="mobile-nav" id="mobileNav">
     <div class="close-mobile" onclick="document.getElementById('mobileNav').classList.remove('open')">&times;</div>
-    <button type="button" class="btn btn-outline btn-block" style="margin-bottom:20px;justify-content:center;" data-theme-toggle onclick="toggleTheme()">Toggle theme</button>
     <form onsubmit="event.preventDefault(); if(this.q.value.trim()) window.location.href='shop.html?search='+encodeURIComponent(this.q.value);" style="margin-bottom:20px;">
       <input name="q" type="search" placeholder="Search products..." style="width:100%;padding:12px 16px;border-radius:8px;border:none;">
     </form>
@@ -295,7 +265,7 @@ function renderLayout(active) {
   if (h) h.innerHTML = siteHeaderHTML(active);
   if (f) f.innerHTML = siteFooterHTML();
   injectLayoutStyles();
-  initThemeMode();
+  applyTheme();
   updateCartCount();
 }
 
