@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   CJ HUBS STORE â€” APP LOGIC
+   CJ HUBS STORE — APP LOGIC
    Product cards, shop grid, filters, product detail, cart,
    checkout, account pages.
    ============================================================ */
@@ -142,7 +142,7 @@ function initShopPage(fixedCategory) {
         emptyStateHTML('ðŸ”', 'No products found', 'Try adjusting your search or filters.', fixedCategory ? null : 'shop.html', 'View All Products');
       } catch (e) {
         console.error('Shop render error', e);
-        grid.innerHTML = emptyStateHTML('âŒ', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
+        grid.innerHTML = emptyStateHTML('❌', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
       }
     }, 220);
   }
@@ -176,7 +176,7 @@ function initProductPage() {
     notFound.style.display = 'block';
     return;
   }
-  document.title = p.name + ' â€” CJ Hubs Store';
+  document.title = p.name + ' — CJ Hubs Store';
   PD_STATE = { selectedVariants: {}, qty: 1, activeImage: 0 };
   const variants = Array.isArray(p.variants) ? p.variants : []; variants.forEach(v => { const options = Array.isArray(v && v.options) ? v.options : []; const first = options.find(o => o && o.label != null); if (v && v.name && first) PD_STATE.selectedVariants[v.name] = first.label; });
 
@@ -519,14 +519,14 @@ function initAccountPage() {
   const orders = Orders.byUser(user.id);
   const ordersEl = document.getElementById('ordersList');
   if (!orders.length) {
-    ordersEl.innerHTML = emptyStateHTML('ðŸ“¦', "You haven't placed any orders yet", 'Start exploring our collection.', 'shop.html', 'Start Shopping');
+    ordersEl.innerHTML = emptyStateHTML('📦', "You haven't placed any orders yet", 'Start exploring our collection.', 'shop.html', 'Start Shopping');
   } else {
     ordersEl.innerHTML = orders.map(o => `
       <div class="admin-panel" style="margin-bottom:16px;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
           <div>
             <strong>${o.orderNumber}</strong>
-            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} Â· ${o.items.length} item(s)</div>
+            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} · ${o.items.length} item(s)</div>
           </div>
           <div style="display:flex;align-items:center;gap:14px;">
             <span class="badge ${o.status.toLowerCase()}">${o.status}</span>
@@ -585,7 +585,7 @@ function initContactPage() {
   if (!form) return;
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    showToast("Message sent â€” we'll get back to you within 24 hours.");
+    showToast("Message sent — we'll get back to you within 24 hours.");
     form.reset();
   });
 }

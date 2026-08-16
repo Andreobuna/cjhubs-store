@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   CJ HUBS STORE â€” DATA LAYER
+   CJ HUBS STORE — DATA LAYER
    Uses browser localStorage as the "database".
    All products are seeded once, then everything (add/edit/delete
    product, orders, customers, cart) happens through the admin
@@ -46,7 +46,7 @@ const SEED_PRODUCTS = [
     id: 'p1', sku: 'CJH-GD-001', name: 'Luxury Watch Gift Set', category: 'gift-ideas',
     price: 189.99, salePrice: 149.99, stock: 24, featured: true, specialOffer: true, published: true,
     shortDescription: 'An elegant timepiece presented in a premium gift box.',
-    description: 'This luxury watch gift set pairs a refined stainless-steel timepiece with a leather strap, presented in a navy-and-gold keepsake box. A timeless gift for birthdays, anniversaries, or graduations â€” thoughtfully packaged and ready to give.',
+    description: 'This luxury watch gift set pairs a refined stainless-steel timepiece with a leather strap, presented in a navy-and-gold keepsake box. A timeless gift for birthdays, anniversaries, or graduations — thoughtfully packaged and ready to give.',
     images: [img('watch1'), img('watch2'), img('watch3')],
     variants: [{ name: 'Strap Color', type: 'swatch', options: [
       { label: 'Navy', value: '#0a1638' }, { label: 'Gold', value: '#d4af37' }, { label: 'Black', value: '#1a1a1a' }
@@ -57,7 +57,7 @@ const SEED_PRODUCTS = [
     id: 'p2', sku: 'CJH-GD-002', name: 'Scented Candle Collection', category: 'gift-ideas',
     price: 54.0, salePrice: null, stock: 60, featured: true, specialOffer: false, published: true,
     shortDescription: 'A set of three hand-poured candles in warm seasonal scents.',
-    description: 'Three hand-poured soy candles â€” Amber Oak, Vanilla Bourbon, and Spiced Fig â€” housed in matte gold tins. Burns cleanly for up to 45 hours each, making this a cozy, thoughtful gift for any occasion.',
+    description: 'Three hand-poured soy candles — Amber Oak, Vanilla Bourbon, and Spiced Fig — housed in matte gold tins. Burns cleanly for up to 45 hours each, making this a cozy, thoughtful gift for any occasion.',
     images: [img('candle1'), img('candle2')],
     variants: [], createdAt: Date.now() - 86400000 * 10
   },
@@ -65,7 +65,7 @@ const SEED_PRODUCTS = [
     id: 'p3', sku: 'CJH-GD-003', name: 'Personalized Photo Frame', category: 'gift-ideas',
     price: 39.99, salePrice: 29.99, stock: 40, featured: false, specialOffer: true, published: true,
     shortDescription: 'Engraved wooden frame that turns a favorite photo into a keepsake.',
-    description: 'A solid oak photo frame with an engraved gold nameplate, designed to hold a 5x7 photo. Each order can be custom engraved with a name or short message â€” perfect for weddings, new babies, or milestone gifts.',
+    description: 'A solid oak photo frame with an engraved gold nameplate, designed to hold a 5x7 photo. Each order can be custom engraved with a name or short message — perfect for weddings, new babies, or milestone gifts.',
     images: [img('frame1'), img('frame2')],
     variants: [{ name: 'Size', type: 'text', options: [{label:'5x7'},{label:'8x10'}]}],
     createdAt: Date.now() - 86400000 * 5
@@ -538,7 +538,7 @@ function formatPrice(n) {
   const DEFAULT_USD_TO_NGN = 1200; // default conversion rate (USD -> NGN)
   const rate = dbGet(DB_KEYS.EXCHANGE_RATE, DEFAULT_USD_TO_NGN) || DEFAULT_USD_TO_NGN;
   const converted = Number(n) * Number(rate);
-  return 'â‚¦' + converted.toFixed(2);
+  return '₦' + converted.toFixed(2);
 }
 function slugify(str) {
   return str.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');

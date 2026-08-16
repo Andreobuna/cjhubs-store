@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   CJ HUBS STORE â€” ADMIN DASHBOARD LOGIC
+   CJ HUBS STORE — ADMIN DASHBOARD LOGIC
    ============================================================ */
 
 function requireAdmin() {
@@ -19,7 +19,7 @@ function adminSidebarHTML(active) {
       ${link('dashboard.html','Dashboard','dashboard','ðŸ“Š')}
       ${link('products.html','Products','products','ðŸ›ï¸')}
       ${link('add-product.html','Add Product','add-product','âž•')}
-      ${link('orders.html','Orders','orders','ðŸ“¦')}
+      ${link('orders.html','Orders','orders','📦')}
       ${link('customers.html','Customers','customers','ðŸ‘¥')}
     </nav>
     <div style="padding:20px 24px;margin-top:20px;border-top:1px solid rgba(255,255,255,.08);">
@@ -187,7 +187,7 @@ function handleImageUpload(e) {
 }
 function renderImagePreviews() {
   const el = document.getElementById('imagePreviewGrid');
-  if (!ADMIN_IMAGES.length) { el.innerHTML = `<span style="font-size:13px;color:var(--gray-600);">No images uploaded yet â€” a placeholder image will be used.</span>`; return; }
+  if (!ADMIN_IMAGES.length) { el.innerHTML = `<span style="font-size:13px;color:var(--gray-600);">No images uploaded yet — a placeholder image will be used.</span>`; return; }
   el.innerHTML = ADMIN_IMAGES.map((src,i) => `
     <div class="img-item">
       <img src="${src}">
@@ -310,7 +310,7 @@ function renderAdminCustomersTable() {
     <tr>
       <td data-label="Name"><strong>${u.name}</strong></td>
       <td data-label="Email">${u.email}</td>
-      <td>${u.phone || 'â€”'}</td>
+      <td>${u.phone || '—'}</td>
       <td data-label="Orders">${orders.length}</td>
       <td data-label="Total Spent">${formatPrice(spent)}</td>
       <td data-label="Joined">${new Date(u.createdAt).toLocaleDateString()}</td>
