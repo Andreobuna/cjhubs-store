@@ -1,5 +1,5 @@
-/* ============================================================
-   CJ HUBS STORE — APP LOGIC
+﻿/* ============================================================
+   CJ HUBS STORE â€” APP LOGIC
    Product cards, shop grid, filters, product detail, cart,
    checkout, account pages.
    ============================================================ */
@@ -139,10 +139,10 @@ function initShopPage(fixedCategory) {
 
       if (resultCount) resultCount.textContent = `${list.length} product${list.length!==1?'s':''} found`;
       grid.innerHTML = list.length ? list.map(productCardHTML).join('') :
-        emptyStateHTML('🔍', 'No products found', 'Try adjusting your search or filters.', fixedCategory ? null : 'shop.html', 'View All Products');
+        emptyStateHTML('ðŸ”', 'No products found', 'Try adjusting your search or filters.', fixedCategory ? null : 'shop.html', 'View All Products');
       } catch (e) {
         console.error('Shop render error', e);
-        grid.innerHTML = emptyStateHTML('❌', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
+        grid.innerHTML = emptyStateHTML('âŒ', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
       }
     }, 220);
   }
@@ -176,7 +176,7 @@ function initProductPage() {
     notFound.style.display = 'block';
     return;
   }
-  document.title = p.name + ' — CJ Hubs Store';
+  document.title = p.name + ' â€” CJ Hubs Store';
   PD_STATE = { selectedVariants: {}, qty: 1, activeImage: 0 };
   const variants = Array.isArray(p.variants) ? p.variants : []; variants.forEach(v => { const options = Array.isArray(v && v.options) ? v.options : []; const first = options.find(o => o && o.label != null); if (v && v.name && first) PD_STATE.selectedVariants[v.name] = first.label; });
 
@@ -367,7 +367,7 @@ function initCheckoutPage() {
   }
 
   document.getElementById('coItemsSummary').innerHTML = items.map(i => `
-    <div class="summary-row"><span>${i.product.name} × ${i.qty}${i.variant ? ' ('+i.variant+')' : ''}</span><span>${formatPrice(i.lineTotal)}</span></div>
+    <div class="summary-row"><span>${i.product.name} Ã— ${i.qty}${i.variant ? ' ('+i.variant+')' : ''}</span><span>${formatPrice(i.lineTotal)}</span></div>
   `).join('');
   const subtotal = Cart.subtotal();
   const discount = Cart.discount();
@@ -519,14 +519,14 @@ function initAccountPage() {
   const orders = Orders.byUser(user.id);
   const ordersEl = document.getElementById('ordersList');
   if (!orders.length) {
-    ordersEl.innerHTML = emptyStateHTML('📦', "You haven't placed any orders yet", 'Start exploring our collection.', 'shop.html', 'Start Shopping');
+    ordersEl.innerHTML = emptyStateHTML('ðŸ“¦', "You haven't placed any orders yet", 'Start exploring our collection.', 'shop.html', 'Start Shopping');
   } else {
     ordersEl.innerHTML = orders.map(o => `
       <div class="admin-panel" style="margin-bottom:16px;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
           <div>
             <strong>${o.orderNumber}</strong>
-            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} · ${o.items.length} item(s)</div>
+            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} Â· ${o.items.length} item(s)</div>
           </div>
           <div style="display:flex;align-items:center;gap:14px;">
             <span class="badge ${o.status.toLowerCase()}">${o.status}</span>
@@ -548,7 +548,7 @@ function initLoginPage() {
     const res = Auth.login(email, password);
     const err = document.getElementById('loginError');
     if (!res.ok) { err.textContent = res.error; err.style.display = 'block'; return; }
-    const redirect = getQueryParam('redirect') || 'account.html';
+    const redirect = Auth.isAdminUser(res.user) ? 'admin/dashboard.html' : (getQueryParam('redirect') || 'account.html');
     window.location.href = redirect;
   });
 }
@@ -573,7 +573,7 @@ function initOrderSuccessPage() {
   const id = getQueryParam('order');
   const order = Orders.byId(id);
   const wrap = document.getElementById('successWrap');
-  if (!order) { wrap.innerHTML = emptyStateHTML('❌','Order not found','We could not locate that order.', 'shop.html', 'Continue Shopping'); return; }
+  if (!order) { wrap.innerHTML = emptyStateHTML('âŒ','Order not found','We could not locate that order.', 'shop.html', 'Continue Shopping'); return; }
   document.getElementById('successOrderNum').textContent = order.orderNumber;
   document.getElementById('successTotal').textContent = formatPrice(order.total);
   document.getElementById('successEmail').textContent = order.customer.email;
@@ -585,10 +585,11 @@ function initContactPage() {
   if (!form) return;
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    showToast("Message sent — we'll get back to you within 24 hours.");
+    showToast("Message sent â€” we'll get back to you within 24 hours.");
     form.reset();
   });
 }
+
 
 
 

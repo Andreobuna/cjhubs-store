@@ -1,4 +1,4 @@
-const http = require("http");
+﻿const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
@@ -18,10 +18,22 @@ if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is required");
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
 const COLLECTIONS = {
-  products: "cjhubs_products",
-  users: "cjhubs_users",
-  orders: "cjhubs_orders",
-  admin: "cjhubs_admin"
+  products: 'cjhubs_products',
+  users: 'cjhubs_users',
+  orders: 'cjhubs_orders',
+  admin: 'cjhubs_admin'
+};
+const DEFAULT_ADMIN_EMAIL = 'admin@cjhubs.com';
+const DEFAULT_ADMIN_PASSWORD = 'Adminpass123';
+const DEFAULT_ADMIN_USER = {
+  id: 'u-admin',
+  name: 'Store Admin',
+  email: DEFAULT_ADMIN_EMAIL,
+  password: Buffer.from(DEFAULT_ADMIN_PASSWORD).toString('base64'),
+  role: 'admin',
+  createdAt: Date.now(),
+  address: {},
+  phone: ''
 };
 const DEFAULTS = {
   [COLLECTIONS.products]: [],
@@ -82,6 +94,24 @@ async function writeState(collection, value) {
   await pool.query("insert into cjh_store (collection, payload) values ($1, $2::jsonb) on conflict (collection) do update set payload = excluded.payload, updated_at = now()", [collection, JSON.stringify(payload)]);
   return payload;
 }
+async function ensureAdminUser() {
+  const rows = await pool.query("select payload from cjh_store where collection = $1", [COLLECTIONS.users]);
+  const current = Array.isArray(rows.rows[0]?.payload) ? rows.rows[0].payload : [];
+  const adminEmail = DEFAULT_ADMIN_EMAIL.toLowerCase();
+  const adminIndex = current.findIndex(u => (u && u.email ? u.email.toString().toLowerCase() : '') === adminEmail);
+  const adminUser = {
+    ...(adminIndex >= 0 && current[adminIndex] ? current[adminIndex] : {}),
+    ...DEFAULT_ADMIN_USER,
+    id: adminIndex >= 0 && current[adminIndex] && current[adminIndex].id ? current[adminIndex].id : DEFAULT_ADMIN_USER.id,
+    role: 'admin',
+    email: DEFAULT_ADMIN_EMAIL,
+    password: DEFAULT_ADMIN_USER.password,
+    name: (adminIndex >= 0 && current[adminIndex] && current[adminIndex].name) ? current[adminIndex].name : DEFAULT_ADMIN_USER.name
+  };
+  if (adminIndex >= 0) current[adminIndex] = adminUser;
+  else current.unshift(adminUser);
+  await writeState(COLLECTIONS.users, current);
+}
 function injectProxy(html) {
   return html;
 }
@@ -137,13 +167,15 @@ if (req.method === "OPTIONS") {
   }
 });
 
-initDb().then(() => {
+initDb().then(async () => {
+  await ensureAdminUser();
   const port = Number(process.env.PORT || 3000);
   server.listen(port, () => console.log("CJ Hubs Store running on http://localhost:" + port));
 }).catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
 
 
 

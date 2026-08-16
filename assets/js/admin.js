@@ -1,10 +1,10 @@
-/* ============================================================
-   CJ HUBS STORE — ADMIN DASHBOARD LOGIC
+﻿/* ============================================================
+   CJ HUBS STORE â€” ADMIN DASHBOARD LOGIC
    ============================================================ */
 
 function requireAdmin() {
-  if (!AdminAuth.isLoggedIn()) {
-    window.location.href = 'login.html';
+  if (!Auth.isAdminUser()) {
+    window.location.href = '../login.html?redirect=admin/dashboard.html';
     return false;
   }
   return true;
@@ -16,11 +16,11 @@ function adminSidebarHTML(active) {
   return `
     <div class="logo"><span class="mark">CJ</span>Admin</div>
     <nav>
-      ${link('dashboard.html','Dashboard','dashboard','📊')}
-      ${link('products.html','Products','products','🛍️')}
-      ${link('add-product.html','Add Product','add-product','➕')}
-      ${link('orders.html','Orders','orders','📦')}
-      ${link('customers.html','Customers','customers','👥')}
+      ${link('dashboard.html','Dashboard','dashboard','ðŸ“Š')}
+      ${link('products.html','Products','products','ðŸ›ï¸')}
+      ${link('add-product.html','Add Product','add-product','âž•')}
+      ${link('orders.html','Orders','orders','ðŸ“¦')}
+      ${link('customers.html','Customers','customers','ðŸ‘¥')}
     </nav>
     <div style="padding:20px 24px;margin-top:20px;border-top:1px solid rgba(255,255,255,.08);">
       <button class="btn btn-outline-gold btn-block btn-sm" style="color:var(--gold);border-color:var(--gold);" onclick="adminLogout()">Logout</button>
@@ -35,22 +35,12 @@ function renderAdminShell(active) {
 }
 
 function adminLogout() {
-  AdminAuth.logout();
-  window.location.href = 'login.html';
+  Auth.logout();
+  window.location.href = '../login.html';
 }
 
 function initAdminLoginPage() {
-  if (AdminAuth.isLoggedIn()) { window.location.href = 'dashboard.html'; return; }
-  const form = document.getElementById('adminLoginForm');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const u = (document.getElementById('adminUsername').value || '').toString().trim();
-    const p = (document.getElementById('adminPassword').value || '').toString();
-    const ok = AdminAuth.login(u, p);
-    const err = document.getElementById('adminLoginError');
-    if (!ok) { err.textContent = 'Invalid admin email or password.'; err.style.display = 'block'; return; }
-    window.location.href = 'dashboard.html';
-  });
+  window.location.href = '../login.html?redirect=admin/dashboard.html';
 }
 
 /* ---------- dashboard overview ---------- */
@@ -197,7 +187,7 @@ function handleImageUpload(e) {
 }
 function renderImagePreviews() {
   const el = document.getElementById('imagePreviewGrid');
-  if (!ADMIN_IMAGES.length) { el.innerHTML = `<span style="font-size:13px;color:var(--gray-600);">No images uploaded yet — a placeholder image will be used.</span>`; return; }
+  if (!ADMIN_IMAGES.length) { el.innerHTML = `<span style="font-size:13px;color:var(--gray-600);">No images uploaded yet â€” a placeholder image will be used.</span>`; return; }
   el.innerHTML = ADMIN_IMAGES.map((src,i) => `
     <div class="img-item">
       <img src="${src}">
@@ -320,11 +310,12 @@ function renderAdminCustomersTable() {
     <tr>
       <td data-label="Name"><strong>${u.name}</strong></td>
       <td data-label="Email">${u.email}</td>
-      <td>${u.phone || '—'}</td>
+      <td>${u.phone || 'â€”'}</td>
       <td data-label="Orders">${orders.length}</td>
       <td data-label="Total Spent">${formatPrice(spent)}</td>
       <td data-label="Joined">${new Date(u.createdAt).toLocaleDateString()}</td>
     </tr>`;
   }).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray-600);padding:30px;">No customers yet</td></tr>`;
 }
+
 

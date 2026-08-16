@@ -1,5 +1,5 @@
-/* ============================================================
-   CJ HUBS STORE — DATA LAYER
+﻿/* ============================================================
+   CJ HUBS STORE â€” DATA LAYER
    Uses browser localStorage as the "database".
    All products are seeded once, then everything (add/edit/delete
    product, orders, customers, cart) happens through the admin
@@ -19,9 +19,22 @@ const DB_KEYS = {
   SEEDED: 'cjhubs_seeded_v2'
 };
 
+const DEFAULT_ADMIN_EMAIL = 'admin@cjhubs.com';
+const DEFAULT_ADMIN_PASSWORD = 'Adminpass123';
+const DEFAULT_ADMIN_USER = {
+  id: 'u-admin',
+  name: 'Store Admin',
+  email: DEFAULT_ADMIN_EMAIL,
+  password: btoa(DEFAULT_ADMIN_PASSWORD),
+  role: 'admin',
+  createdAt: Date.now(),
+  address: {},
+  phone: ''
+};
+
 const CATEGORIES = [
-  { id: 'gift-ideas', name: 'Gift Ideas', slug: 'gift-ideas', icon: '🎁' },
-  { id: 'products-accessories', name: 'Products & Accessories', slug: 'products-accessories', icon: '🛍️' }
+  { id: 'gift-ideas', name: 'Gift Ideas', slug: 'gift-ideas', icon: 'ðŸŽ' },
+  { id: 'products-accessories', name: 'Products & Accessories', slug: 'products-accessories', icon: 'ðŸ›ï¸' }
 ];
 
 function img(seed, w = 700, h = 700) {
@@ -33,7 +46,7 @@ const SEED_PRODUCTS = [
     id: 'p1', sku: 'CJH-GD-001', name: 'Luxury Watch Gift Set', category: 'gift-ideas',
     price: 189.99, salePrice: 149.99, stock: 24, featured: true, specialOffer: true, published: true,
     shortDescription: 'An elegant timepiece presented in a premium gift box.',
-    description: 'This luxury watch gift set pairs a refined stainless-steel timepiece with a leather strap, presented in a navy-and-gold keepsake box. A timeless gift for birthdays, anniversaries, or graduations — thoughtfully packaged and ready to give.',
+    description: 'This luxury watch gift set pairs a refined stainless-steel timepiece with a leather strap, presented in a navy-and-gold keepsake box. A timeless gift for birthdays, anniversaries, or graduations â€” thoughtfully packaged and ready to give.',
     images: [img('watch1'), img('watch2'), img('watch3')],
     variants: [{ name: 'Strap Color', type: 'swatch', options: [
       { label: 'Navy', value: '#0a1638' }, { label: 'Gold', value: '#d4af37' }, { label: 'Black', value: '#1a1a1a' }
@@ -44,7 +57,7 @@ const SEED_PRODUCTS = [
     id: 'p2', sku: 'CJH-GD-002', name: 'Scented Candle Collection', category: 'gift-ideas',
     price: 54.0, salePrice: null, stock: 60, featured: true, specialOffer: false, published: true,
     shortDescription: 'A set of three hand-poured candles in warm seasonal scents.',
-    description: 'Three hand-poured soy candles — Amber Oak, Vanilla Bourbon, and Spiced Fig — housed in matte gold tins. Burns cleanly for up to 45 hours each, making this a cozy, thoughtful gift for any occasion.',
+    description: 'Three hand-poured soy candles â€” Amber Oak, Vanilla Bourbon, and Spiced Fig â€” housed in matte gold tins. Burns cleanly for up to 45 hours each, making this a cozy, thoughtful gift for any occasion.',
     images: [img('candle1'), img('candle2')],
     variants: [], createdAt: Date.now() - 86400000 * 10
   },
@@ -52,7 +65,7 @@ const SEED_PRODUCTS = [
     id: 'p3', sku: 'CJH-GD-003', name: 'Personalized Photo Frame', category: 'gift-ideas',
     price: 39.99, salePrice: 29.99, stock: 40, featured: false, specialOffer: true, published: true,
     shortDescription: 'Engraved wooden frame that turns a favorite photo into a keepsake.',
-    description: 'A solid oak photo frame with an engraved gold nameplate, designed to hold a 5x7 photo. Each order can be custom engraved with a name or short message — perfect for weddings, new babies, or milestone gifts.',
+    description: 'A solid oak photo frame with an engraved gold nameplate, designed to hold a 5x7 photo. Each order can be custom engraved with a name or short message â€” perfect for weddings, new babies, or milestone gifts.',
     images: [img('frame1'), img('frame2')],
     variants: [{ name: 'Size', type: 'text', options: [{label:'5x7'},{label:'8x10'}]}],
     createdAt: Date.now() - 86400000 * 5
@@ -244,6 +257,7 @@ function seedDatabase() {
       dbSet(DB_KEYS.PRODUCTS, [...existingProducts, ...missingProductSeeds]);
     }
     if (!dbGet(DB_KEYS.SEEDED, false)) dbSet(DB_KEYS.SEEDED, true);
+    ensureAdminUser();
     return;
   }
   if (!dbGet(DB_KEYS.SEEDED, false)) {
@@ -252,13 +266,41 @@ function seedDatabase() {
     dbSet(DB_KEYS.ORDERS, []);
     dbSet(DB_KEYS.CART, []);
     dbSet(DB_KEYS.WISHLIST, []);
-    // default admin credentials for testing; change as needed
-    dbSet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.com', password: btoa('Adminpass123'), name: 'Store Admin' });
     dbSet(DB_KEYS.SEEDED, true);
   }
   if (!dbGet(DB_KEYS.PRODUCTS)) dbSet(DB_KEYS.PRODUCTS, SEED_PRODUCTS);
+  ensureAdminUser();
 }
 seedDatabase();
+
+function ensureAdminUser() {
+  const users = dbGet(DB_KEYS.USERS, []);
+  if (!Array.isArray(users)) {
+    dbSet(DB_KEYS.USERS, [DEFAULT_ADMIN_USER]);
+    return;
+  }
+
+  const adminEmail = DEFAULT_ADMIN_EMAIL.toLowerCase();
+  const adminIndex = users.findIndex(u => (u && u.email ? u.email.toString().toLowerCase() : '') === adminEmail);
+  const adminUser = {
+    ...(adminIndex >= 0 && users[adminIndex] ? users[adminIndex] : {}),
+    ...DEFAULT_ADMIN_USER,
+    id: adminIndex >= 0 && users[adminIndex] && users[adminIndex].id ? users[adminIndex].id : DEFAULT_ADMIN_USER.id,
+    role: 'admin',
+    email: DEFAULT_ADMIN_EMAIL,
+    password: DEFAULT_ADMIN_USER.password,
+    name: (adminIndex >= 0 && users[adminIndex] && users[adminIndex].name) ? users[adminIndex].name : DEFAULT_ADMIN_USER.name
+  };
+
+  if (adminIndex >= 0) {
+    const next = [...users];
+    next[adminIndex] = adminUser;
+    dbSet(DB_KEYS.USERS, next);
+    return;
+  }
+
+  dbSet(DB_KEYS.USERS, [adminUser, ...users]);
+}
 
 // Remove any products matching a given name (case-insensitive).
 function purgeProductsByName(targetName) {
@@ -411,7 +453,7 @@ const Auth = {
     if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
       return { ok: false, error: 'An account with this email already exists.' };
     }
-    const user = { id: 'u' + Date.now(), name, email, password: btoa(password), createdAt: Date.now(),
+    const user = { id: 'u' + Date.now(), name, email, password: btoa(password), role: 'customer', createdAt: Date.now(),
       address: {}, phone: '' };
     users.push(user);
     dbSet(DB_KEYS.USERS, users);
@@ -421,8 +463,8 @@ const Auth = {
   login(email, password) {
     const identifier = (email || '').toString().trim();
     const users = this.users();
-    const user = users.find(u => ((u.email || '').toLowerCase() === identifier.toLowerCase() || (u.phone || '') === identifier) && u.password === btoa(password));
-    if (!user) return { ok: false, error: 'Invalid email/phone or password.' };
+    const user = users.find(u => (u.email || '').toLowerCase() === identifier.toLowerCase() && ((u.password || '') === btoa(password) || (u.password || '') === password));
+    if (!user) return { ok: false, error: 'Invalid email or password.' };
     dbSet(DB_KEYS.CURRENT_USER, user.id);
     return { ok: true, user };
   },
@@ -432,6 +474,11 @@ const Auth = {
     if (!id) return null;
     return this.users().find(u => u.id === id) || null;
   },
+  isAdminUser(user) {
+    const current = user || this.currentUser();
+    if (!current) return false;
+    return (current.role || '').toLowerCase() === 'admin' || (current.email || '').toLowerCase() === DEFAULT_ADMIN_EMAIL;
+  },
   updateUser(id, patch) {
     const users = this.users().map(u => u.id === id ? {...u, ...patch} : u);
     dbSet(DB_KEYS.USERS, users);
@@ -440,24 +487,19 @@ const Auth = {
 
 /* ---------------- admin auth ---------------- */
 const AdminAuth = {
-  info() { return dbGet(DB_KEYS.ADMIN, { username: 'admin', email: 'admin@cjhubs.com', password: btoa('Adminpass123') }); },
+  info() {
+    const admin = Auth.users().find(u => Auth.isAdminUser(u));
+    if (admin) return admin;
+    return { email: DEFAULT_ADMIN_EMAIL, password: DEFAULT_ADMIN_USER.password, role: 'admin' };
+  },
   login(identifier, password) {
-    const info = this.info() || {};
-    const id = (identifier || '').toString().trim();
-    const pw = (password || '').toString();
-    // support stored password either base64 or plain; normalize by comparing btoa(pw) to stored value or plain equality
-    const storedPw = info.password || '';
-    const pwMatches = storedPw === btoa(pw) || storedPw === pw;
-    const matchesIdentifier = (info.username && info.username.toString().trim() === id) ||
-      (info.email && info.email.toString().trim().toLowerCase() === id.toLowerCase());
-    if (matchesIdentifier && pwMatches) {
-      dbSet(DB_KEYS.ADMIN_SESSION, true);
-      return true;
-    }
+    const res = Auth.login(identifier, password);
+    if (res.ok && Auth.isAdminUser(res.user)) return true;
+    if (res.ok) Auth.logout();
     return false;
   },
-  isLoggedIn() { return dbGet(DB_KEYS.ADMIN_SESSION, false); },
-  logout() { dbRemove(DB_KEYS.ADMIN_SESSION); }
+  isLoggedIn() { return Auth.isAdminUser(); },
+  logout() { Auth.logout(); }
 };
 
 /* ---------------- orders ---------------- */
@@ -496,11 +538,13 @@ function formatPrice(n) {
   const DEFAULT_USD_TO_NGN = 1200; // default conversion rate (USD -> NGN)
   const rate = dbGet(DB_KEYS.EXCHANGE_RATE, DEFAULT_USD_TO_NGN) || DEFAULT_USD_TO_NGN;
   const converted = Number(n) * Number(rate);
-  return '₦' + converted.toFixed(2);
+  return 'â‚¦' + converted.toFixed(2);
 }
 function slugify(str) {
   return str.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 }
+
+
 
 
 
