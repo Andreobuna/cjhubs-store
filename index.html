@@ -75,10 +75,10 @@ body.home-page .hero-badge{
   text-shadow:0 8px 22px rgba(0,0,0,.45);
 }
 body.home-page .hero-badge{
-  background:rgba(8,14,30,.30);
-  border-color:rgba(255,255,255,.16);
+  background:rgba(10,22,56,.92);
+  border-color:rgba(255,255,255,.10);
   color:#fff;
-  backdrop-filter:blur(8px);
+  box-shadow:0 10px 24px rgba(10,22,56,.18);
 }
 body.home-page .hero p.lead,
 body.home-page .hero-stats span{
@@ -107,7 +107,7 @@ body.home-page .hero-visual{display:none;}
   }
   body.home-page .hero h1{font-size:clamp(36px, 10vw, 50px);}
   body.home-page .hero-stats{gap:14px;flex-wrap:wrap;}
-  body.home-page .hero-badge{backdrop-filter:none;}
+  body.home-page .hero-badge{box-shadow:0 8px 18px rgba(10,22,56,.18);}
 }
 </style>
 <style>
@@ -140,7 +140,7 @@ html[data-theme="light"] body.home-page .hero-badge{
   text-shadow:none;
 }
 html[data-theme="light"] body.home-page .hero-badge{
-  background:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.98);
   border-color:rgba(10,22,56,.08);
   box-shadow:0 12px 28px rgba(10,22,56,.10);
 }
@@ -183,13 +183,13 @@ body.home-page .hero-cta .btn:hover{
   transform:translateY(-4px) scale(1.01);
 }
 body.home-page .hero-cta .btn-outline{
-  background:rgba(255,255,255,.12);
+  background:rgba(10,22,56,.92);
   color:#fff;
-  border-color:rgba(255,255,255,.38);
-  backdrop-filter:blur(10px);
+  border-color:rgba(255,255,255,.10);
+  box-shadow:0 10px 24px rgba(10,22,56,.18);
 }
 html[data-theme="light"] body.home-page .hero-cta .btn-outline{
-  background:linear-gradient(135deg, rgba(255,255,255,.96), rgba(243,246,252,.92));
+  background:rgba(255,255,255,.98);
   color:var(--navy);
   border-color:rgba(10,22,56,.12);
   box-shadow:0 14px 28px rgba(10,22,56,.14);

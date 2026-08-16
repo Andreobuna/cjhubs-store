@@ -51,7 +51,7 @@ body.home-page #site-header .main-nav{display:flex !important;}
 body.home-page #site-header .search-box{display:flex !important;}
 body.home-page #site-header .icon-btn:not(.theme-toggle){display:flex !important;}
 body.home-page #site-header .header-actions a[href="cart.html"]{display:none !important;}
-body.home-page #site-header .hamburger{display:flex !important;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;}
+body.home-page #site-header .hamburger{display:flex !important;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:rgba(10,22,56,.92);border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 24px rgba(10,22,56,.18);color:#fff;}
 body.home-page #site-header .hamburger span{display:block;width:20px;background:#fff;}
 .main-header .container{
   display:grid;
@@ -126,10 +126,10 @@ body.home-page .hero-badge{
   text-shadow:0 8px 22px rgba(0,0,0,.35);
 }
 body.home-page .hero-badge{
-  background:rgba(8,14,30,.45);
-  border-color:rgba(255,255,255,.18);
+  background:rgba(10,22,56,.92);
+  border-color:rgba(255,255,255,.10);
   color:#fff;
-  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(10,22,56,.18);
 }
 body.home-page .hero p.lead,
 body.home-page .hero-stats span{
@@ -139,11 +139,11 @@ body.home-page .hero-stats div{border-left-color:var(--gold-light);}
 body.home-page .hero-visual{min-height:460px;}
 body.home-page .hero-visual .hero-product-card,
 body.home-page .hero-visual .badge-offer{
-  background:rgba(8,14,30,.54);
-  border:1px solid rgba(255,255,255,.12);
+  background:rgba(10,22,56,.94);
+  border:1px solid rgba(255,255,255,.10);
 }
 body.home-page .hero-product-meta{
-  background:rgba(5,10,20,.82);
+  background:rgba(6,12,24,.94);
   border:1px solid rgba(255,255,255,.10);
 }
 body.home-page .section,
