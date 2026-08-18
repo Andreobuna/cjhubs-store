@@ -138,6 +138,10 @@ body.home-page .section-head h2,
 body.home-page .section-head p{
   color:var(--navy);
 }
+body.home-page .featured-section .section-head h2,
+body.home-page .featured-section .section-head p{
+  color:#fff;
+}
 body.home-page .pc-name,
 body.home-page .pc-price .now,
 body.home-page .pc-stock{
