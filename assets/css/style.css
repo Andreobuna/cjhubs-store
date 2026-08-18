@@ -859,26 +859,11 @@ html[data-theme="dark"] .toast{
     font-size:13px;
   }
 }
-@media (max-width: 480px){
-  .auth-wrap{
-    padding:20px 12px 28px;
-  }
-  .auth-card{
-    padding:24px 16px;
-  }
+@media (max-width: 480px) {
+  .desktop-text { display: none; }
+  .mobile-text { display: inline; }
 }
-html[data-theme="dark"] .theme-toggle .theme-sun{display:block;}
-html[data-theme="dark"] .theme-toggle .theme-moon{display:none;}
-html:not([data-theme="dark"]) .theme-toggle .theme-moon{display:block;}
-html:not([data-theme="dark"]) .theme-toggle .theme-sun{display:none;}
-html[data-theme="dark"] .hero-badge,
-html[data-theme="dark"] .filters-panel,
-html[data-theme="dark"] .summary-card,
-html[data-theme="dark"] .auth-card,
-html[data-theme="dark"] .admin-panel,
-html[data-theme="dark"] .stat-card{
-  border-color:rgba(255,255,255,.08);
-}
+.mobile-text { display: none; }
 
 /* Homepage and header refresh */
 .main-header .container{flex-wrap:wrap;gap:18px;}

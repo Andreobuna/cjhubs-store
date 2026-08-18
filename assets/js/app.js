@@ -38,7 +38,7 @@ function productCardHTML(p) {
       </div>
       <div class="pc-stock ${outOfStock?'out':''}">${outOfStock ? 'Out of stock' : (p.stock <= 5 ? `Only ${p.stock} left` : 'In stock')}</div>
       <div class="pc-actions">
-        <button class="btn btn-navy" ${outOfStock?'disabled':''} onclick="quickAddToCart('${p.id}')">Add to Cart</button>
+        <button class="btn btn-navy" ${outOfStock?'disabled':''} onclick="quickAddToCart('${p.id}')"><span class="desktop-text">Add to Cart</span><span class="mobile-text">Buy</span></button>
         <a href="product.html?id=${p.id}" class="btn btn-outline">View</a>
       </div>
     </div>
