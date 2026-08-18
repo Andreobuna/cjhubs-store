@@ -172,7 +172,7 @@ function siteHeaderHTML(active) {
   return `
   <header class="main-header">
     <div class="container">
-      <a href="index.html" class="logo"><span class="mark">CJ</span><span class="brand-name">CJ Hubs <span class="accent">Store</span></span></a>
+      <a href="index.html" class="logo"><img src="dot.jpg" alt="Logo" style="height:40px;width:auto;"></a>
       <div class="header-actions">
         <a href="${user ? 'account.html' : 'login.html'}" class="icon-btn" title="${user ? 'My Account' : 'Login'}">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -214,7 +214,7 @@ function siteFooterHTML() {
   <div class="footer-top">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="logo" style="margin-bottom:14px;"><span class="mark">CJ</span>CJ Hubs <span class="accent">Store</span></a>
+        <a href="index.html" class="logo" style="margin-bottom:14px;"><img src="dot.jpg" alt="Logo" style="height:40px;width:auto;"></a>
         <p>A modern shopping destination for thoughtful gifts and everyday essentials - curated with care, delivered with pride.</p>
         <div class="social-row">
           <a href="#" title="Facebook">f</a>
