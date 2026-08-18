@@ -141,7 +141,7 @@ body.home-page .section-head p{
 body.home-page .pc-name,
 body.home-page .pc-price .now,
 body.home-page .pc-stock{
-  color:#000;
+  color:#fff;
 }
 body.home-page .newsletter h3,
 body.home-page .newsletter p{
