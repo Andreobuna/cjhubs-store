@@ -1012,7 +1012,7 @@ body.home-page .pc-price .now,
 body.home-page .pc-stock,
 body.home-page .newsletter h3,
 body.home-page .newsletter p{
-  color: var(--navy);
+  color: #fff;
 }
 body.home-page .product-card,
 body.home-page .cat-card,
