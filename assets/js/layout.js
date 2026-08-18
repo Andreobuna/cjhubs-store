@@ -117,9 +117,11 @@ body.home-page .hero-product-meta{
   background:rgba(6,12,24,.94);
   border:1px solid rgba(255,255,255,.10);
 }
-body.home-page .section,
-body.home-page .newsletter{
+body.home-page .section{
   background:rgba(248,249,251,.90);
+}
+body.home-page .newsletter{
+  background:var(--navy);
 }
 html[data-theme='dark'] body.home-page .section,
 html[data-theme='dark'] body.home-page .newsletter{
@@ -136,10 +138,12 @@ body.home-page .section-head h2,
 body.home-page .section-head p,
 body.home-page .pc-name,
 body.home-page .pc-price .now,
-body.home-page .pc-stock,
+body.home-page .pc-stock{
+  color:var(--navy);
+}
 body.home-page .newsletter h3,
 body.home-page .newsletter p{
-  color:var(--navy);
+  color:#fff;
 }
 @media (max-width: 900px){
   .main-header .container{display:flex;align-items:center;justify-content:space-between;gap:14px;}

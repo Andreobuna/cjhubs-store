@@ -980,39 +980,22 @@ body.home-page .hero-product-meta{
   background: rgba(5,10,20,.84);
   border: 1px solid rgba(255,255,255,.10);
 }
-body.home-page .section,
-body.home-page .newsletter{
+body.home-page .section{
   background: rgba(248,249,251,.88);
 }
-/* Fix Special Offers and New Arrivals text visibility in dark mode */
-html[data-theme="dark"] .offers-section .pc-name,
-html[data-theme="dark"] .offers-section .pc-price .now,
-html[data-theme="dark"] .offers-section .pc-stock,
-html[data-theme="dark"] .offers-section .section-head h2,
-html[data-theme="dark"] .offers-section .section-head p {
-  color: #f4f7ff !important;
+body.home-page .newsletter{
+  background: var(--navy);
 }
-
-html[data-theme="dark"] .section-head h2 {
-  color: #f4f7ff !important;
+body.home-page .newsletter h3,
+body.home-page .newsletter p{
+  color: #fff;
 }
-html[data-theme="dark"] .section-head p {
-  color: #d1d9ec !important;
-}
-
-/* Fix Product section text visibility in dark mode */
-html[data-theme="dark"] body.home-page .pc-name{color:#f4f7ff;}
-html[data-theme="dark"] body.home-page .pc-price .now{color:#f3dd95;}
-html[data-theme="dark"] body.home-page .pc-stock{color:#9ae6b4;}
-
 body.home-page .section-head h2,
 body.home-page .section-head p,
 body.home-page .pc-name,
 body.home-page .pc-price .now,
-body.home-page .pc-stock,
-body.home-page .newsletter h3,
-body.home-page .newsletter p{
-  color: #fff;
+body.home-page .pc-stock{
+  color: var(--navy);
 }
 body.home-page .product-card,
 body.home-page .cat-card,
