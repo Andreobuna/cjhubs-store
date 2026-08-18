@@ -135,11 +135,13 @@ html[data-theme='dark'] body.home-page .stat-card{
   background:#0d1729;
 }
 body.home-page .section-head h2,
-body.home-page .section-head p,
+body.home-page .section-head p{
+  color:var(--navy);
+}
 body.home-page .pc-name,
 body.home-page .pc-price .now,
 body.home-page .pc-stock{
-  color:var(--navy);
+  color:#000;
 }
 body.home-page .newsletter h3,
 body.home-page .newsletter p{
