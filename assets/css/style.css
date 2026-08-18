@@ -859,11 +859,11 @@ html[data-theme="dark"] .toast{
     font-size:13px;
   }
 }
+.mobile-text { display: none; }
 @media (max-width: 480px) {
   .desktop-text { display: none; }
   .mobile-text { display: inline; }
 }
-.mobile-text { display: none; }
 
 /* Homepage and header refresh */
 .main-header .container{flex-wrap:wrap;gap:18px;}
