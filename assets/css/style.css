@@ -990,6 +990,10 @@ body.home-page .newsletter h3,
 body.home-page .newsletter p{
   color: #fff;
 }
+body.home-page .category-section:first-of-type .section-head h2,
+body.home-page .category-section:first-of-type .section-head p{
+  color: #fff;
+}
 body.home-page .featured-section .section-head h2,
 body.home-page .featured-section .section-head p{
   color: #fff;
