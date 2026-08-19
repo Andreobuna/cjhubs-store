@@ -1,5 +1,5 @@
-﻿/* ============================================================
-   CJ HUBS STORE — APP LOGIC
+/* ============================================================
+   CJ HUBS STORE � APP LOGIC
    Product cards, shop grid, filters, product detail, cart,
    checkout, account pages.
    ============================================================ */
@@ -15,7 +15,7 @@ function productCardHTML(p) {
   const discountPct = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
   const outOfStock = (p.stock || 0) <= 0;
   const catName = CATEGORIES.find(c => c.id === p.category)?.name || '';
-  const imgSrc = (Array.isArray(p.images) && typeof p.images[0] === "string" && p.images[0]) || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E';
+  const imgSrc = productImageSrc(p, 0, 700, 700);
   const name = (p.name || 'Product').replace(/"/g, '&quot;');
   const price = p.price || 0;
   const salePrice = p.salePrice || null;
@@ -24,7 +24,7 @@ function productCardHTML(p) {
   <div class="product-card reveal in">
     <a href="product.html?id=${p.id}" class="pc-img">
       ${salePrice ? `<span class="pc-badge">-${discountPct}%</span>` : (p.featured ? `<span class="pc-badge featured">Featured</span>` : '')}
-      <img src="${imgSrc}" alt="${name}" loading="lazy">
+      <img src="${imgSrc}" alt="${name}" loading="lazy" onerror="handleImageError(this,700,700)">
     </a>
     <button class="pc-wish ${wished?'active':''}" onclick="toggleWishFromCard(event,'${p.id}')" title="Wishlist">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="${wished?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -63,6 +63,31 @@ function quickAddToCart(id) {
 
 function skeletonGrid(n) {
   return Array.from({length:n}).map(()=>`<div class="skeleton skeleton-card"></div>`).join('');
+}
+
+function buildPlaceholderImage(width = 700, height = 700, label = 'Image unavailable') {
+  const size = Math.max(18, Math.round(Math.min(width, height) / 18));
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect fill="#e0e0e0" width="100%" height="100%"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#8b93a7" font-family="Arial,Helvetica,sans-serif" font-size="${size}">${label}</text></svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function firstValidImage(images) {
+  if (Array.isArray(images)) {
+    return images.find(src => typeof src === 'string' && src.trim()) || '';
+  }
+  if (typeof images === 'string' && images.trim()) return images.trim();
+  return '';
+}
+
+function productImageSrc(product, index = 0, width = 700, height = 700) {
+  const src = Array.isArray(product?.images) ? product.images[index] : product?.images;
+  return firstValidImage(src) || buildPlaceholderImage(width, height);
+}
+
+function handleImageError(img, width = 700, height = 700) {
+  if (!img || img.dataset.fallbackApplied === '1') return;
+  img.dataset.fallbackApplied = '1';
+  img.src = buildPlaceholderImage(width, height);
 }
 
 /* ---------- homepage ---------- */
@@ -139,10 +164,10 @@ function initShopPage(fixedCategory) {
 
       if (resultCount) resultCount.textContent = `${list.length} product${list.length!==1?'s':''} found`;
       grid.innerHTML = list.length ? list.map(productCardHTML).join('') :
-        emptyStateHTML('ðŸ”', 'No products found', 'Try adjusting your search or filters.', fixedCategory ? null : 'shop.html', 'View All Products');
+        emptyStateHTML('🔍', 'No products found', 'Try adjusting your search or filters.', fixedCategory ? null : 'shop.html', 'View All Products');
       } catch (e) {
         console.error('Shop render error', e);
-        grid.innerHTML = emptyStateHTML('❌', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
+        grid.innerHTML = emptyStateHTML('?', 'Products failed to load', 'An error occurred while loading products. Check console for details.');
       }
     }, 220);
   }
@@ -176,7 +201,7 @@ function initProductPage() {
     notFound.style.display = 'block';
     return;
   }
-  document.title = p.name + ' — CJ Hubs Store';
+  document.title = p.name + ' � CJ Hubs Store';
   PD_STATE = { selectedVariants: {}, qty: 1, activeImage: 0 };
   const variants = Array.isArray(p.variants) ? p.variants : []; variants.forEach(v => { const options = Array.isArray(v && v.options) ? v.options : []; const first = options.find(o => o && o.label != null); if (v && v.name && first) PD_STATE.selectedVariants[v.name] = first.label; });
 
@@ -224,11 +249,15 @@ function renderPDPrice(p) {
 }
 
 function renderPDGallery(p) {
-  if (!p || !p.images || !p.images.length) return;
-  document.getElementById('pdMainImg').src = p.images[PD_STATE.activeImage] || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22 viewBox=%220 0 700 700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3C/svg%3E';
-  document.getElementById('pdMainImg').alt = p.name;
-  document.getElementById('pdThumbs').innerHTML = (p.images || []).map((img,i)=>
-    `<img src="${img || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" class="${i===PD_STATE.activeImage?'active':''}" onclick="setPDImage(${i})">`).join('');
+  const images = Array.isArray(p?.images) && p.images.length ? p.images : [buildPlaceholderImage(700, 700)];
+  const activeIndex = Math.min(PD_STATE.activeImage, images.length - 1);
+  PD_STATE.activeImage = Math.max(0, activeIndex);
+  const mainImg = document.getElementById("pdMainImg");
+  mainImg.src = productImageSrc(p, PD_STATE.activeImage, 700, 700);
+  mainImg.alt = p.name;
+  mainImg.onerror = () => handleImageError(mainImg, 700, 700);
+  document.getElementById("pdThumbs").innerHTML = images.map((img,i) =>
+    `<img src="${firstValidImage(img) || buildPlaceholderImage(100,100)}" class="${i===PD_STATE.activeImage?"active":""}" alt="${p.name} thumbnail ${i+1}" loading="lazy" onclick="setPDImage(${i})" onerror="handleImageError(this,100,100)">`).join("");
 }
 function setPDImage(i) {
   PD_STATE.activeImage = i;
@@ -238,8 +267,9 @@ function setPDImage(i) {
 
 function renderPDVariants(p) {
   const el = document.getElementById('pdVariants');
-  if (!p.variants.length) { el.innerHTML = ''; return; }
-  el.innerHTML = p.variants.map(v => `
+  const variants = Array.isArray(p?.variants) ? p.variants : [];
+  if (!variants.length) { el.innerHTML = ''; return; }
+  el.innerHTML = variants.map(v => `
     <div class="variant-block">
       <h5>${v.name}: <span style="color:var(--gold-dark);">${PD_STATE.selectedVariants[v.name]}</span></h5>
       <div class="variant-opts">
@@ -298,7 +328,7 @@ function renderCartPage() {
     <tr>
       <td>
         <div class="cart-item-info">
-          <img src="${(Array.isArray(i.product.images) && typeof i.product.images[0] === "string" && i.product.images[0]) || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" alt="${i.product.name}">
+          <img src="${productImageSrc(i.product, 0, 100, 100)}" alt="${i.product.name}" onerror="handleImageError(this,100,100)">
           <div>
             <div class="ci-name">${i.product.name}</div>
             ${i.variant ? `<div class="ci-variant">${i.variant}</div>` : ''}
@@ -367,7 +397,7 @@ function initCheckoutPage() {
   }
 
   document.getElementById('coItemsSummary').innerHTML = items.map(i => `
-    <div class="summary-row"><span>${i.product.name} Ã— ${i.qty}${i.variant ? ' ('+i.variant+')' : ''}</span><span>${formatPrice(i.lineTotal)}</span></div>
+    <div class="summary-row"><span>${i.product.name} × ${i.qty}${i.variant ? ' ('+i.variant+')' : ''}</span><span>${formatPrice(i.lineTotal)}</span></div>
   `).join('');
   const subtotal = Cart.subtotal();
   const discount = Cart.discount();
@@ -519,14 +549,14 @@ function initAccountPage() {
   const orders = Orders.byUser(user.id);
   const ordersEl = document.getElementById('ordersList');
   if (!orders.length) {
-    ordersEl.innerHTML = emptyStateHTML('📦', "You haven't placed any orders yet", 'Start exploring our collection.', 'shop.html', 'Start Shopping');
+    ordersEl.innerHTML = emptyStateHTML('??', "You haven't placed any orders yet", 'Start exploring our collection.', 'shop.html', 'Start Shopping');
   } else {
     ordersEl.innerHTML = orders.map(o => `
       <div class="admin-panel" style="margin-bottom:16px;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
           <div>
             <strong>${o.orderNumber}</strong>
-            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} · ${o.items.length} item(s)</div>
+            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} � ${o.items.length} item(s)</div>
           </div>
           <div style="display:flex;align-items:center;gap:14px;">
             <span class="badge ${o.status.toLowerCase()}">${o.status}</span>
@@ -573,7 +603,7 @@ function initOrderSuccessPage() {
   const id = getQueryParam('order');
   const order = Orders.byId(id);
   const wrap = document.getElementById('successWrap');
-  if (!order) { wrap.innerHTML = emptyStateHTML('âŒ','Order not found','We could not locate that order.', 'shop.html', 'Continue Shopping'); return; }
+  if (!order) { wrap.innerHTML = emptyStateHTML('❌','Order not found','We could not locate that order.', 'shop.html', 'Continue Shopping'); return; }
   document.getElementById('successOrderNum').textContent = order.orderNumber;
   document.getElementById('successTotal').textContent = formatPrice(order.total);
   document.getElementById('successEmail').textContent = order.customer.email;
@@ -585,10 +615,13 @@ function initContactPage() {
   if (!form) return;
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    showToast("Message sent — we'll get back to you within 24 hours.");
+    showToast("Message sent � we'll get back to you within 24 hours.");
     form.reset();
   });
 }
+
+
+
 
 
 

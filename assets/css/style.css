@@ -854,22 +854,31 @@ html[data-theme="dark"] .toast{
   }
 }
 .mobile-text { display: none; }
+@media (max-width: 900px) {
+  .pd-grid { grid-template-columns: 1fr; gap: 28px; align-items: start; }
+  .pd-thumbs { flex-wrap: wrap; }
+  .pd-meta { flex-wrap: wrap; gap: 12px 18px; }
+  .pd-title { font-size: clamp(26px, 6vw, 34px); }
+  .pd-desc, .pd-meta, .variant-block h5 { overflow-wrap: anywhere; }
+}
 @media (max-width: 480px) {
   .desktop-text { display: none; }
   .mobile-text { display: inline; }
   .variant-block {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
+    display: block;
+    margin-bottom: 18px;
   }
-  .variant-block h5 { margin-bottom: 0; }
+  .variant-block h5 { margin-bottom: 10px; }
   .pd-actions {
     flex-direction: column;
     gap: 12px;
   }
   .pd-actions .btn {
     width: 100%;
+  }
+  .qty-selector {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -1045,3 +1054,4 @@ body.home-page .newsletter input{
     border-radius: 20px;
   }
 }
+
