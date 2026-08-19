@@ -136,10 +136,6 @@ html[data-theme='dark'] body.home-page .stat-card{
 }
 body.home-page .section-head h2,
 body.home-page .section-head p{
-  color:var(--navy);
-}
-body.home-page .featured-section .section-head h2,
-body.home-page .featured-section .section-head p{
   color:#fff;
 }
 body.home-page .pc-name,
