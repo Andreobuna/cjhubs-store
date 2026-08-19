@@ -868,6 +868,9 @@ html[data-theme="dark"] .toast{
 @media (max-width: 480px) {
   .desktop-text { display: none; }
   .mobile-text { display: inline; }
+  .pd-actions {
+    flex-wrap: wrap;
+  }
 }
 
 /* Homepage and header refresh */
