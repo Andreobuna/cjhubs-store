@@ -868,8 +868,19 @@ html[data-theme="dark"] .toast{
 @media (max-width: 480px) {
   .desktop-text { display: none; }
   .mobile-text { display: inline; }
+  .variant-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .variant-block h5 { margin-bottom: 0; }
   .pd-actions {
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pd-actions .btn {
+    width: 100%;
   }
 }
 
