@@ -662,6 +662,11 @@ body{animation:pageFade .5s ease;}
   .stat-grid{grid-template-columns:1fr;}
   .form-row{grid-template-columns:1fr;}
   .hero-stats{flex-wrap:wrap;gap:18px;}
+  .pc-price, .pd-price {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 2px;
+  }
 }
 
 /* ============================================================
