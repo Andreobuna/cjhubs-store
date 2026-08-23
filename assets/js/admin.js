@@ -1,5 +1,5 @@
-﻿/* ============================================================
-   CJ HUBS STORE — ADMIN DASHBOARD LOGIC
+/* ============================================================
+   CJ HUBS STORE - ADMIN DASHBOARD LOGIC
    ============================================================ */
 
 function requireAdmin() {
@@ -16,11 +16,11 @@ function adminSidebarHTML(active) {
   return `
     <div class="logo"><img src="../dot.jpg" alt="Logo" style="height:30px;width:auto;">Admin</div>
     <nav>
-      ${link('dashboard.html','Dashboard','dashboard','ðŸ“Š')}
-      ${link('products.html','Products','products','ðŸ›ï¸')}
-      ${link('add-product.html','Add Product','add-product','âž•')}
-      ${link('orders.html','Orders','orders','📦')}
-      ${link('customers.html','Customers','customers','ðŸ‘¥')}
+      ${link('dashboard.html','Dashboard','dashboard','??')}
+      ${link('products.html','Products','products','???')}
+      ${link('add-product.html','Add Product','add-product','?')}
+      ${link('orders.html','Orders','orders','??')}
+      ${link('customers.html','Customers','customers','??')}
     </nav>
     <div style="padding:20px 24px;margin-top:20px;border-top:1px solid rgba(255,255,255,.08);">
       <button class="btn btn-outline-gold btn-block btn-sm" style="color:var(--gold);border-color:var(--gold);" onclick="adminLogout()">Logout</button>
@@ -129,6 +129,20 @@ function deleteAdminProduct(id) {
 let ADMIN_IMAGES = [];
 let ADMIN_VARIANTS = [];
 
+function getAdminCategorySelection() {
+  const checked = document.querySelector('input[name="fCategoryRadio"]:checked');
+  return checked?.value || document.getElementById('fCategory')?.value || 'gift-ideas';
+}
+
+function syncAdminCategorySelection(category) {
+  const radios = Array.from(document.querySelectorAll('input[name="fCategoryRadio"]'));
+  const nextCategory = category || 'gift-ideas';
+  const radio = radios.find(r => r.value === nextCategory) || radios[0] || null;
+  if (radio) radio.checked = true;
+  const hidden = document.getElementById('fCategory');
+  if (hidden) hidden.value = nextCategory;
+}
+
 function initAdminAddProductPage() {
   if (!requireAdmin()) return;
   renderAdminShell('add-product');
@@ -138,9 +152,9 @@ function initAdminAddProductPage() {
   const existing = editing ? Products.byId(id) : null;
   document.getElementById('formTitle').textContent = editing ? 'Edit Product' : 'Add New Product';
 
-  ADMIN_IMAGES = Array.isArray(existing && existing.images) ? [...existing.images] : []; 
-  ADMIN_VARIANTS = existing ? existing.variants.map(v => ({
-    name: v.name, type: v.type, options: v.options.map(o=>({...o}))
+  ADMIN_IMAGES = Array.isArray(existing && existing.images) ? [...existing.images] : [];
+  ADMIN_VARIANTS = existing && Array.isArray(existing.variants) ? existing.variants.map(v => ({
+    name: v.name, type: v.type, options: Array.isArray(v.options) ? v.options.map(o=>({...o})) : []
   })) : [];
 
   if (existing) {
@@ -151,14 +165,19 @@ function initAdminAddProductPage() {
     document.getElementById('fPrice').value = existing.price;
     document.getElementById('fSalePrice').value = existing.salePrice || '';
     document.getElementById('fStock').value = existing.stock;
-    document.getElementById('fCategory').value = existing.category;
     document.getElementById('fFeatured').checked = existing.featured;
     document.getElementById('fOffer').checked = existing.specialOffer;
     document.getElementById('fPublished').checked = existing.published;
+    syncAdminCategorySelection(existing.category);
   } else {
     document.getElementById('fPublished').checked = true;
     document.getElementById('fSku').value = 'CJH-' + Math.floor(1000+Math.random()*9000);
+    syncAdminCategorySelection('gift-ideas');
   }
+
+  document.querySelectorAll('input[name="fCategoryRadio"]').forEach(radio => {
+    radio.addEventListener('change', () => syncAdminCategorySelection(radio.value));
+  });
 
   renderImagePreviews();
   renderVariantRows();
@@ -187,7 +206,7 @@ function handleImageUpload(e) {
 }
 function renderImagePreviews() {
   const el = document.getElementById('imagePreviewGrid');
-  if (!ADMIN_IMAGES.length) { el.innerHTML = `<span style="font-size:13px;color:var(--gray-600);">No images uploaded yet — a placeholder image will be used.</span>`; return; }
+  if (!ADMIN_IMAGES.length) { el.innerHTML = `<span style="font-size:13px;color:var(--gray-600);">No images uploaded yet - a placeholder image will be used.</span>`; return; }
   el.innerHTML = ADMIN_IMAGES.map((src,i) => `
     <div class="img-item">
       <img src="${src}">
@@ -233,7 +252,7 @@ function saveProductForm(id, existing) {
     price,
     salePrice: salePriceRaw ? parseFloat(salePriceRaw) : null,
     stock: parseInt(document.getElementById('fStock').value) || 0,
-    category: document.getElementById('fCategory').value,
+    category: getAdminCategorySelection(),
     featured: document.getElementById('fFeatured').checked,
     specialOffer: document.getElementById('fOffer').checked,
     published: document.getElementById('fPublished').checked,
@@ -310,12 +329,11 @@ function renderAdminCustomersTable() {
     <tr>
       <td data-label="Name"><strong>${u.name}</strong></td>
       <td data-label="Email">${u.email}</td>
-      <td>${u.phone || '—'}</td>
+      <td>${u.phone || '�'}</td>
       <td data-label="Orders">${orders.length}</td>
       <td data-label="Total Spent">${formatPrice(spent)}</td>
       <td data-label="Joined">${new Date(u.createdAt).toLocaleDateString()}</td>
     </tr>`;
   }).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--gray-600);padding:30px;">No customers yet</td></tr>`;
 }
-
 
