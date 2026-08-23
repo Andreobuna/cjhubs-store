@@ -1055,3 +1055,15 @@ body.home-page .newsletter input{
   }
 }
 
+
+/* Mobile shop layout fix */
+@media (max-width: 900px){
+  .shop-layout{grid-template-columns:1fr;gap:24px;}
+  .filters-panel{position:static;top:auto;}
+}
+@media (max-width: 640px){
+  .shop-layout .toolbar{flex-direction:column;align-items:stretch;}
+  .shop-layout .toolbar input[type=search],
+  .shop-layout .toolbar select{width:100%;min-width:0!important;}
+}
+
