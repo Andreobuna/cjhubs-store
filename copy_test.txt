@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <div id="commentSection" class="comment-section" style="display:none;margin-top:64px;"></div>
+    <div id="commentSection" class="comment-section reveal" style="display:none;margin-top:64px;"></div>
 
     <div id="relatedSection" style="margin-top:70px;">
       <div class="section-head reveal">

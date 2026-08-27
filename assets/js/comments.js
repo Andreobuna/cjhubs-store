@@ -152,6 +152,7 @@
     const section = document.getElementById('commentSection');
     if (!section) return;
     section.style.display = 'block';
+    section.classList.add('in');
     section.innerHTML = `
       <div class="comment-shell">
         <div class="comment-header">
