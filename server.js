@@ -1,4 +1,4 @@
-﻿const http = require("http");
+const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
@@ -21,6 +21,7 @@ const COLLECTIONS = {
   products: 'cjhubs_products',
   users: 'cjhubs_users',
   orders: 'cjhubs_orders',
+  comments: 'cjhubs_comments',
   admin: 'cjhubs_admin'
 };
 const DEFAULT_ADMIN_EMAIL = 'admin@cjhubs.com';
@@ -39,6 +40,7 @@ const DEFAULTS = {
   [COLLECTIONS.products]: [],
   [COLLECTIONS.users]: [],
   [COLLECTIONS.orders]: [],
+  [COLLECTIONS.comments]: [],
   [COLLECTIONS.admin]: { username: "admin", email: "admin@cjhubs.com", password: Buffer.from("Adminpass123").toString("base64"), name: "Store Admin" }
 };
 const TYPES = {
@@ -175,6 +177,8 @@ initDb().then(async () => {
   console.error(error);
   process.exit(1);
 });
+
+
 
 
 
