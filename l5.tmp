@@ -1,0 +1,1 @@
+$new=$old+[Environment]::NewLine+[string]::Concat($a,'script src="assets/js/ratings-ui.js?v=20260827a"',$b,[char]47,'script',$b)

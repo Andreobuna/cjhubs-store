@@ -1,0 +1,1 @@
+let rt=0;const set=v=>{rt=Math.max(0,Math.min(5,Number(v)||0));ri.value=rt||"";pi.querySelectorAll(".rating-btn").forEach(b=>b.classList.toggle("selected",Number(b.dataset.rating)<=rt))};set(0);pi.onclick=e=>{const b=e.target.closest(".rating-btn");if(b)set(b.dataset.rating)};

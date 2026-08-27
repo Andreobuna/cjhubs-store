@@ -1,0 +1,1 @@
+$old=[string]::Concat($a,$s,$b,[char]47,'script',$b)

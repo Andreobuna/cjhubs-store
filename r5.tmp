@@ -1,0 +1,1 @@
+const save=v=>{try{localStorage.setItem(K,JSON.stringify(v));return true}catch{return false}};

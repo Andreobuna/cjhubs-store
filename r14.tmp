@@ -1,0 +1,1 @@
+const upd=()=>{const w=(ti.value||"").trim().split(/\s+/).filter(Boolean).length;wc.textContent=w+"/100 words";wc.classList.toggle("over-limit",w>L);h.textContent=w>L?"Trim the comment to 100 words or fewer.":"Keep it helpful and concise. Comments are limited to 100 words."};upd();ti.oninput=upd;

@@ -1,0 +1,1 @@
+inject();const s=document.getElementById("commentSection");if(!s)return;const c=window.Comments.byProduct(p.id),r=c.filter(x=>x.rating),a=r.length?r.reduce((q,x)=>q+x.rating,0)/r.length:0;s.style.display="block";

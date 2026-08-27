@@ -1,0 +1,1 @@
+window.Comments={all,byProduct:id=>all().filter(x=>x.productId===id).sort((a,b)=>b.createdAt-a.createdAt),countByProduct:id=>window.Comments.byProduct(id).length,create:x=>{const c=x&&x.message&&x.productId?{...x,id:x.id||"c"+Date.now()+Math.random().toString(36).slice(2,8),createdAt:x.createdAt||Date.now()}:null;const a=all();if(!c)return false;a.unshift(c);return save(a)}};
