@@ -93,15 +93,16 @@
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = `
-      .comment-shell { margin-top: 64px; padding: 28px; border: 1px solid var(--gray-200); border-radius: 24px; background: linear-gradient(180deg, #fff 0%, #fafbff 100%); box-shadow: var(--shadow-soft); }
-      .comment-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 24px; }
-      .comment-header h2 { margin-bottom: 6px; }
-      .comment-header p { max-width: 680px; margin: 0; }
-      .comment-count { min-width: 116px; padding: 16px 18px; border-radius: 18px; text-align: center; background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; box-shadow: var(--shadow-card); }
+      .comment-shell { margin-top: 64px; padding: 32px; border: 1px solid rgba(10,22,56,.12); border-radius: 28px; background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%); box-shadow: 0 18px 50px rgba(10,22,56,.08); position: relative; overflow: hidden; }
+      .comment-shell::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--gold-light), var(--gold-dark)); }
+      .comment-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 26px; position: relative; z-index: 1; }
+      .comment-header h2 { margin: 6px 0 10px; font-size: 34px; line-height: 1.1; color: var(--navy); }
+      .comment-header p { max-width: 680px; margin: 0; color: var(--gray-600); font-size: 15px; }
+      .comment-count { min-width: 124px; padding: 16px 18px; border-radius: 18px; text-align: center; background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; box-shadow: var(--shadow-card); border: 1px solid rgba(255,255,255,.16); }
       .comment-count strong { display: block; font-size: 32px; line-height: 1; color: var(--gold-light); }
       .comment-count span { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.72); }
-      .comment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
-      .comment-form { padding: 20px; border: 1px solid var(--gray-200); border-radius: 20px; background: var(--gray-50); }
+      .comment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; position: relative; z-index: 1; }
+      .comment-form { padding: 22px; border: 1px solid rgba(10,22,56,.08); border-radius: 20px; background: rgba(255,255,255,.82); backdrop-filter: blur(4px); }
       .comment-form .comment-input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
       .comment-form .form-group { margin-bottom: 14px; }
       .comment-form .form-group label { display: block; margin-bottom: 8px; }
@@ -112,7 +113,7 @@
       .comment-word-count { font-size: 13px; font-weight: 700; color: var(--gray-600); }
       .comment-word-count.over-limit { color: var(--danger); }
       .comment-hint { margin: 10px 0 0; font-size: 12.5px; color: var(--gray-600); }
-      .comment-list-wrap h3 { font-size: 20px; margin-bottom: 16px; }
+      .comment-list-wrap h3 { margin: 0 0 16px; font-size: 20px; color: var(--navy); }
       .comment-list { display: flex; flex-direction: column; gap: 14px; }
       .comment-item { display: flex; gap: 14px; padding: 18px; border: 1px solid var(--gray-200); border-radius: 18px; background: #fff; box-shadow: var(--shadow-card); }
       .comment-avatar { width: 44px; height: 44px; border-radius: 50%; flex: 0 0 44px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--gold-light), var(--gold-dark)); color: var(--navy); font-weight: 800; }
@@ -122,8 +123,8 @@
       .comment-top span { color: var(--gray-600); font-size: 12.5px; white-space: nowrap; }
       .comment-body p { margin: 0; color: var(--gray-600); white-space: pre-wrap; word-break: break-word; }
       .comment-empty { padding: 22px; border-radius: 16px; border: 1px dashed var(--gray-200); background: rgba(10,22,56,.04); color: var(--gray-600); }
-      @media (max-width: 900px) { .comment-shell { padding: 22px; } .comment-header { flex-direction: column; } .comment-count { align-self: flex-start; } .comment-grid { grid-template-columns: 1fr; } }
-      @media (max-width: 640px) { .comment-shell { padding: 18px; } .comment-form .comment-input-grid { grid-template-columns: 1fr; } .comment-item { padding: 16px; } .comment-top { flex-direction: column; align-items: flex-start; } .comment-foot .btn { width: 100%; } }
+      @media (max-width: 900px) { .comment-shell { padding: 24px; } .comment-header { flex-direction: column; } .comment-count { align-self: flex-start; } .comment-grid { grid-template-columns: 1fr; } .comment-header h2 { font-size: 30px; } }
+      @media (max-width: 640px) { .comment-shell { padding: 18px; } .comment-form .comment-input-grid { grid-template-columns: 1fr; } .comment-item { padding: 16px; } .comment-top { flex-direction: column; align-items: flex-start; } .comment-foot .btn { width: 100%; } .comment-header h2 { font-size: 26px; } }
     `;
     document.head.appendChild(style);
   }
@@ -157,7 +158,7 @@
       <div class="comment-shell">
         <div class="comment-header">
           <div>
-            <span class="eyebrow">Customer comments</span>
+            <span class="eyebrow">Reviews & comments</span>
             <h2>Share what you think</h2>
             <p>Leave a helpful note for other shoppers. Keep it under 100 words and focus on what matters most.</p>
           </div>
