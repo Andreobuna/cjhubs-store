@@ -188,7 +188,7 @@
     const textInput = document.getElementById('commentText');
     if (!form || !list || !textInput) return;
 
-    const user = window.Auth && typeof Auth.currentUser === 'function' ? Auth.currentUser() : null;
+    const user = typeof Auth !== 'undefined' && Auth && typeof Auth.currentUser === 'function' ? Auth.currentUser() : null;
     if (nameInput && !nameInput.value.trim() && user) nameInput.value = user.name || '';
     if (emailInput && user) { emailInput.value = user.email || ''; emailInput.readOnly = true; }
 
@@ -242,7 +242,7 @@
   window.initProductPage = function () {
     if (typeof originalInitProductPage === 'function') originalInitProductPage();
     const id = new URLSearchParams(window.location.search).get('id');
-    const product = window.Products && typeof Products.byId === 'function' ? Products.byId(id) : null;
+    const product = typeof Products !== 'undefined' && Products && typeof Products.byId === 'function' ? Products.byId(id) : null;
     if (product) renderCommentSection(product);
   };
 })();

@@ -548,3 +548,17 @@ function slugify(str) {
 
 
 
+
+
+if (typeof window !== 'undefined') {
+  window.DB_KEYS = DB_KEYS
+  window.CATEGORIES = CATEGORIES
+  window.Products = Products
+  window.Cart = Cart
+  window.Auth = Auth
+  window.AdminAuth = AdminAuth
+  window.Orders = Orders
+  window.Wishlist = Wishlist
+  window.formatPrice = formatPrice
+  window.slugify = slugify
+}
