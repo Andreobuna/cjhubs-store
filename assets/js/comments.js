@@ -93,7 +93,7 @@
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = `
-      .comment-shell { margin-top: 64px; padding: 32px; border: 1px solid rgba(10,22,56,.12); border-radius: 28px; background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%); box-shadow: 0 18px 50px rgba(10,22,56,.08); position: relative; overflow: hidden; }
+      .comment-shell { margin-top: 24px; padding: 32px; border: 1px solid rgba(10,22,56,.12); border-radius: 28px; background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%); box-shadow: 0 18px 50px rgba(10,22,56,.08); position: relative; overflow: hidden; }
       .comment-shell::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--gold-light), var(--gold-dark)); }
       .comment-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 26px; position: relative; z-index: 1; }
       .comment-header h2 { margin: 6px 0 10px; font-size: 34px; line-height: 1.1; color: var(--navy); }
