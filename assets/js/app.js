@@ -1,5 +1,5 @@
 /* ============================================================
-   CJ HUBS STORE — APP LOGIC
+   CJ HUBS STORE ï¿½ APP LOGIC
    Product cards, shop grid, filters, product detail, cart,
    checkout, account pages.
    ============================================================ */
@@ -61,39 +61,40 @@ function quickAddToCart(id) {
   showToast(`${p.name} added to cart`);
 }
 
-function skeletonGrid(n) {
-  return Array.from({length:n}).map(()=>`<div class="skeleton skeleton-card"></div>`).join('');
+function loadingGrid(n, label = 'Loading products') {
+  const phases = ['Fetching product visuals', 'Syncing live deals', 'Polishing details', 'Preparing checkout-ready cards'];
+  return Array.from({ length: n }).map((_, i) => {
+    const delay = i * 90;
+    const phase = phases[i % phases.length];
+    const ready = Math.min(92, 36 + i * 8);
+    return `
+      <div class="loader-card reveal in" style="animation-delay:${delay}ms">
+        <div class="loader-card__inner">
+          <div class="loader-card__top">
+            <div class="loader-card__meta">
+              <span class="loader-chip">${label}</span>
+              <div class="loader-lines">
+                <span class="loader-line"></span>
+                <span class="loader-line short"></span>
+                <span class="loader-line tiny"></span>
+              </div>
+              <div class="loader-status">${phase}</div>
+            </div>
+            <div class="loader-orbit loader-orbit--compact" aria-hidden="true">
+              <span class="loader-orbit__ring loader-orbit__ring--outer"></span>
+              <span class="loader-orbit__ring loader-orbit__ring--inner"></span>
+              <img src="dot.jpg" alt="CJ Hubs" decoding="async">
+            </div>
+          </div>
+          <div class="loader-meter"><span style="width:${ready}%"></span></div>
+          <div class="loader-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
-function buildPlaceholderImage(width = 700, height = 700, label = 'Image unavailable') {
-  const size = Math.max(18, Math.round(Math.min(width, height) / 18));
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect fill="#e0e0e0" width="100%" height="100%"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#8b93a7" font-family="Arial,Helvetica,sans-serif" font-size="${size}">${label}</text></svg>`;
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-}
-
-function firstValidImage(images) {
-  if (Array.isArray(images)) {
-    return images.find(src => typeof src === 'string' && src.trim()) || '';
-  }
-  if (typeof images === 'string' && images.trim()) return images.trim();
-  return '';
-}
-
-function productImageSrc(product, index = 0, width = 700, height = 700) {
-  const src = Array.isArray(product?.images) ? product.images[index] : product?.images;
-  return firstValidImage(src) || buildPlaceholderImage(width, height);
-}
-
-function handleImageError(img, width = 700, height = 700) {
-  if (!img || img.dataset.fallbackApplied === '1') return;
-  img.dataset.fallbackApplied = '1';
-  img.src = buildPlaceholderImage(width, height);
-}
-
-/* ---------- homepage ---------- */
-function populateHomeVisuals(){const products=Products.published();const featured=[...Products.featured(),...Products.newArrivals(8),...products];const pick=(i)=>featured[i]||products[i]||null;const primary=pick(0),secondary=pick(1)||primary,tertiary=pick(2)||secondary;const bind=(id,p,withPrice)=>{const el=document.getElementById(id);if(!el||!p)return;if(withPrice){el.textContent=formatPrice(p.salePrice??p.price);return}el.src=(Array.isArray(p.images) && typeof p.images[0] === "string" && p.images[0])||'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22700%22 height=%22700%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22700%22 height=%22700%22/%3E%3C/svg%3E';el.alt=p.name};bind("heroPrimaryImg",primary);bind("heroSecondaryImg",secondary);bind("heroTertiaryImg",tertiary);const setName=(id,p)=>{const el=document.getElementById(id);if(el&&p)el.textContent=p.name};setName("heroPrimaryName",primary);setName("heroSecondaryName",secondary);setName("heroTertiaryName",tertiary);const price=document.getElementById("heroPrimaryPrice");if(price&&primary)price.textContent=formatPrice(primary.salePrice??primary.price);const gift=Products.byCategory("gift-ideas")[0]||primary;const accessory=Products.byCategory("products-accessories")[0]||secondary||primary;const setCard=(key,p)=>{const el=document.querySelector("[data-category-card=" + key + "]");if(el&&p)el.style.setProperty("--bg","url(" + (Array.isArray(p.images) && typeof p.images[0] === "string" && p.images[0]||'') + ")")};setCard("gift-ideas",gift);setCard("products-accessories",accessory)}
-
-function initHomePage(){populateHomeVisuals();const featuredEl=document.getElementById("featuredGrid");const newEl=document.getElementById("newArrivalsGrid");const offersEl=document.getElementById("offersGrid");if(featuredEl)featuredEl.innerHTML=skeletonGrid(4);if(newEl)newEl.innerHTML=skeletonGrid(4);if(offersEl)offersEl.innerHTML=skeletonGrid(3);setTimeout(()=>{const featured=Products.featured().slice(0,8);const arrivals=Products.newArrivals(8);const offers=Products.specialOffers().slice(0,6);if(featuredEl)featuredEl.innerHTML=featured.length?featured.map(productCardHTML).join(""):emptyStateHTML("Featured","No featured products yet","Check back soon - new items are added regularly.");if(newEl)newEl.innerHTML=arrivals.length?arrivals.map(productCardHTML).join(""):emptyStateHTML("Products","No products yet","The catalog is being updated.");if(offersEl)offersEl.innerHTML=offers.length?offers.map(productCardHTML).join(""):emptyStateHTML("Offers","No special offers right now","Explore the full shop for great products.");document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"))},300)}
+function initHomePage(){populateHomeVisuals();const featuredEl=document.getElementById("featuredGrid");const newEl=document.getElementById("newArrivalsGrid");const offersEl=document.getElementById("offersGrid");if(featuredEl)featuredEl.innerHTML=loadingGrid(4, 'Loading featured products');if(newEl)newEl.innerHTML=loadingGrid(4, 'Loading new arrivals');if(offersEl)offersEl.innerHTML=loadingGrid(3, 'Loading special offers');setTimeout(()=>{const featured=Products.featured().slice(0,8);const arrivals=Products.newArrivals(8);const offers=Products.specialOffers().slice(0,6);if(featuredEl)featuredEl.innerHTML=featured.length?featured.map(productCardHTML).join(""):emptyStateHTML("Featured","No featured products yet","Check back soon - new items are added regularly.");if(newEl)newEl.innerHTML=arrivals.length?arrivals.map(productCardHTML).join(""):emptyStateHTML("Products","No products yet","The catalog is being updated.");if(offersEl)offersEl.innerHTML=offers.length?offers.map(productCardHTML).join(""):emptyStateHTML("Offers","No special offers right now","Explore the full shop for great products.");document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"))},300)}
 
 function emptyStateHTML(icon, title, sub, ctaHref, ctaLabel) {
   return `<div class="empty-state" style="grid-column:1/-1;">
@@ -134,7 +135,7 @@ function initShopPage(fixedCategory) {
   }
 
   function render() {
-    grid.innerHTML = skeletonGrid(8);
+    grid.innerHTML = loadingGrid(8, 'Loading products');
     setTimeout(() => {
       try {
         let list = fixedCategory
@@ -201,7 +202,7 @@ function initProductPage() {
     notFound.style.display = 'block';
     return;
   }
-  document.title = p.name + ' — CJ Hubs Store';
+  document.title = p.name + ' ï¿½ CJ Hubs Store';
   PD_STATE = { selectedVariants: {}, qty: 1, activeImage: 0 };
   const variants = Array.isArray(p.variants) ? p.variants : []; variants.forEach(v => { const options = Array.isArray(v && v.options) ? v.options : []; const first = options.find(o => o && o.label != null); if (v && v.name && first) PD_STATE.selectedVariants[v.name] = first.label; });
 
@@ -556,7 +557,7 @@ function initAccountPage() {
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
           <div>
             <strong>${o.orderNumber}</strong>
-            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} · ${o.items.length} item(s)</div>
+            <div style="font-size:12.5px;color:var(--gray-600);">${new Date(o.createdAt).toLocaleDateString()} ï¿½ ${o.items.length} item(s)</div>
           </div>
           <div style="display:flex;align-items:center;gap:14px;">
             <span class="badge ${o.status.toLowerCase()}">${o.status}</span>
@@ -615,7 +616,7 @@ function initContactPage() {
   if (!form) return;
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    showToast("Message sent — we'll get back to you within 24 hours.");
+    showToast("Message sent ï¿½ we'll get back to you within 24 hours.");
     form.reset();
   });
 }
