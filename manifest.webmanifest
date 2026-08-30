@@ -1,0 +1,28 @@
+{
+  "name": "CJ Hubs Store",
+  "short_name": "CJ Hubs",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#0a1638",
+  "theme_color": "#0a1638",
+  "description": "CJ Hubs Store is a modern shopping destination for curated gift ideas and everyday products and accessories.",
+  "icons": [
+    {
+      "src": "dot.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "dot.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
