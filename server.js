@@ -117,10 +117,10 @@ async function ensureAdminUser() {
 }
 
 function injectProxy(html) {
-  if (typeof html !== 'string') return html;
-  if (!html.includes('</head>')) return html;
-  const headExtras = '\n    <meta name="theme-color" content="#0a1638">\n    <meta name="application-name" content="CJ Hubs Store">\n    <meta name="apple-mobile-web-app-capable" content="yes">\n    <meta name="apple-mobile-web-app-status-bar-style" content="default">\n    <link rel="icon" href="dot.jpg" type="image/jpeg">\n    <link rel="apple-touch-icon" href="dot.jpg">\n    <link rel="manifest" href="manifest.webmanifest">\n    <script src="preload-bridge.js"></script>';
-  return html.replace('</head>', headExtras + '\n</head>');
+  if (typeof html !== 'string') return html
+  if (!html.includes('</head>')) return html
+  const headExtras = '\n    <meta name=\'theme-color\' content=\'#0a1638\'>\n    <meta name=\'application-name\' content=\'CJ Hubs Store\'>\n    <meta name=\'apple-mobile-web-app-capable\' content=\'yes\'>\n    <meta name=\'apple-mobile-web-app-status-bar-style\' content=\'default\'>\n    <link rel=\'icon\' href=\'dot.jpg\' type=\'image/jpeg\'>\n    <link rel=\'apple-touch-icon\' href=\'dot.jpg\'>\n    <link rel=\'manifest\' href=\'manifest.webmanifest\'>\n    <script src=\'preload-bridge.js\'></script>'
+  return html.replace('</head>', headExtras + '\n</head>')
 }
 
 const server = http.createServer(async (req, res) => {

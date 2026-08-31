@@ -156,7 +156,7 @@ const SEED_PRODUCTS = [
 
 /* ---------------- core storage helpers ---------------- */
 const REMOTE_DB_KEYS = new Set([DB_KEYS.PRODUCTS, DB_KEYS.USERS, DB_KEYS.ORDERS, DB_KEYS.ADMIN]);
-const API_BASE_URL = 'https://cjhubs-backend.onrender.com';
+const API_BASE_URL = window.location && window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'https://cjhubs-backend.onrender.com';
 function createRemoteDbBridge() {
   const request = (method, url, body) => {
     try {
@@ -550,6 +550,31 @@ function slugify(str) {
 
 
 
+function firstValidImage(images) {
+  if (Array.isArray(images)) {
+    return images.find(src => typeof src === 'string' && src.trim()) || null;
+  }
+  return typeof images === 'string' && images.trim() ? images : null;
+}
+
+function buildPlaceholderImage() {
+  return 'dot.jpg';
+}
+
+function productImageSrc(product, index = 0) {
+  return firstValidImage(product && product.images ? product.images[index] : null)
+    || firstValidImage(product && product.images)
+    || buildPlaceholderImage();
+}
+
+function handleImageError(img) {
+  if (!img || img.dataset.cjhubsFallbackApplied === '1') return;
+  img.dataset.cjhubsFallbackApplied = '1';
+  img.src = buildPlaceholderImage();
+}
+
+
+
 if (typeof window !== 'undefined') {
   window.DB_KEYS = DB_KEYS
   window.CATEGORIES = CATEGORIES
@@ -561,4 +586,8 @@ if (typeof window !== 'undefined') {
   window.Wishlist = Wishlist
   window.formatPrice = formatPrice
   window.slugify = slugify
+  window.firstValidImage = firstValidImage
+  window.buildPlaceholderImage = buildPlaceholderImage
+  window.productImageSrc = productImageSrc
+  window.handleImageError = handleImageError
 }

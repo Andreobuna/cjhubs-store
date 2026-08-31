@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    CJ HUBS STORE - SHARED LAYOUT (header / footer / utilities)
    ============================================================ */
 
@@ -147,22 +147,6 @@ body.home-page .newsletter h3,
 body.home-page .newsletter p{
   color:#fff;
 }
-body.home-page .header-actions .install-btn{
-  background:linear-gradient(135deg, rgba(243,217,128,.18), rgba(212,175,55,.08));
-  border-color:rgba(212,175,55,.28);
-  color:#fff;
-  box-shadow:0 10px 24px rgba(10,22,56,.18);
-}
-body.home-page .header-actions .install-btn:hover{
-  border-color:rgba(212,175,55,.42);
-  transform:translateY(-1px);
-}
-body.home-page .header-actions .install-btn.is-waiting{
-  animation:installPulse 2.4s ease-in-out infinite;
-}
-body.home-page .header-actions .install-btn.is-installed{
-  display:none;
-}
 @media (max-width: 900px){
   .main-header .container{display:flex;align-items:center;justify-content:space-between;gap:14px;}
   .main-nav{display:none;}
@@ -196,12 +180,6 @@ function siteHeaderHTML(active) {
     <div class="container">
       <a href="index.html" class="logo"><img src="dot.jpg" alt="Logo" style="height:40px;width:auto;"></a>
       <div class="header-actions">
-        <button type="button" id="installAppBtn" class="icon-btn install-btn is-waiting" title="Install app" aria-label="Install app">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-        </button>
-        <button type="button" id="installAppBtn" class="icon-btn install-btn is-waiting" title="Install app" aria-label="Install app">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-        </button>
         <a href="${user ? 'account.html' : 'login.html'}" class="icon-btn" title="${user ? 'My Account' : 'Login'}">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
@@ -295,7 +273,7 @@ function renderLayout(active) {
   injectLayoutStyles();
   applyTheme();
   updateCartCount();
-  setupInstallPrompt();
+  cleanupPwa();
 }
 
 function updateCartCount() {
@@ -337,33 +315,3 @@ document.addEventListener('DOMContentLoaded', initScrollReveal);
 
 
 
-let deferredInstallPrompt = null;
-function setupInstallPrompt() {
-  if (setupInstallPrompt._bound) { updateInstallButton(); return; }
-  setupInstallPrompt._bound = true;
-  window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); deferredInstallPrompt = event; updateInstallButton(); });
-  window.addEventListener('appinstalled', () => { deferredInstallPrompt = null; updateInstallButton(); showToast('CJ Hubs Store installed'); });
-  document.addEventListener('click', async (event) => {
-    const btn = event.target.closest('#installAppBtn');
-    if (!btn) return;
-    event.preventDefault();
-    if (!deferredInstallPrompt) {
-      showToast('Install will appear once the browser marks the app installable');
-      return;
-    }
-    deferredInstallPrompt.prompt();
-    const choice = await deferredInstallPrompt.userChoice;
-    if (choice && choice.outcome === 'accepted') showToast('Installing CJ Hubs Store');
-    deferredInstallPrompt = null;
-    updateInstallButton();
-  });
-  updateInstallButton();
-}
-function updateInstallButton() {
-  const btn = document.getElementById('installAppBtn');
-  if (!btn) return;
-  const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
-  if (standalone) { btn.classList.add('is-installed'); return; }
-  btn.classList.remove('is-installed');
-  btn.classList.toggle('is-waiting', !deferredInstallPrompt);
-}
