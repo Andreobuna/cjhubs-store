@@ -1,4 +1,4 @@
-const CACHE_VERSION = '2026-08-30-v1';
+const CACHE_VERSION = '2026-08-31-v2';
 const CACHE_NAME = `cjhubs-store-${CACHE_VERSION}`;
 const APP_ORIGIN = self.location.origin;
 const BACKEND_ORIGIN = 'https://cjhubs-backend.onrender.com';
@@ -12,9 +12,9 @@ const PRECACHE_URLS = [
   '/web.png',
   '/aab.png',
   '/assets/css/style.css',
-  '/assets/js/data.js?v=20260816a',
-  '/assets/js/layout.js?v=20260816a',
-  '/assets/js/app.js?v=20260816a',
+  '/assets/js/data.js?v=20260831b',
+  '/assets/js/layout.js?v=20260831b',
+  '/assets/js/app.js?v=20260831b',
   '/assets/js/comments.js',
   '/assets/js/ratings-ui.js',
   '/assets/js/admin.js',

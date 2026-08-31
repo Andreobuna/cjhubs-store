@@ -2,7 +2,7 @@
   var root = document.documentElement;
   var started = Date.now();
   var minVisible = 900;
-  var apiBase = window.location && window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'https://cjhubs-backend.onrender.com';
+  var apiBase = 'https://cjhubs-backend.onrender.com';
   var remoteKeys = { cjhubs_products: 1, cjhubs_users: 1, cjhubs_orders: 1, cjhubs_admin: 1 };
   var remoteCache = {};
   var remoteBooted = false;

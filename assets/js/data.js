@@ -156,7 +156,7 @@ const SEED_PRODUCTS = [
 
 /* ---------------- core storage helpers ---------------- */
 const REMOTE_DB_KEYS = new Set([DB_KEYS.PRODUCTS, DB_KEYS.USERS, DB_KEYS.ORDERS, DB_KEYS.ADMIN]);
-const API_BASE_URL = window.location && window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'https://cjhubs-backend.onrender.com';
+const API_BASE_URL = 'https://cjhubs-backend.onrender.com';
 function createRemoteDbBridge() {
   const request = (method, url, body) => {
     try {
@@ -220,11 +220,13 @@ function dbGet(key, fallback) {
 }
 function dbSet(key, value) {
   if (REMOTE_DB && REMOTE_DB.isRemoteKey && REMOTE_DB.isRemoteKey(key)) {
-    const ok = REMOTE_DB.set(key, value);
-    if (ok) {
-      try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
-    }
-    return ok;
+    const remoteOk = REMOTE_DB.set(key, value);
+    let localOk = false;
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      localOk = true;
+    } catch {}
+    return remoteOk || localOk;
   }
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -235,11 +237,13 @@ function dbSet(key, value) {
 }
 function dbRemove(key) {
   if (REMOTE_DB && REMOTE_DB.isRemoteKey && REMOTE_DB.isRemoteKey(key)) {
-    const ok = REMOTE_DB.remove(key);
-    if (ok) {
-      try { localStorage.removeItem(key); } catch {}
-    }
-    return ok;
+    const remoteOk = REMOTE_DB.remove(key);
+    let localOk = false;
+    try {
+      localStorage.removeItem(key);
+      localOk = true;
+    } catch {}
+    return remoteOk || localOk;
   }
   try {
     localStorage.removeItem(key);
@@ -342,7 +346,7 @@ function normalizeProduct(p) {
     price: (typeof p.price === 'number' && p.price >= 0) ? p.price : 0,
     salePrice: (typeof p.salePrice === 'number' && p.salePrice > 0) ? p.salePrice : null,
     stock: (typeof p.stock === 'number' && p.stock >= 0) ? p.stock : 0,
-    category: (p.category && typeof p.category === 'string') ? p.category : 'products-accessories',
+    category: typeof p.category === 'string' ? p.category.trim().toLowerCase() : 'products-accessories',
     published: p.published === true || p.published === undefined,
     featured: p.featured === true || false,
     specialOffer: p.specialOffer === true || false,
@@ -360,7 +364,7 @@ function normalizeProduct(p) {
 /* ---------------- product helpers ---------------- */
 const Products = {
   all() { 
-    let products = dbGet(DB_KEYS.PRODUCTS, SEED_PRODUCTS);
+    let products = dbGet(DB_KEYS.PRODUCTS, []);
     // Normalize all products to ensure consistent structure
     return (Array.isArray(products) ? products : []).map(normalizeProduct).filter(p => p !== null);
   },

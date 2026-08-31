@@ -471,7 +471,7 @@ function submitOrder(items, subtotal, discount, shipping) {
         postal: document.getElementById('coPostal').value
       },
       items: items.map(i => ({
-        productId: i.productId, name: i.product.name, image: (Array.isArray(i.product.images) && typeof i.product.images[0] === "string" && i.product.images[0]) || '',
+        productId: i.productId, name: i.product.name, image: productImageSrc(i.product, 0),
         variant: i.variant, qty: i.qty, price: i.unitPrice
       })),
       subtotal: subtotal + discount,
