@@ -273,7 +273,7 @@ function renderLayout(active) {
   injectLayoutStyles();
   applyTheme();
   updateCartCount();
-  cleanupPwa();
+  if (typeof cleanupPwa === 'function') cleanupPwa();
 }
 
 function updateCartCount() {
@@ -308,6 +308,7 @@ function initScrollReveal() {
 }
 
 document.addEventListener('DOMContentLoaded', initScrollReveal);
+
 
 
 

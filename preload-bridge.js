@@ -1,3 +1,4 @@
+function cleanupPwa(){try{'serviceWorker'in navigator&&navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){try{x.unregister()}catch{}})}).catch(function(){})}catch{}try{'caches'in window&&caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x.indexOf('cjhubs-store-')===0||x.indexOf('workbox-')===0}).map(function(x){return caches.delete(x)}))}).catch(function(){})}catch{}}window.cleanupPwa=cleanupPwa;
 (function () {
   var root = document.documentElement;
   var started = Date.now();
@@ -179,3 +180,4 @@
   window.addEventListener('load', hidePreloader);
 
 }());
+
