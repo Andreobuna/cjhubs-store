@@ -7,7 +7,7 @@ const PRECACHE_URLS = [
   '/index.html',
   '/offline.html',
   '/manifest.webmanifest',
-  '/preload-bridge.js?v=20260901b?v=20260901b',
+  '/preload-bridge.js?v=20260901b',
   '/dot.jpg',
   '/web.png',
   '/aab.png',
