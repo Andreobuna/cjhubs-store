@@ -1,4 +1,4 @@
-const CACHE_VERSION = '2026-08-31-v3';
+const CACHE_VERSION = '2026-09-01-v1';
 const CACHE_NAME = `cjhubs-store-${CACHE_VERSION}`;
 const APP_ORIGIN = self.location.origin;
 const BACKEND_ORIGIN = 'https://cjhubs-backend.onrender.com';
@@ -7,7 +7,7 @@ const PRECACHE_URLS = [
   '/index.html',
   '/offline.html',
   '/manifest.webmanifest',
-  '/preload-bridge.js',
+  '/preload-bridge.js?v=20260901b?v=20260901b',
   '/dot.jpg',
   '/web.png',
   '/aab.png',
