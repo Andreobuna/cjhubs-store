@@ -188,3 +188,4 @@ function cleanupPwa(){try{'serviceWorker'in navigator&&navigator.serviceWorker.g
   hidePreloader._safety = setTimeout(function () {
     if (!hidePreloader.done) finishPreloader();
   }, maxVisible);
+}());
