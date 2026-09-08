@@ -8,6 +8,8 @@ import { StatusBadge } from "@/components/order-status-badge";
 import { ButtonLink } from "@/components/ui/button";
 import { PaymentVerifier } from "@/components/orders/payment-verifier";
 
+export const dynamic = "force-dynamic";
+
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
   const user = await getCurrentUser();
   if (!user) redirect(`/login?next=/orders/${params.id}`);

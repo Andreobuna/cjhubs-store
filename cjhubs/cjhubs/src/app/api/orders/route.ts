@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/auth";
 import { ok, withErrorHandling } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export const GET = withErrorHandling(async () => {
   const user = await requireUser();
   const orders = await prisma.order.findMany({

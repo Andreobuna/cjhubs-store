@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { ok, withErrorHandling } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export const GET = withErrorHandling(async (req: NextRequest) => {
   await requireAdmin();
   const params = req.nextUrl.searchParams;

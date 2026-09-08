@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 :root {
+  --font-display: "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "Segoe UI", sans-serif;
+  --font-mono: Consolas, "Courier New", monospace;
   /* Light mode tokens — ivory surfaces, deep navy text, gold glow */
   --bg: 250 251 255;
   --surface: 255 255 255;

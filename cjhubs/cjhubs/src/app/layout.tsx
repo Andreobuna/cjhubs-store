@@ -1,29 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { RouteProgressBar } from "@/components/layout/route-progress-bar";
-
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "600", "700"],
-});
-
-const body = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-});
-
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["400", "500"],
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -62,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Prevents a light-mode flash before hydration determines the stored theme. */}
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
       </head>
-      <body className={`${display.variable} ${body.variable} ${mono.variable} font-body antialiased`}>
+      <body className="font-body antialiased">
         <ThemeProvider>
           <Suspense fallback={null}>
             <RouteProgressBar />

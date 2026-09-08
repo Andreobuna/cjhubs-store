@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -39,7 +39,7 @@ function AdminOrdersPageInner() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), pageSize: "15" });
@@ -52,9 +52,9 @@ function AdminOrdersPageInner() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [page, status]);
 
-  useEffect(() => { load(); }, [page, status]);
+  useEffect(() => { load(); }, [load]);
 
   async function updateStatus(id: string, newStatus: string) {
     try {
