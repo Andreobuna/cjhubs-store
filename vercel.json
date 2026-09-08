@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "installCommand": "npm --prefix cjhubs/cjhubs install",
+  "buildCommand": "npm --prefix cjhubs/cjhubs run build",
+  "outputDirectory": "cjhubs/cjhubs/.next"
+}

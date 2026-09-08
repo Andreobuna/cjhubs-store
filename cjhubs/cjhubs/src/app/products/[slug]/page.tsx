@@ -9,6 +9,8 @@ import { ProductBuyBox } from "@/components/products/product-buy-box";
 import { ProductCard } from "@/components/products/product-card";
 import { Truck, ShieldCheck, PackageCheck } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 async function getProduct(slug: string) {
   const product = await prisma.product.findUnique({
     where: { slug },

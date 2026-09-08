@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Browse CJ Hubs's full catalog of curated gift ideas and everyday products & accessories.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 async function getFilterData() {
   const [categories, brands] = await Promise.all([

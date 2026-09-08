@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { ok, withErrorHandling } from "@/lib/api-response";
 
+export const dynamic = "force-dynamic";
+
 export const GET = withErrorHandling(async () => {
   const categories = await prisma.category.findMany({
     orderBy: { sortOrder: "asc" },

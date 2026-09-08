@@ -7,7 +7,7 @@ import { WhyCJHubs } from "@/components/home/why-cjhubs";
 import { PromoBanner } from "@/components/home/promo-banner";
 import { Testimonials } from "@/components/home/testimonials";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 async function getHomeData() {
   const [categories, featured] = await Promise.all([

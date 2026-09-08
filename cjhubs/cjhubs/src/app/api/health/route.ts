@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isPaystackConfigured } from "@/lib/integrations/paystack";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/health
  *
