@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, startTransition, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 interface ThemeContextValue {
@@ -18,9 +18,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const stored = window.localStorage.getItem("cjh-theme") as Theme | null;
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const initial = stored ?? (prefersDark ? "dark" : "light");
-    setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
-    setMounted(true);
+    startTransition(() => {
+      setTheme(initial);
+      setMounted(true);
+    });
   }, []);
 
   function toggleTheme() {

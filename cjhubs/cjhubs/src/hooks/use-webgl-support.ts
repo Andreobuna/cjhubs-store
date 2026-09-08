@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 
 /**
  * Cheap, synchronous-ish WebGL capability check. Some browsers (older
@@ -25,7 +25,9 @@ export function useWebGLSupport() {
   const [supported, setSupported] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setSupported(detectWebGL());
+    startTransition(() => {
+      setSupported(detectWebGL());
+    });
   }, []);
 
   return supported; // null while unknown (pre-mount), then true/false
