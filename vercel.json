@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": "nextjs",
-  "installCommand": "npm --prefix cjhubs/cjhubs install --ignore-scripts",
-  "buildCommand": "DATABASE_URL=\"${DATABASE_URL:-postgresql://localhost:5432/cjhubs}\" npm --prefix cjhubs/cjhubs run prisma:generate && npm --prefix cjhubs/cjhubs run build",
-  "outputDirectory": "cjhubs/cjhubs/.next"
+  "installCommand": "npm install --ignore-scripts",
+  "buildCommand": "DATABASE_URL=\"${DATABASE_URL:-postgresql://localhost:5432/cjhubs}\" npm run prisma:generate && npm run build",
+  "outputDirectory": ".next"
 }
