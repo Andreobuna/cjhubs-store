@@ -18,10 +18,12 @@ function getRuntimeDatabaseUrl() {
   }
 }
 
+const runtimeDatabaseUrl = getRuntimeDatabaseUrl();
+
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    datasources: { db: { url: getRuntimeDatabaseUrl() } },
+    ...(runtimeDatabaseUrl ? { datasources: { db: { url: runtimeDatabaseUrl } } } : {}),
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
 
