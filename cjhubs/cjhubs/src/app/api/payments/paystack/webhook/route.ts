@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyPaystackWebhookSignature } from "@/lib/integrations/paystack";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 // Paystack sends events for many things (transfers, subscriptions, etc.) —
 // we only act on the two that matter for a one-off checkout charge.
 const HANDLED_EVENTS = new Set(["charge.success", "charge.failed"]);
