@@ -12,11 +12,18 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 async function getFilterData() {
-  const [categories, brands] = await Promise.all([
-    prisma.category.findMany({ orderBy: { sortOrder: "asc" }, select: { id: true, name: true, slug: true } }),
-    prisma.brand.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, slug: true } }),
-  ]);
-  return { categories, brands };
+  try {
+    const [categories, brands] = await Promise.all([
+      prisma.category.findMany({ orderBy: { sortOrder: "asc" }, select: { id: true, name: true, slug: true } }),
+      prisma.brand.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, slug: true } }),
+    ]);
+    return { categories, brands };
+  } catch (error) {
+    console.error("[PRODUCT_FILTERS] Database unavailable while rendering products page", {
+      code: error instanceof Error && "code" in error ? error.code : "unknown",
+    });
+    return { categories: [], brands: [] };
+  }
 }
 
 export default async function ProductsPage() {
