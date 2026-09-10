@@ -13,6 +13,12 @@ export const dynamic = "force-dynamic";
  */
 export async function GET() {
   const checks: Record<string, boolean> = {};
+  checks.databaseUrlConfigured = Boolean(
+    process.env.DATABASE_URL ||
+      process.env.DATABASE_URL_DIRECT ||
+      process.env.POSTGRES_PRISMA_URL ||
+      process.env.POSTGRES_URL
+  );
 
   try {
     await prisma.$queryRaw`SELECT 1`;

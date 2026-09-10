@@ -4,7 +4,11 @@ import { PrismaClient } from "@prisma/client";
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 function getRuntimeDatabaseUrl() {
-  const databaseUrl = process.env.DATABASE_URL;
+  const databaseUrl =
+    process.env.DATABASE_URL ||
+    process.env.DATABASE_URL_DIRECT ||
+    process.env.POSTGRES_PRISMA_URL ||
+    process.env.POSTGRES_URL;
   if (!databaseUrl) return databaseUrl;
 
   try {
