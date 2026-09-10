@@ -10,19 +10,26 @@ import { Testimonials } from "@/components/home/testimonials";
 export const dynamic = "force-dynamic";
 
 async function getHomeData() {
-  const [categories, featured] = await Promise.all([
-    prisma.category.findMany({
-      orderBy: { sortOrder: "asc" },
-      include: { _count: { select: { products: { where: { status: "PUBLISHED" } } } } },
-    }),
-    prisma.product.findMany({
-      where: { status: "PUBLISHED", isFeatured: true },
-      take: 8,
-      orderBy: { createdAt: "desc" },
-      include: { images: { orderBy: { position: "asc" }, take: 1 }, category: true },
-    }),
-  ]);
-  return { categories, featured };
+  try {
+    const [categories, featured] = await Promise.all([
+      prisma.category.findMany({
+        orderBy: { sortOrder: "asc" },
+        include: { _count: { select: { products: { where: { status: "PUBLISHED" } } } } },
+      }),
+      prisma.product.findMany({
+        where: { status: "PUBLISHED", isFeatured: true },
+        take: 8,
+        orderBy: { createdAt: "desc" },
+        include: { images: { orderBy: { position: "asc" }, take: 1 }, category: true },
+      }),
+    ]);
+    return { categories, featured };
+  } catch (error) {
+    console.error("[HOME_DATA] Database unavailable while rendering homepage", {
+      code: error instanceof Error && "code" in error ? error.code : "unknown",
+    });
+    return { categories: [], featured: [] };
+  }
 }
 
 export default async function HomePage() {
