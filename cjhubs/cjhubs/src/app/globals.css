@@ -39,17 +39,31 @@ body {
   background-color: rgb(var(--bg));
   color: rgb(var(--text));
   font-feature-settings: "cv11", "ss01";
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background-image: url("/tte.png");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   background-repeat: no-repeat;
+  filter: blur(2.5px); /* Subtle blur to keep background elements soft and non-distracting */
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
-  body {
+  body::before {
     background-image: url("/web.png");
   }
+}
+
+/* Make standard writeups, descriptions, and muted copy bolder and more legible */
+p, blockquote, .text-muted {
+  font-weight: 500;
 }
 
 ::selection {
