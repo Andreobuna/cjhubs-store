@@ -86,13 +86,9 @@ p, blockquote, .text-muted {
 }
 .dark ::-webkit-scrollbar-thumb { background: rgb(var(--surface-2)); }
 
-/* Solar grid backdrop used behind the hero and section breaks */
+/* Decorative grid overlay intentionally disabled to remove the thin crosshatch lines. */
 .solar-grid {
-  background-image:
-    linear-gradient(rgb(var(--border) / 0.6) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--border) / 0.6) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 85%);
+  display: none !important;
 }
 
 /* Glassmorphism surface */

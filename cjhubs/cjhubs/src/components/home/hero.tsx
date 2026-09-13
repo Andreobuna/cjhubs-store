@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Gift, Sparkles } from "lucide-react";
+import { ArrowRight, Gift } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { HeroScene } from "@/components/three/hero-scene";
 
@@ -10,7 +10,6 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <div className="aurora-bg" />
       <div className="noise-overlay" />
-      <div className="solar-grid absolute inset-0 opacity-70" />
       <div className="glow-orb absolute -left-40 top-10 h-96 w-96 rounded-full" />
       <div className="glow-orb absolute -right-32 top-40 h-72 w-72 rounded-full opacity-70" />
 
@@ -20,11 +19,6 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/25 px-3.5 py-1.5 text-xs font-medium !text-white/85 backdrop-blur-sm dark:border-border dark:bg-surface/80 dark:!text-muted">
-            <Sparkles size={13} className="text-solar-500" />
-            Premium curated shopping — for you, or someone you love
-          </span>
-
           <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight !text-white sm:text-5xl lg:text-[3.4rem] dark:!text-text">
             Find something <span className="gradient-text">special</span> for yourself, or someone you love.
           </h1>
@@ -85,26 +79,9 @@ function HeroArt() {
       <div className="absolute h-[85%] w-[85%] animate-spin-slow rounded-full border border-dashed border-border" />
       <div className="absolute h-[62%] w-[62%] rounded-full border border-border" />
 
-      <div className="gold-pulse gradient-border glass relative flex h-52 w-52 flex-col items-center justify-center rounded-3xl shadow-glow-lg sm:h-64 sm:w-64">
+      <div className="gold-pulse gradient-border glass relative flex h-52 w-52 items-center justify-center rounded-3xl shadow-glow-lg sm:h-64 sm:w-64">
         <Gift size={40} className="text-solar-500" />
-        <p className="mt-3 font-display text-2xl font-semibold text-text">CJ Hubs</p>
-        <p className="text-xs text-muted">Two ways to shop, one hub</p>
       </div>
-
-      {[
-        { label: "🎁 Gift Ideas", pos: "top-2 left-4", delay: 0 },
-        { label: "🛍️ Products", pos: "bottom-6 right-0", delay: 0.5 },
-        { label: "New arrivals", pos: "bottom-2 left-2", delay: 1 },
-      ].map((chip) => (
-        <motion.div
-          key={chip.label}
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, delay: chip.delay, ease: "easeInOut" }}
-          className={`glass absolute ${chip.pos} rounded-full px-3 py-1.5 text-xs font-medium text-text shadow-card`}
-        >
-          {chip.label}
-        </motion.div>
-      ))}
     </div>
   );
 }
