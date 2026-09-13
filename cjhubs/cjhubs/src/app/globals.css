@@ -47,7 +47,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: url("/tte.png");
+  background-image: url("/tig.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -57,7 +57,7 @@ body::before {
 
 @media (min-width: 768px) {
   body::before {
-    background-image: url("/web.png");
+    background-image: url("/tif.png");
   }
 }
 
