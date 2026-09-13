@@ -3,22 +3,22 @@ import { SectionHeading } from "./section-heading";
 
 const REVIEWS = [
   {
-    name: "Adaeze O.",
-    role: "Verified buyer, Lekki",
+    name: "Emma Johnson",
+    role: "Verified buyer, Lagos",
     quote:
       "Ordered a birthday gift set with two days' notice and it arrived beautifully packaged, right on time. It's now my go-to for last-minute gifts.",
     rating: 5,
   },
   {
-    name: "Tunde B.",
-    role: "Verified buyer, Ibadan",
+    name: "Daniel Brooks",
+    role: "Verified buyer, Abuja",
     quote:
       "I compared a few shops before choosing CJ Hubs. The photos on the product pages actually matched what arrived, and support answered every question before I paid.",
     rating: 5,
   },
   {
-    name: "Chiamaka N.",
-    role: "Small business owner, Enugu",
+    name: "Olivia Carter",
+    role: "Small business owner, Port Harcourt",
     quote:
       "I've reordered the same accessory bundle three times now for staff gifts — solid build quality every time, and checkout is genuinely fast.",
     rating: 4,
