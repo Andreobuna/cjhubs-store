@@ -20,16 +20,16 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/80 px-3.5 py-1.5 text-xs font-medium text-muted">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/25 px-3.5 py-1.5 text-xs font-medium !text-white/85 backdrop-blur-sm dark:border-border dark:bg-surface/80 dark:!text-muted">
             <Sparkles size={13} className="text-solar-500" />
             Premium curated shopping — for you, or someone you love
           </span>
 
-          <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-text sm:text-5xl lg:text-[3.4rem]">
+          <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight !text-white sm:text-5xl lg:text-[3.4rem] dark:!text-text">
             Find something <span className="gradient-text">special</span> for yourself, or someone you love.
           </h1>
 
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mt-5 max-w-lg text-base leading-relaxed !text-white/80 sm:text-lg dark:!text-muted">
             CJ Hubs brings together thoughtfully chosen gift ideas and everyday products &
             accessories — all in one premium shopping destination, curated for quality and
             backed by real support.
@@ -40,21 +40,26 @@ export function Hero() {
               Shop products
               <ArrowRight size={16} />
             </ButtonLink>
-            <ButtonLink href="/products?category=gift-ideas" size="lg" variant="outline">
+            <ButtonLink
+              href="/products?category=gift-ideas"
+              size="lg"
+              variant="outline"
+              className="border-white/50 !text-white hover:bg-white/10 dark:border-border dark:!text-text dark:hover:bg-surface-2"
+            >
               <Gift size={16} />
               Explore gift ideas
             </ButtonLink>
           </div>
 
-          <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-6">
+          <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/30 pt-6 dark:border-border">
             {[
               ["2,500+", "Happy customers"],
               ["4.9★", "Average rating"],
               ["24/7", "Customer support"],
             ].map(([value, label]) => (
               <div key={label as string}>
-                <dt className="font-display text-2xl font-semibold text-text">{value}</dt>
-                <dd className="mt-1 text-xs leading-snug text-muted">{label}</dd>
+                <dt className="font-display text-2xl font-semibold !text-white dark:!text-text">{value}</dt>
+                <dd className="mt-1 text-xs leading-snug !text-white/70 dark:!text-muted">{label}</dd>
               </div>
             ))}
           </dl>
