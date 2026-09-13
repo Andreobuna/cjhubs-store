@@ -53,15 +53,6 @@ function LoginForm() {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-muted">
-        Don't have an account?{" "}
-        <Link href={`/register?next=${encodeURIComponent(next)}`} className="font-medium text-brand-400 hover:underline">
-          Create one
-        </Link>
-      </p>
-      <p className="mt-3 text-center text-xs text-muted">
-        Demo admin: admin@cjhubs.com / Admin@12345 · Demo customer: demo@cjhubs.com / Customer@12345
-      </p>
     </div>
   );
 }
