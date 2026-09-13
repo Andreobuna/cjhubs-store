@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   },
   description:
     "CJ Hubs Store is a modern online shopping destination for curated gift ideas and everyday products & accessories — all in one premium shopping destination.",
+  icons: {
+    icon: "/waw.jpg",
+    shortcut: "/waw.jpg",
+    apple: "/waw.jpg",
+  },
   openGraph: {
     title: "CJ Hubs Store — Find Something Special For You Or Someone You Love",
     description:
