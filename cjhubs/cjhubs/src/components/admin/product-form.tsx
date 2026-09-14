@@ -82,6 +82,25 @@ export function ProductForm({
   function removeImage(i: number) {
     set("images", values.images.filter((_, idx) => idx !== i));
   }
+  async function handleImageFileChange(i: number, file: File | null) {
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : "";
+      if (!result) {
+        toast.error("Unable to read selected image");
+        return;
+      }
+
+      updateImage(i, {
+        url: result,
+        altText: file.name.replace(/\.[^/.]+$/, "") || `Product image ${i + 1}`,
+      });
+    };
+    reader.onerror = () => toast.error("Failed to read selected image");
+    reader.readAsDataURL(file);
+  }
 
   function updateSpec(i: number, patch: Partial<SpecRow>) {
     set("specifications", values.specifications.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
@@ -199,7 +218,18 @@ export function ProductForm({
         <div className="space-y-3">
           {values.images.map((img, i) => (
             <div key={i} className="flex flex-col gap-2 rounded-xl border border-border p-3 sm:flex-row sm:items-center">
-              <Input placeholder="Image URL" value={img.url} onChange={(e) => updateImage(i, { url: e.target.value })} className="flex-1" />
+              <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
+                <Input placeholder="Image URL or selected file preview" value={img.url} onChange={(e) => updateImage(i, { url: e.target.value })} className="flex-1" />
+                <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-border bg-surface-2 px-3 py-2 text-xs font-medium text-text transition hover:bg-surface">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => handleImageFileChange(i, e.target.files?.[0] ?? null)}
+                  />
+                  Add image
+                </label>
+              </div>
               <Input placeholder="Alt text" value={img.altText} onChange={(e) => updateImage(i, { altText: e.target.value })} className="sm:w-56" />
               <label className="flex items-center gap-2 text-xs text-muted whitespace-nowrap">
                 <input type="radio" name="primaryImage" checked={img.isPrimary} onChange={() => set("images", values.images.map((im, idx) => ({ ...im, isPrimary: idx === i })))} />
@@ -210,7 +240,7 @@ export function ProductForm({
               </button>
             </div>
           ))}
-          <Button type="button" variant="outline" size="sm" onClick={addImage}><Plus size={14} /> Add image</Button>
+          <Button type="button" variant="outline" size="sm" onClick={addImage}><Plus size={14} /> Add image row</Button>
         </div>
       </Section>
 
