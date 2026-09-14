@@ -43,7 +43,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
   await requireAdmin();
   const body = await req.json();
   const parsed = productSchema.safeParse(body);
-  if (!parsed.success) return fail("Invalid product data", 422, parsed.error.flatten());
+  if (!parsed.success) return fail("Please correct the product fields", 422, parsed.error.flatten());
 
   const data = parsed.data;
   const slug = data.slug?.trim() || (await uniqueProductSlug(data.name));

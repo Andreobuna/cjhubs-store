@@ -91,6 +91,27 @@ export function ProductForm({
 
   async function handleSubmit(e: React.FormEvent, statusOverride?: ProductFormValues["status"]) {
     e.preventDefault();
+    if (values.name.trim().length < 2) {
+      toast.error("Product name must be at least 2 characters");
+      return;
+    }
+    if (values.sku.trim().length < 2) {
+      toast.error("SKU must be at least 2 characters");
+      return;
+    }
+    if (values.description.trim().length < 10) {
+      toast.error("Full description must be at least 10 characters");
+      return;
+    }
+    if (!values.categoryId) {
+      toast.error("Select a category");
+      return;
+    }
+    if (!values.price || Number(values.price) <= 0) {
+      toast.error("Enter a price greater than zero");
+      return;
+    }
+
     setSaving(true);
     try {
       const payload = {

@@ -21,7 +21,7 @@ export const PATCH = withErrorHandling(
     await requireAdmin();
     const body = await req.json();
     const parsed = productSchema.partial().safeParse(body);
-    if (!parsed.success) return fail("Invalid product data", 422, parsed.error.flatten());
+    if (!parsed.success) return fail("Please correct the product fields", 422, parsed.error.flatten());
     const data = parsed.data;
 
     const existing = await prisma.product.findUnique({ where: { id: params.id } });
