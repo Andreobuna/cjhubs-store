@@ -230,6 +230,17 @@ export function ProductForm({
                   Add image
                 </label>
               </div>
+
+              {img.url ? (
+                <div className="relative h-16 w-16 overflow-hidden rounded-lg border border-border bg-surface-2">
+                  <img src={img.url} alt={img.altText || `Product image ${i + 1}`} className="h-full w-full object-cover" />
+                </div>
+              ) : (
+                <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-border bg-surface-2 text-[10px] text-muted">
+                  No image
+                </div>
+              )}
+
               <Input placeholder="Alt text" value={img.altText} onChange={(e) => updateImage(i, { altText: e.target.value })} className="sm:w-56" />
               <label className="flex items-center gap-2 text-xs text-muted whitespace-nowrap">
                 <input type="radio" name="primaryImage" checked={img.isPrimary} onChange={() => set("images", values.images.map((im, idx) => ({ ...im, isPrimary: idx === i })))} />
@@ -248,38 +259,14 @@ export function ProductForm({
         <div className="space-y-3">
           {values.specifications.map((s, i) => (
             <div key={i} className="flex items-center gap-2">
-              <Input placeholder="Label (e.g. Wattage)" value={s.label} onChange={(e) => updateSpec(i, { label: e.target.value })} />
-              <Input placeholder="Value (e.g. 550W)" value={s.value} onChange={(e) => updateSpec(i, { value: e.target.value })} />
+              <Input placeholder="Label (e.g. Material)" value={s.label} onChange={(e) => updateSpec(i, { label: e.target.value })} />
+              <Input placeholder="Value (e.g. Leather)" value={s.value} onChange={(e) => updateSpec(i, { value: e.target.value })} />
               <button type="button" onClick={() => removeSpec(i)} className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-muted hover:bg-red-500/10 hover:text-red-500">
                 <Trash2 size={15} />
               </button>
             </div>
           ))}
           <Button type="button" variant="outline" size="sm" onClick={addSpec}><Plus size={14} /> Add specification</Button>
-        </div>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <Field label="Warranty"><Input value={values.warranty} onChange={(e) => set("warranty", e.target.value)} /></Field>
-          <Field label="Voltage"><Input value={values.voltage} onChange={(e) => set("voltage", e.target.value)} /></Field>
-          <Field label="Wattage"><Input value={values.wattage} onChange={(e) => set("wattage", e.target.value)} /></Field>
-          <Field label="Battery capacity"><Input value={values.batteryCapacity} onChange={(e) => set("batteryCapacity", e.target.value)} /></Field>
-          <Field label="Inverter capacity"><Input value={values.inverterCapacity} onChange={(e) => set("inverterCapacity", e.target.value)} /></Field>
-          <Field label="Compatibility"><Input value={values.compatibility} onChange={(e) => set("compatibility", e.target.value)} /></Field>
-        </div>
-      </Section>
-
-      <Section title="Shipping">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Weight (kg)"><Input type="number" min={0} step="0.1" value={values.weightKg} onChange={(e) => set("weightKg", e.target.value)} /></Field>
-          <Field label="Dimensions"><Input placeholder="L × W × H mm" value={values.dimensions} onChange={(e) => set("dimensions", e.target.value)} /></Field>
-          <Field label="Installation info" className="sm:col-span-2"><Textarea rows={3} value={values.installationInfo} onChange={(e) => set("installationInfo", e.target.value)} /></Field>
-        </div>
-      </Section>
-
-      <Section title="SEO">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Meta title"><Input value={values.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} /></Field>
-          <Field label="Meta description" className="sm:col-span-2"><Textarea rows={2} value={values.metaDescription} onChange={(e) => set("metaDescription", e.target.value)} /></Field>
         </div>
       </Section>
 
