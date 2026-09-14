@@ -12,11 +12,6 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export const productSpecSchema = z.object({
-  label: z.string().min(1),
-  value: z.string().min(1),
-});
-
 export const productImageSchema = z.object({
   url: z.string().min(1),
   altText: z.string().optional(),
@@ -38,19 +33,9 @@ export const productSchema = z.object({
   lowStockThreshold: z.number().int().min(0).optional(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("DRAFT"),
   isFeatured: z.boolean().optional(),
-  warranty: z.string().optional(),
-  weightKg: z.number().optional().nullable(),
-  dimensions: z.string().optional(),
-  voltage: z.string().optional(),
-  wattage: z.string().optional(),
-  batteryCapacity: z.string().optional(),
-  inverterCapacity: z.string().optional(),
-  compatibility: z.string().optional(),
-  installationInfo: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
   images: z.array(productImageSchema).optional().default([]),
-  specifications: z.array(productSpecSchema).optional().default([]),
 });
 
 export const categorySchema = z.object({

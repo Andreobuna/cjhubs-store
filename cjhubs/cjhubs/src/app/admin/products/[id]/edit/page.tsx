@@ -26,19 +26,9 @@ export default function EditProductPage() {
           lowStockThreshold: String(p.lowStockThreshold),
           status: p.status,
           isFeatured: p.isFeatured,
-          warranty: p.warranty || "",
-          weightKg: p.weightKg ? String(p.weightKg) : "",
-          dimensions: p.dimensions || "",
-          voltage: p.voltage || "",
-          wattage: p.wattage || "",
-          batteryCapacity: p.batteryCapacity || "",
-          inverterCapacity: p.inverterCapacity || "",
-          compatibility: p.compatibility || "",
-          installationInfo: p.installationInfo || "",
           metaTitle: p.metaTitle || "",
           metaDescription: p.metaDescription || "",
           images: p.images.length ? p.images.map((i: any) => ({ url: i.url, altText: i.altText || "", isPrimary: i.isPrimary })) : [{ url: "", altText: "", isPrimary: true }],
-          specifications: p.specifications.length ? p.specifications.map((s: any) => ({ label: s.label, value: s.value })) : [{ label: "", value: "" }],
         });
       })
       .finally(() => setLoading(false));

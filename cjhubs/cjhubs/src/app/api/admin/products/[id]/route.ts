@@ -36,9 +36,6 @@ export const PATCH = withErrorHandling(
       if (data.images) {
         await tx.productImage.deleteMany({ where: { productId: params.id } });
       }
-      if (data.specifications) {
-        await tx.productSpecification.deleteMany({ where: { productId: params.id } });
-      }
 
       return tx.product.update({
         where: { id: params.id },
@@ -57,25 +54,13 @@ export const PATCH = withErrorHandling(
           ...(data.lowStockThreshold !== undefined ? { lowStockThreshold: data.lowStockThreshold } : {}),
           ...(data.status !== undefined ? { status: data.status } : {}),
           ...(data.isFeatured !== undefined ? { isFeatured: data.isFeatured } : {}),
-          ...(data.warranty !== undefined ? { warranty: data.warranty } : {}),
-          ...(data.weightKg !== undefined ? { weightKg: data.weightKg } : {}),
-          ...(data.dimensions !== undefined ? { dimensions: data.dimensions } : {}),
-          ...(data.voltage !== undefined ? { voltage: data.voltage } : {}),
-          ...(data.wattage !== undefined ? { wattage: data.wattage } : {}),
-          ...(data.batteryCapacity !== undefined ? { batteryCapacity: data.batteryCapacity } : {}),
-          ...(data.inverterCapacity !== undefined ? { inverterCapacity: data.inverterCapacity } : {}),
-          ...(data.compatibility !== undefined ? { compatibility: data.compatibility } : {}),
-          ...(data.installationInfo !== undefined ? { installationInfo: data.installationInfo } : {}),
           ...(data.metaTitle !== undefined ? { metaTitle: data.metaTitle } : {}),
           ...(data.metaDescription !== undefined ? { metaDescription: data.metaDescription } : {}),
           ...(data.images
             ? { images: { create: data.images.map((img, i) => ({ url: img.url, altText: img.altText, isPrimary: img.isPrimary ?? i === 0, position: i })) } }
             : {}),
-          ...(data.specifications
-            ? { specifications: { create: data.specifications.map((s, i) => ({ label: s.label, value: s.value, position: i })) } }
-            : {}),
         },
-        include: { images: true, specifications: true, category: true },
+        include: { images: true, category: true },
       });
     });
 

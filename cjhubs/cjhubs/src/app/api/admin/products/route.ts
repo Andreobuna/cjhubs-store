@@ -67,15 +67,6 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
       lowStockThreshold: data.lowStockThreshold ?? 5,
       status: data.status,
       isFeatured: data.isFeatured ?? false,
-      warranty: data.warranty,
-      weightKg: data.weightKg ?? undefined,
-      dimensions: data.dimensions,
-      voltage: data.voltage,
-      wattage: data.wattage,
-      batteryCapacity: data.batteryCapacity,
-      inverterCapacity: data.inverterCapacity,
-      compatibility: data.compatibility,
-      installationInfo: data.installationInfo,
       metaTitle: data.metaTitle,
       metaDescription: data.metaDescription,
       images: {
@@ -86,11 +77,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
           position: i,
         })),
       },
-      specifications: {
-        create: data.specifications.map((s, i) => ({ label: s.label, value: s.value, position: i })),
-      },
     },
-    include: { images: true, specifications: true, category: true },
+    include: { images: true, category: true },
   });
 
   return created(product);

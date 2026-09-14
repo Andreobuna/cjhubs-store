@@ -12,7 +12,6 @@ interface Category { id: string; name: string; }
 interface Brand { id: string; name: string; }
 
 interface ImageRow { url: string; altText: string; isPrimary: boolean }
-interface SpecRow { label: string; value: string }
 
 export interface ProductFormValues {
   name: string;
@@ -27,28 +26,16 @@ export interface ProductFormValues {
   lowStockThreshold: string;
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   isFeatured: boolean;
-  warranty: string;
-  weightKg: string;
-  dimensions: string;
-  voltage: string;
-  wattage: string;
-  batteryCapacity: string;
-  inverterCapacity: string;
-  compatibility: string;
-  installationInfo: string;
   metaTitle: string;
   metaDescription: string;
   images: ImageRow[];
-  specifications: SpecRow[];
 }
 
 const EMPTY: ProductFormValues = {
   name: "", sku: "", categoryId: "", brandId: "", description: "", shortDescription: "",
   price: "", salePrice: "", stockQuantity: "0", lowStockThreshold: "5", status: "DRAFT",
-  isFeatured: false, warranty: "", weightKg: "", dimensions: "", voltage: "", wattage: "",
-  batteryCapacity: "", inverterCapacity: "", compatibility: "", installationInfo: "",
+  isFeatured: false,
   metaTitle: "", metaDescription: "", images: [{ url: "", altText: "", isPrimary: true }],
-  specifications: [{ label: "", value: "" }],
 };
 
 export function ProductForm({
@@ -102,16 +89,6 @@ export function ProductForm({
     reader.readAsDataURL(file);
   }
 
-  function updateSpec(i: number, patch: Partial<SpecRow>) {
-    set("specifications", values.specifications.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
-  }
-  function addSpec() {
-    set("specifications", [...values.specifications, { label: "", value: "" }]);
-  }
-  function removeSpec(i: number) {
-    set("specifications", values.specifications.filter((_, idx) => idx !== i));
-  }
-
   async function handleSubmit(e: React.FormEvent, statusOverride?: ProductFormValues["status"]) {
     e.preventDefault();
     setSaving(true);
@@ -130,19 +107,9 @@ export function ProductForm({
         lowStockThreshold: Number(values.lowStockThreshold || 5),
         status: statusOverride || values.status,
         isFeatured: values.isFeatured,
-        warranty: values.warranty || undefined,
-        weightKg: values.weightKg ? Number(values.weightKg) : null,
-        dimensions: values.dimensions || undefined,
-        voltage: values.voltage || undefined,
-        wattage: values.wattage || undefined,
-        batteryCapacity: values.batteryCapacity || undefined,
-        inverterCapacity: values.inverterCapacity || undefined,
-        compatibility: values.compatibility || undefined,
-        installationInfo: values.installationInfo || undefined,
         metaTitle: values.metaTitle || undefined,
         metaDescription: values.metaDescription || undefined,
         images: values.images.filter((i) => i.url.trim()).map((i) => ({ url: i.url, altText: i.altText || undefined, isPrimary: i.isPrimary })),
-        specifications: values.specifications.filter((s) => s.label.trim() && s.value.trim()),
       };
 
       if (productId) {
@@ -252,21 +219,6 @@ export function ProductForm({
             </div>
           ))}
           <Button type="button" variant="outline" size="sm" onClick={addImage}><Plus size={14} /> Add image row</Button>
-        </div>
-      </Section>
-
-      <Section title="Specifications">
-        <div className="space-y-3">
-          {values.specifications.map((s, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <Input placeholder="Label (e.g. Material)" value={s.label} onChange={(e) => updateSpec(i, { label: e.target.value })} />
-              <Input placeholder="Value (e.g. Leather)" value={s.value} onChange={(e) => updateSpec(i, { value: e.target.value })} />
-              <button type="button" onClick={() => removeSpec(i)} className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-muted hover:bg-red-500/10 hover:text-red-500">
-                <Trash2 size={15} />
-              </button>
-            </div>
-          ))}
-          <Button type="button" variant="outline" size="sm" onClick={addSpec}><Plus size={14} /> Add specification</Button>
         </div>
       </Section>
 
