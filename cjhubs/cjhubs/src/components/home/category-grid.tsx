@@ -36,10 +36,10 @@ export function CategoryGrid({ categories }: { categories: { name: string; slug:
                 <img
                   src={imageUrl}
                   alt={latestProduct.name}
-                  className="absolute inset-0 h-full w-full object-cover opacity-35 transition duration-500 group-hover:scale-105 group-hover:opacity-45"
+                  className="absolute inset-0 h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90"
                 />
               )}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface via-surface/95 to-surface/55" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface via-surface/65 to-surface/15" />
               <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-500/10 text-brand-400 transition-colors group-hover:bg-solar-500 group-hover:text-brand-950">
                 <Icon size={26} />
               </div>
